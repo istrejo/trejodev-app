@@ -15,7 +15,7 @@ const variants = {
 };
 
 export function ButtonLink({ children, className = '', variant = 'primary', href, ...props }: ButtonLinkProps) {
-  const classes = `inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2.5 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${variants[variant]} ${className}`;
+  const classes = `inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2.5 text-sm font-bold transition duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${variants[variant]} ${className}`;
 
   if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('/cv/')) {
     return (

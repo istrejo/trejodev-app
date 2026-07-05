@@ -29,6 +29,38 @@ body {
   color: #0a0a0a;
 }
 
+@keyframes creative-pro-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-section {
+  animation: creative-pro-enter 560ms ease-out both;
+}
+
+.motion-card {
+  animation: creative-pro-enter 520ms ease-out both;
+}
+
+.motion-delay-1 {
+  animation-delay: 80ms;
+}
+
+.motion-delay-2 {
+  animation-delay: 160ms;
+}
+
+.motion-delay-3 {
+  animation-delay: 240ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -37,5 +69,10 @@ body {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .motion-section,
+  .motion-card {
+    animation: none !important;
   }
 }

@@ -16,7 +16,7 @@ export function HomePage({ locale }: { locale: Locale }) {
   const home = content.home;
 
   return (
-    <main id="home-v3-root" className="bg-bone text-ink">
+    <div id="home-v3-root" className="bg-bone text-ink">
       <section className="overflow-hidden py-12 sm:py-16 lg:py-20" aria-labelledby="home-hero-title">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
@@ -117,6 +117,6 @@ export function HomePage({ locale }: { locale: Locale }) {
           </div>
         </Container>
       </section>
-    </main>
+    </div>
   );
 }

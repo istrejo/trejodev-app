@@ -31,8 +31,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const locale: Locale = rawLocale;
 
   return (
-    <html lang={locale} className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang={locale} className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <div className="min-h-screen bg-bone">
           <SiteHeader locale={locale} />
           <main>{children}</main>

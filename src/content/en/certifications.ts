@@ -1,8 +1,8 @@
 import type { CertificationsContent } from '../types';
 
 export const certifications: CertificationsContent = {
-  eyebrow: 'Certifications',
-  title: 'Continuous learning across frontend, AI tooling and product engineering.',
-  description: 'Courses and certifications that reinforce the practical stack used in current frontend work.',
+  eyebrow: 'Learning signal',
+  title: 'Continuous learning connected to practical frontend work.',
+  description: 'Certifications and courses are presented as proof of direction: frontend depth, performance, AI-assisted workflows, environment setup and modern product delivery.',
   intro: 'Recent learning focuses on Angular, React, performance, AI-assisted development and stronger engineering fundamentals.',
 };
