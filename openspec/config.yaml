@@ -1,0 +1,41 @@
+schema: spec-driven
+
+context: |
+  Project: trejodev-app
+  Current repo state: documentation-first seed repository with .atl/ and docs/ only; no app manifest detected yet.
+  Source brief: docs/portfolio-brief.md
+  Intended product: bilingual Next.js portfolio for TrejoDev / Alejandro Trejo.
+  Detected stack target: React + Next.js + TypeScript + Tailwind CSS + Firebase Hosting.
+  Architecture target: multi-page, feature/section-based, i18n-ready.
+  Testing: no test runner or package manifest detected in the current repository.
+  Style: Creative Pro, editorial, recruiter-friendly, high-contrast, minimal noise.
+
+rules:
+  proposal:
+    - State assumptions explicitly when the repo has no implementation scaffold yet.
+    - Keep scope aligned with the project brief and do not invent portfolio projects.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+    - Keep bilingual content requirements explicit.
+  design:
+    - Document layout, navigation, and content structure before implementation.
+    - Prefer concise decisions and actionable rationale.
+  tasks:
+    - Group by phase and keep tasks completable in one session.
+    - Separate setup, content, and quality work.
+  apply:
+    - Follow existing project conventions when code is introduced.
+    - tdd: false
+    - test_command: ""
+  verify:
+    - test_command: ""
+    - build_command: ""
+    - coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.
+
+testing:
+  strict_tdd: false
+  reason: No package manifest or test runner was detected in the current repository, so strict TDD cannot be enforced yet.
+  test_command: ""
