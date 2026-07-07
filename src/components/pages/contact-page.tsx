@@ -9,115 +9,13 @@ import { Container } from "@/components/ui/container";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
 import { cvAssets } from "@/lib/cv";
 import type { Locale } from "@/lib/i18n";
+import { contactPageCopy } from "@/translations/pages";
 
 const email = "istrejo2106@gmail.com";
 
-const pageCopy = {
-  en: {
-    contactSignal: "Contact signal",
-    copied: "Email copied",
-    copyFailed: "Copy failed",
-    sendEmail: "Send email",
-    signals: [
-      { label: "Email", value: email, accent: "ember" as const },
-      {
-        label: "Location",
-        value: "Tenerife, Spain · Remote-friendly",
-        accent: "mint" as const,
-      },
-      {
-        label: "Languages",
-        value: "Spanish native · English B1 improving",
-        accent: "sky" as const,
-      },
-    ],
-    sectionTitle: "Direct paths, no unnecessary friction.",
-    sectionDescription:
-      "Start a conversation, review technical context or download the CV in the right language without extra friction.",
-    cards: [
-      {
-        title: "Email first",
-        description:
-          "A simple mailto path plus copy-email action for quick outreach.",
-        footer: "mailto · copy email",
-        accent: "ember" as const,
-      },
-      {
-        title: "Social context",
-        description:
-          "LinkedIn and GitHub provide professional context without adding visual clutter.",
-        footer: "LinkedIn · GitHub",
-        accent: "mint" as const,
-      },
-      {
-        title: "CV downloads",
-        description:
-          "English and Spanish CV actions stay visible, accessible and easy to scan.",
-        footer: "CV EN · CV ES",
-        accent: "sky" as const,
-      },
-    ],
-    quickLinks: "Quick links",
-    quickLinksDescription:
-      "External links open in a new tab and keep accessible focus states.",
-    cvFiles: "CV files",
-    cvFilesValue: "English CV · Spanish CV",
-  },
-  es: {
-    contactSignal: "Señal de contacto",
-    copied: "Email copiado",
-    copyFailed: "No se pudo copiar",
-    sendEmail: "Enviar email",
-    signals: [
-      { label: "Email", value: email, accent: "ember" as const },
-      {
-        label: "Ubicación",
-        value: "Tenerife, España · Remoto",
-        accent: "mint" as const,
-      },
-      {
-        label: "Idiomas",
-        value: "Español nativo · Inglés B1 en mejora",
-        accent: "sky" as const,
-      },
-    ],
-    sectionTitle: "Caminos directos, sin fricción innecesaria.",
-    sectionDescription:
-      "Iniciá una conversación, revisá contexto técnico o descargá el CV adecuado sin fricción extra.",
-    cards: [
-      {
-        title: "Email primero",
-        description:
-          "Un camino simple por mailto más acción para copiar el email rápidamente.",
-        footer: "mailto · copiar email",
-        accent: "ember" as const,
-      },
-      {
-        title: "Contexto social",
-        description:
-          "LinkedIn y GitHub aportan contexto profesional sin sumar ruido visual.",
-        footer: "LinkedIn · GitHub",
-        accent: "mint" as const,
-      },
-      {
-        title: "Descargas de CV",
-        description:
-          "Las acciones de CV en inglés y español permanecen visibles, accesibles y fáciles de escanear.",
-        footer: "CV EN · CV ES",
-        accent: "sky" as const,
-      },
-    ],
-    quickLinks: "Enlaces rápidos",
-    quickLinksDescription:
-      "Los enlaces externos abren en una nueva pestaña y mantienen estados de foco accesibles.",
-    cvFiles: "Archivos CV",
-    cvFilesValue: "CV en inglés · CV en español",
-  },
-};
-
 export function ContactPage({ locale }: { locale: Locale }) {
   const page = contentFor(locale).contact;
-  const copy = pageCopy[locale];
+  const copy = contactPageCopy(email)[locale];
 
   return (
     <div id="contact-v3-root" className="bg-bone text-ink">

@@ -3,51 +3,13 @@ import { V3Hero, V3SectionIntro } from "@/components/sections/v3-page-sections";
 import { Container } from "@/components/ui/container";
 import { experienceItems } from "@/data/experience";
 import type { Locale } from "@/lib/i18n";
-
-const pageCopy = {
-  en: {
-    snapshot: "Snapshot",
-    stats: [
-      { value: "6", label: "experience entries" },
-      { value: "EN/ES", label: "bilingual ready" },
-    ],
-    signals: [
-      "Product frontend",
-      "Remote collaboration",
-      "Architecture and UI quality",
-    ],
-    listTitle: "Experience, edited for signal.",
-    listDescription:
-      "Each card summarizes context, contribution and stack without copying the CV word for word or over-selling seniority.",
-    earlierTitle: "Earlier roles stay concise.",
-    earlierDescription:
-      "Continuity matters, but the page keeps the scan focused on useful context and delivery signals.",
-  },
-  es: {
-    snapshot: "Resumen",
-    stats: [
-      { value: "6", label: "entradas de experiencia" },
-      { value: "EN/ES", label: "bilingüe" },
-    ],
-    signals: [
-      "Frontend de producto",
-      "Colaboración remota",
-      "Arquitectura y calidad UI",
-    ],
-    listTitle: "Experiencia editada para señal.",
-    listDescription:
-      "Cada tarjeta resume contexto, aporte y stack sin copiar el CV palabra por palabra ni sobredimensionar el rol.",
-    earlierTitle: "Roles anteriores, en formato breve.",
-    earlierDescription:
-      "La continuidad importa, pero la página mantiene el foco en contexto útil y señales de entrega.",
-  },
-};
+import { experiencePageCopy } from "@/translations/pages";
 
 const accents = ["ember", "mint", "sky"] as const;
 
 export function ExperiencePage({ locale }: { locale: Locale }) {
   const page = contentFor(locale).experience;
-  const copy = pageCopy[locale];
+  const copy = experiencePageCopy[locale];
   const currentRoles = experienceItems.slice(0, 3);
   const earlierRoles = experienceItems.slice(3, 6);
 
