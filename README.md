@@ -12,8 +12,8 @@ Static-first bilingual site for Alejandro Trejo, built with Next.js App Router, 
 
 ## Routes
 
-| Locale | Pages |
-|--------|-------|
+| Locale  | Pages                                                                                   |
+| ------- | --------------------------------------------------------------------------------------- |
 | English | `/en`, `/en/about`, `/en/experience`, `/en/skills`, `/en/certifications`, `/en/contact` |
 | Spanish | `/es`, `/es/about`, `/es/experience`, `/es/skills`, `/es/certifications`, `/es/contact` |
 

@@ -1,4 +1,4 @@
-import type { Locale } from './i18n';
+import type { Locale } from "./i18n";
 
 export type CvAsset = {
   locale: Locale;
@@ -8,14 +8,14 @@ export type CvAsset = {
 
 export const cvAssets: Record<Locale, CvAsset> = {
   en: {
-    locale: 'en',
-    href: '/cv/alejandro-trejo-cv-en.pdf',
-    label: 'Download CV',
+    locale: "en",
+    href: "/cv/alejandro-trejo-cv-en.pdf",
+    label: "Download CV",
   },
   es: {
-    locale: 'es',
-    href: '/cv/alejandro-trejo-cv-es.pdf',
-    label: 'Descargar CV',
+    locale: "es",
+    href: "/cv/alejandro-trejo-cv-es.pdf",
+    label: "Descargar CV",
   },
 };
 

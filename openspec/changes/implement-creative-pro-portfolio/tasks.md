@@ -2,14 +2,14 @@
 
 ## Review Workload Forecast
 
-| Field | Value |
-|-------|-------|
-| Estimated changed lines | 1,200-1,800 |
-| 400-line budget risk | High |
-| Chained PRs recommended | Yes |
-| Suggested split | PR 1 foundation → PR 2 pages/content → PR 3 quality/deploy |
-| Delivery strategy | ask-always |
-| Chain strategy | pending |
+| Field                   | Value                                                      |
+| ----------------------- | ---------------------------------------------------------- |
+| Estimated changed lines | 1,200-1,800                                                |
+| 400-line budget risk    | High                                                       |
+| Chained PRs recommended | Yes                                                        |
+| Suggested split         | PR 1 foundation → PR 2 pages/content → PR 3 quality/deploy |
+| Delivery strategy       | ask-always                                                 |
+| Chain strategy          | pending                                                    |
 
 Decision needed before apply: Yes
 Chained PRs recommended: Yes
@@ -18,11 +18,11 @@ Chain strategy: pending
 
 ### Suggested Work Units
 
-| Unit | Goal | Likely PR | Notes |
-|------|------|-----------|-------|
-| 1 | Create runnable app foundation and test/build baseline | PR 1 | Scaffold, routes contract, shell, Vitest/RTL, Playwright stub |
-| 2 | Add bilingual content and six public pages | PR 2 | Depends on PR 1; keep tests with each page composition |
-| 3 | Finish SEO/a11y/perf and Firebase readiness | PR 3 | Depends on PR 2; no deploy until target/CV assets are confirmed |
+| Unit | Goal                                                   | Likely PR | Notes                                                           |
+| ---- | ------------------------------------------------------ | --------- | --------------------------------------------------------------- |
+| 1    | Create runnable app foundation and test/build baseline | PR 1      | Scaffold, routes contract, shell, Vitest/RTL, Playwright stub   |
+| 2    | Add bilingual content and six public pages             | PR 2      | Depends on PR 1; keep tests with each page composition          |
+| 3    | Finish SEO/a11y/perf and Firebase readiness            | PR 3      | Depends on PR 2; no deploy until target/CV assets are confirmed |
 
 ## Phase 1: Foundation / Tooling
 

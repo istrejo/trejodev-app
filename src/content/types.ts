@@ -1,4 +1,4 @@
-import type { Locale } from '@/lib/i18n';
+import type { Locale } from "@/lib/i18n";
 
 export type PageText = {
   eyebrow: string;
@@ -24,7 +24,7 @@ export type HomeContent = PageText & {
     title: string;
     description: string;
     footer: string;
-    accent: 'ember' | 'mint' | 'sky';
+    accent: "ember" | "mint" | "sky";
   }[];
   footerCtaTitle: string;
   footerCtaDescription: string;

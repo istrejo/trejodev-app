@@ -1,11 +1,13 @@
-import type { ContactContent } from '../types';
+import type { ContactContent } from "../types";
 
 export const contact: ContactContent = {
-  eyebrow: 'Open to frontend opportunities',
-  title: 'Let’s talk about frontend work that needs clarity and care.',
-  description: 'No contact form for now. Direct links keep the experience simple: email, LinkedIn, GitHub and CV downloads in both languages.',
-  intro: 'No form is needed for v1. The fastest path is email or LinkedIn, with GitHub available for technical context.',
-  copyEmail: 'Copy email',
-  cvEnglish: 'Download CV',
-  cvSpanish: 'Download Spanish CV',
+  eyebrow: "Open to frontend opportunities",
+  title: "Let’s talk about frontend work that needs clarity and care.",
+  description:
+    "No contact form for now. Direct links keep the experience simple: email, LinkedIn, GitHub and CV downloads in both languages.",
+  intro:
+    "No form is needed for v1. The fastest path is email or LinkedIn, with GitHub available for technical context.",
+  copyEmail: "Copy email",
+  cvEnglish: "Download CV",
+  cvSpanish: "Download Spanish CV",
 };

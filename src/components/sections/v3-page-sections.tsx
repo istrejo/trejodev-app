@@ -1,8 +1,8 @@
-import { ButtonLink } from '@/components/ui/button';
-import { Container } from '@/components/ui/container';
-import type { ReactNode } from 'react';
+import { ButtonLink } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
+import type { ReactNode } from "react";
 
-type Accent = 'ember' | 'mint' | 'sky';
+type Accent = "ember" | "mint" | "sky";
 
 type HeroSignal = {
   label: string;
@@ -15,7 +15,7 @@ type V3HeroProps = {
   title: string;
   description: string;
   panelTitle: string;
-  panelType: 'rows' | 'snapshot' | 'contact';
+  panelType: "rows" | "snapshot" | "contact";
   rows?: { text: string; accent: Accent }[];
   stats?: { value: string; label: string }[];
   signals?: HeroSignal[];
@@ -23,32 +23,62 @@ type V3HeroProps = {
 };
 
 const accentClasses: Record<Accent, string> = {
-  ember: 'bg-ember text-ember',
-  mint: 'bg-mint text-mint',
-  sky: 'bg-sky text-sky',
+  ember: "bg-ember text-ember",
+  mint: "bg-mint text-mint",
+  sky: "bg-sky text-sky",
 };
 
-export function V3Hero({ eyebrow, title, description, panelTitle, panelType, rows = [], stats = [], signals = [], actions }: V3HeroProps) {
+export function V3Hero({
+  eyebrow,
+  title,
+  description,
+  panelTitle,
+  panelType,
+  rows = [],
+  stats = [],
+  signals = [],
+  actions,
+}: V3HeroProps) {
   return (
-    <section className="motion-section bg-bone py-16 sm:py-20 lg:py-24" aria-labelledby="page-title">
+    <section
+      className="motion-section bg-bone py-16 sm:py-20 lg:py-24"
+      aria-labelledby="page-title"
+    >
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1fr_390px] lg:items-center">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-ink shadow-soft">
-              <span className={`h-2 w-2 rounded-full ${panelType === 'contact' ? 'bg-mint' : panelType === 'snapshot' ? 'bg-mint' : 'bg-ember'}`} aria-hidden="true" />
+              <span
+                className={`h-2 w-2 rounded-full ${panelType === "contact" ? "bg-mint" : panelType === "snapshot" ? "bg-mint" : "bg-ember"}`}
+                aria-hidden="true"
+              />
               {eyebrow}
             </p>
-            <h1 id="page-title" className="mt-7 max-w-4xl font-display text-5xl font-black tracking-[-0.07em] text-ink sm:text-7xl">
+            <h1
+              id="page-title"
+              className="mt-7 max-w-4xl font-display text-5xl font-black tracking-[-0.07em] text-ink sm:text-7xl"
+            >
               {title}
             </h1>
-            <p className="mt-7 max-w-3xl text-lg leading-8 text-slate sm:text-xl sm:leading-9">{description}</p>
+            <p className="mt-7 max-w-3xl text-lg leading-8 text-slate sm:text-xl sm:leading-9">
+              {description}
+            </p>
           </div>
 
-          <aside className="motion-card rounded-[1.75rem] bg-ink p-6 text-white shadow-soft sm:p-7" aria-label={panelTitle}>
-            <h2 className="font-display text-2xl font-black tracking-[-0.05em]">{panelTitle}</h2>
-            {panelType === 'snapshot' ? <SnapshotPanel stats={stats} signals={signals} /> : null}
-            {panelType === 'contact' ? <ContactSignalPanel signals={signals} actions={actions} /> : null}
-            {panelType === 'rows' ? <DarkRows rows={rows} /> : null}
+          <aside
+            className="motion-card rounded-[1.75rem] bg-ink p-6 text-white shadow-soft sm:p-7"
+            aria-label={panelTitle}
+          >
+            <h2 className="font-display text-2xl font-black tracking-[-0.05em]">
+              {panelTitle}
+            </h2>
+            {panelType === "snapshot" ? (
+              <SnapshotPanel stats={stats} signals={signals} />
+            ) : null}
+            {panelType === "contact" ? (
+              <ContactSignalPanel signals={signals} actions={actions} />
+            ) : null}
+            {panelType === "rows" ? <DarkRows rows={rows} /> : null}
           </aside>
         </div>
       </Container>
@@ -60,31 +90,54 @@ function DarkRows({ rows }: { rows: { text: string; accent: Accent }[] }) {
   return (
     <div className="mt-6 grid gap-3">
       {rows.map((row) => (
-        <div className="grid min-h-16 grid-cols-[auto_1fr] items-center gap-4 rounded-2xl bg-zinc-900 p-4" key={row.text}>
-          <span className={`h-10 w-2 rounded-full ${accentClasses[row.accent].split(' ')[0]}`} aria-hidden="true" />
-          <p className="text-sm font-bold leading-6 text-white/85 sm:text-base">{row.text}</p>
+        <div
+          className="grid min-h-16 grid-cols-[auto_1fr] items-center gap-4 rounded-2xl bg-zinc-900 p-4"
+          key={row.text}
+        >
+          <span
+            className={`h-10 w-2 rounded-full ${accentClasses[row.accent].split(" ")[0]}`}
+            aria-hidden="true"
+          />
+          <p className="text-sm font-bold leading-6 text-white/85 sm:text-base">
+            {row.text}
+          </p>
         </div>
       ))}
     </div>
   );
 }
 
-function SnapshotPanel({ stats, signals }: { stats: { value: string; label: string }[]; signals: HeroSignal[] }) {
+function SnapshotPanel({
+  stats,
+  signals,
+}: {
+  stats: { value: string; label: string }[];
+  signals: HeroSignal[];
+}) {
   return (
     <>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {stats.map((stat) => (
           <div className="rounded-2xl bg-paper p-4 text-ink" key={stat.label}>
-            <p className="font-display text-3xl font-black tracking-[-0.05em]">{stat.value}</p>
-            <p className="mt-1 text-xs font-black uppercase tracking-[0.12em] text-slate">{stat.label}</p>
+            <p className="font-display text-3xl font-black tracking-[-0.05em]">
+              {stat.value}
+            </p>
+            <p className="mt-1 text-xs font-black uppercase tracking-[0.12em] text-slate">
+              {stat.label}
+            </p>
           </div>
         ))}
       </div>
       <div className="mt-5 grid gap-3">
         {signals.map((signal) => (
           <div className="flex items-center gap-3" key={signal.label}>
-            <span className={`h-2.5 w-2.5 rounded-full ${accentClasses[signal.accent].split(' ')[0]}`} aria-hidden="true" />
-            <span className="text-sm font-black text-white">{signal.label}</span>
+            <span
+              className={`h-2.5 w-2.5 rounded-full ${accentClasses[signal.accent].split(" ")[0]}`}
+              aria-hidden="true"
+            />
+            <span className="text-sm font-black text-white">
+              {signal.label}
+            </span>
           </div>
         ))}
       </div>
@@ -92,58 +145,130 @@ function SnapshotPanel({ stats, signals }: { stats: { value: string; label: stri
   );
 }
 
-function ContactSignalPanel({ signals, actions }: { signals: HeroSignal[]; actions: ReactNode }) {
+function ContactSignalPanel({
+  signals,
+  actions,
+}: {
+  signals: HeroSignal[];
+  actions: ReactNode;
+}) {
   return (
     <>
       <div className="mt-6 grid gap-3">
         {signals.map((signal) => (
           <div className="rounded-2xl bg-zinc-900 p-4" key={signal.label}>
-            <p className={`text-xs font-black uppercase tracking-[0.16em] ${accentClasses[signal.accent].split(' ')[1]}`}>{signal.label}</p>
-            <p className="mt-2 break-words text-sm font-black text-white sm:text-base">{signal.value}</p>
+            <p
+              className={`text-xs font-black uppercase tracking-[0.16em] ${accentClasses[signal.accent].split(" ")[1]}`}
+            >
+              {signal.label}
+            </p>
+            <p className="mt-2 break-words text-sm font-black text-white sm:text-base">
+              {signal.value}
+            </p>
           </div>
         ))}
       </div>
-      {actions ? <div className="mt-5 grid gap-3 sm:grid-cols-2">{actions}</div> : null}
+      {actions ? (
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">{actions}</div>
+      ) : null}
     </>
   );
 }
 
-export function V3SectionIntro({ id, title, description, dark = false }: { id: string; title: string; description: string; dark?: boolean }) {
+export function V3SectionIntro({
+  id,
+  title,
+  description,
+  dark = false,
+}: {
+  id: string;
+  title: string;
+  description: string;
+  dark?: boolean;
+}) {
   return (
     <div className="grid gap-6 lg:grid-cols-[520px_1fr] lg:items-end">
-      <h2 id={id} className={`font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl ${dark ? 'text-white' : 'text-ink'}`}>
+      <h2
+        id={id}
+        className={`font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl ${dark ? "text-white" : "text-ink"}`}
+      >
         {title}
       </h2>
-      <p className={`text-base leading-7 ${dark ? 'text-white/65' : 'text-slate'}`}>{description}</p>
+      <p
+        className={`text-base leading-7 ${dark ? "text-white/65" : "text-slate"}`}
+      >
+        {description}
+      </p>
     </div>
   );
 }
 
-export function V3CardGrid({ cards }: { cards: { title: string; description: string; footer?: string; accent: Accent }[] }) {
+export function V3CardGrid({
+  cards,
+}: {
+  cards: {
+    title: string;
+    description: string;
+    footer?: string;
+    accent: Accent;
+  }[];
+}) {
   return (
     <div className="mt-10 grid gap-5 md:grid-cols-3">
       {cards.map((card, index) => (
-        <article className={`motion-card motion-delay-${Math.min(index + 1, 3)} flex min-h-[14.5rem] flex-col rounded-[1.5rem] border border-line bg-bone p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-ink/25 hover:shadow-[0_28px_80px_rgba(10,10,10,0.12)]`} key={card.title}>
-          <span className={`h-2 w-12 rounded-full ${accentClasses[card.accent].split(' ')[0]}`} aria-hidden="true" />
-          <h3 className="mt-6 font-display text-2xl font-black tracking-[-0.05em] text-ink">{card.title}</h3>
-          <p className="mt-4 text-sm leading-7 text-slate">{card.description}</p>
-          {card.footer ? <p className="mt-auto pt-6 text-xs font-black uppercase leading-5 tracking-[0.14em] text-ink">{card.footer}</p> : null}
+        <article
+          className={`motion-card motion-delay-${Math.min(index + 1, 3)} flex min-h-[14.5rem] flex-col rounded-[1.5rem] border border-line bg-bone p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-ink/25 hover:shadow-[0_28px_80px_rgba(10,10,10,0.12)]`}
+          key={card.title}
+        >
+          <span
+            className={`h-2 w-12 rounded-full ${accentClasses[card.accent].split(" ")[0]}`}
+            aria-hidden="true"
+          />
+          <h3 className="mt-6 font-display text-2xl font-black tracking-[-0.05em] text-ink">
+            {card.title}
+          </h3>
+          <p className="mt-4 text-sm leading-7 text-slate">
+            {card.description}
+          </p>
+          {card.footer ? (
+            <p className="mt-auto pt-6 text-xs font-black uppercase leading-5 tracking-[0.14em] text-ink">
+              {card.footer}
+            </p>
+          ) : null}
         </article>
       ))}
     </div>
   );
 }
 
-export function V3Cta({ title, description, href, label }: { title: string; description: string; href: string; label: string }) {
+export function V3Cta({
+  title,
+  description,
+  href,
+  label,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  label: string;
+}) {
   return (
-    <section className="motion-section bg-ink py-16 text-white sm:py-20" aria-labelledby="page-cta-title">
+    <section
+      className="motion-section bg-ink py-16 text-white sm:py-20"
+      aria-labelledby="page-cta-title"
+    >
       <Container>
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div className="max-w-3xl">
-            <h2 id="page-cta-title" className="font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl">
+            <h2
+              id="page-cta-title"
+              className="font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl"
+            >
               {title}
             </h2>
-            <p className="mt-5 text-base leading-7 text-white/65">{description}</p>
+            <p className="mt-5 text-base leading-7 text-white/65">
+              {description}
+            </p>
           </div>
           <ButtonLink className="bg-ember text-ink hover:bg-white" href={href}>
             {label}

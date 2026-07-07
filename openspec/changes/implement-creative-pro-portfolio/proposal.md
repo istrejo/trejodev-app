@@ -7,22 +7,26 @@ Replace the old Firebase portfolio with a bilingual TrejoDev site that reflects 
 ## Scope
 
 ### In Scope
+
 - Scaffold Next.js App Router + TypeScript + Tailwind for a static-first site.
 - Implement six public pages: Home, About, Experience, Skills, Certifications, Contact.
 - Add EN/ES content, CV download links, SEO baseline, responsive/accessibility baseline, and Firebase deploy config.
 
 ### Out of Scope
+
 - Public projects/case studies in v1; `/projects` stays hidden or minimal.
 - Blog, analytics, CMS, contact backend, or non-brief extras.
 
 ## Capabilities
 
 ### New Capabilities
+
 - `portfolio-foundation`: app scaffold, global layout, design tokens, navigation, and static export baseline.
 - `portfolio-i18n-routing`: locale-prefixed routing, shared slug strategy, language switcher, and localized metadata/content loading.
 - `portfolio-content-pages`: page requirements for Home, About, Experience, Skills, Certifications, Contact, and CV access.
 
 ### Modified Capabilities
+
 None.
 
 ## Approach
@@ -31,22 +35,22 @@ Build a **static-first Next.js App Router** site with Server Components by defau
 
 ## Affected Areas
 
-| Area | Impact | Description |
-|------|--------|-------------|
-| `package.json`, `next.config.*`, `tailwind.config.*`, `tsconfig.json` | New | App/tooling scaffold |
-| `src/app/[locale]/**` | New | Locale routes and page entrypoints |
-| `src/content/**`, `src/lib/**`, `src/components/**` | New | Dictionaries, route helpers, UI/layout system |
-| `public/cv/**`, `firebase.json`, `.firebaserc` | New | CV assets and deploy config |
-| `docs/portfolio-brief.md` | Modified | Only if assumptions need sync |
+| Area                                                                  | Impact   | Description                                   |
+| --------------------------------------------------------------------- | -------- | --------------------------------------------- |
+| `package.json`, `next.config.*`, `tailwind.config.*`, `tsconfig.json` | New      | App/tooling scaffold                          |
+| `src/app/[locale]/**`                                                 | New      | Locale routes and page entrypoints            |
+| `src/content/**`, `src/lib/**`, `src/components/**`                   | New      | Dictionaries, route helpers, UI/layout system |
+| `public/cv/**`, `firebase.json`, `.firebaserc`                        | New      | CV assets and deploy config                   |
+| `docs/portfolio-brief.md`                                             | Modified | Only if assumptions need sync                 |
 
 ## Risks
 
-| Risk | Likelihood | Mitigation |
-|------|------------|------------|
-| Missing CV PDFs | High | Allow placeholders or block final deploy until files exist |
-| Wrong Firebase hosting path | Med | Confirm classic Hosting target/domain before apply |
-| Scope exceeds 400-line review budget | High | Plan chained PR slices: foundation, pages/content, quality/deploy |
-| Shared slugs later rejected | Med | Centralize route mapping for future localized slugs |
+| Risk                                 | Likelihood | Mitigation                                                        |
+| ------------------------------------ | ---------- | ----------------------------------------------------------------- |
+| Missing CV PDFs                      | High       | Allow placeholders or block final deploy until files exist        |
+| Wrong Firebase hosting path          | Med        | Confirm classic Hosting target/domain before apply                |
+| Scope exceeds 400-line review budget | High       | Plan chained PR slices: foundation, pages/content, quality/deploy |
+| Shared slugs later rejected          | Med        | Centralize route mapping for future localized slugs               |
 
 ## Rollback Plan
 

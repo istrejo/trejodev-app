@@ -6,13 +6,13 @@ Create a static-first Next.js App Router app with TypeScript, Tailwind, and loca
 
 ## Architecture Decisions
 
-| Option | Tradeoff | Decision |
-|---|---|---|
-| `output: 'export'` on classic Firebase Hosting vs Firebase App Hosting | Static export limits runtime features but fits content-only v1 and simpler rollout. | Use classic Hosting for v1; avoid middleware/server actions for public content. |
-| Shared slugs vs localized slugs | Shared slugs reduce route mapping, switcher, and metadata complexity. | Use `/en/about` and `/es/about` for v1. Centralize route definitions for future localized slugs. |
-| Typed TS content modules vs CMS/JSON | TS modules require deploys for copy changes but keep v1 dependency-light and type-safe. | Store content in `src/content/{en,es}` and shared structured data in `src/data`. |
-| Server Components by default vs client-heavy UI | Client components enable richer interactions but add JS weight. | Keep pages/sections server-rendered; only language/mobile/copy-email interactions become client components. |
-| Chained PRs vs one large PR | One PR will likely exceed the 400-line budget. | Recommend stacked/chained slices before apply: foundation, content/pages, quality/deploy. |
+| Option                                                                 | Tradeoff                                                                                | Decision                                                                                                    |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `output: 'export'` on classic Firebase Hosting vs Firebase App Hosting | Static export limits runtime features but fits content-only v1 and simpler rollout.     | Use classic Hosting for v1; avoid middleware/server actions for public content.                             |
+| Shared slugs vs localized slugs                                        | Shared slugs reduce route mapping, switcher, and metadata complexity.                   | Use `/en/about` and `/es/about` for v1. Centralize route definitions for future localized slugs.            |
+| Typed TS content modules vs CMS/JSON                                   | TS modules require deploys for copy changes but keep v1 dependency-light and type-safe. | Store content in `src/content/{en,es}` and shared structured data in `src/data`.                            |
+| Server Components by default vs client-heavy UI                        | Client components enable richer interactions but add JS weight.                         | Keep pages/sections server-rendered; only language/mobile/copy-email interactions become client components. |
+| Chained PRs vs one large PR                                            | One PR will likely exceed the 400-line budget.                                          | Recommend stacked/chained slices before apply: foundation, content/pages, quality/deploy.                   |
 
 ## Data Flow
 
@@ -26,26 +26,44 @@ Route params `[locale]` -> route/content helpers -> page sections -> UI primitiv
 
 ## File Changes
 
-| File | Action | Description |
-|---|---|---|
-| `package.json`, `next.config.ts`, `tsconfig.json`, `tailwind.config.ts`, `postcss.config.*` | Create | Next.js, TypeScript, Tailwind, lint/build scripts, static export config. |
-| `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/[locale]/layout.tsx`, `src/app/[locale]/**/page.tsx` | Create | Root redirect/export handling, locale shell, six page entrypoints. |
-| `src/app/globals.css`, `src/styles/tokens.ts` | Create | Creative Pro CSS variables, font setup, base styles, focus states. |
-| `src/components/layout/**`, `src/components/ui/**`, `src/components/sections/**`, `src/components/pages/**` | Create | Header/footer/language switcher, primitives, reusable sections, page compositions. |
-| `src/content/{en,es}/**`, `src/data/{experience,skills,certifications,links}.ts` | Create | Typed bilingual copy and reusable structured profile data. |
-| `src/lib/{i18n,routes,metadata,cv}.ts` | Create | Locale validation, route contracts, metadata generation, CV link helpers. |
-| `public/cv/alejandro-trejo-cv-{en,es}.pdf` | Create/Blocker | Required CV assets or approved placeholders before release. |
-| `firebase.json`, `.firebaserc` | Create | Publish `out`, set clean URLs/root redirect, target existing Firebase project. |
+| File                                                                                                        | Action         | Description                                                                        |
+| ----------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------- |
+| `package.json`, `next.config.ts`, `tsconfig.json`, `tailwind.config.ts`, `postcss.config.*`                 | Create         | Next.js, TypeScript, Tailwind, lint/build scripts, static export config.           |
+| `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/[locale]/layout.tsx`, `src/app/[locale]/**/page.tsx`     | Create         | Root redirect/export handling, locale shell, six page entrypoints.                 |
+| `src/app/globals.css`, `src/styles/tokens.ts`                                                               | Create         | Creative Pro CSS variables, font setup, base styles, focus states.                 |
+| `src/components/layout/**`, `src/components/ui/**`, `src/components/sections/**`, `src/components/pages/**` | Create         | Header/footer/language switcher, primitives, reusable sections, page compositions. |
+| `src/content/{en,es}/**`, `src/data/{experience,skills,certifications,links}.ts`                            | Create         | Typed bilingual copy and reusable structured profile data.                         |
+| `src/lib/{i18n,routes,metadata,cv}.ts`                                                                      | Create         | Locale validation, route contracts, metadata generation, CV link helpers.          |
+| `public/cv/alejandro-trejo-cv-{en,es}.pdf`                                                                  | Create/Blocker | Required CV assets or approved placeholders before release.                        |
+| `firebase.json`, `.firebaserc`                                                                              | Create         | Publish `out`, set clean URLs/root redirect, target existing Firebase project.     |
 
 ## Interfaces / Contracts
 
 ```ts
-type Locale = 'en' | 'es';
-type PageKey = 'home' | 'about' | 'experience' | 'skills' | 'certifications' | 'contact' | 'projects';
+type Locale = "en" | "es";
+type PageKey =
+  | "home"
+  | "about"
+  | "experience"
+  | "skills"
+  | "certifications"
+  | "contact"
+  | "projects";
 type Route = { key: PageKey; slug: string; nav: boolean };
 type CvAsset = { locale: Locale; href: `/cv/${string}.pdf`; label: string };
-type ProfileLink = { kind: 'email' | 'linkedin' | 'github'; href: string; label: string };
-type ExperienceItem = { company: string; role: string; dates: string; summary: string; highlights: string[]; stack: string[] };
+type ProfileLink = {
+  kind: "email" | "linkedin" | "github";
+  href: string;
+  label: string;
+};
+type ExperienceItem = {
+  company: string;
+  role: string;
+  dates: string;
+  summary: string;
+  highlights: string[];
+  stack: string[];
+};
 ```
 
 ## Responsive Strategy
@@ -58,12 +76,12 @@ Use semantic landmarks, ordered headings, descriptive links, visible `:focus-vis
 
 ## Testing Strategy
 
-| Layer | What to Test | Approach |
-|---|---|---|
-| Unit | `routes`, locale guards, metadata, content contracts | Vitest after scaffold exists. |
-| Component | Header, language switcher, cards, CV buttons | React Testing Library + axe checks after scaffold exists. |
-| E2E | `/en` and `/es` routes, keyboard nav, language switching, CV links | Playwright smoke tests after scaffold exists. |
-| Build | Static export and Firebase readiness | `npm run typecheck`, `lint`, `build`; verify `out/` and required CV files. |
+| Layer     | What to Test                                                       | Approach                                                                   |
+| --------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Unit      | `routes`, locale guards, metadata, content contracts               | Vitest after scaffold exists.                                              |
+| Component | Header, language switcher, cards, CV buttons                       | React Testing Library + axe checks after scaffold exists.                  |
+| E2E       | `/en` and `/es` routes, keyboard nav, language switching, CV links | Playwright smoke tests after scaffold exists.                              |
+| Build     | Static export and Firebase readiness                               | `npm run typecheck`, `lint`, `build`; verify `out/` and required CV files. |
 
 ## Migration / Rollout
 

@@ -14,14 +14,14 @@ Surgical verification fix pass completed. Production build/static export now pas
 
 ## Commands Run
 
-| Command | Result | Notes |
-|---|---|---|
-| `npm run build` | Pass | Reproduced original `/robots.txt` export failure before fixes, then passed after fixes and generated `out/`. |
-| `npm run lint` | Pass | Uses scoped ESLint targets. |
-| `npm run typecheck` | Pass | `tsc --noEmit`. |
-| `npm run test` | Pass | Vitest: 3 files, 6 tests. |
-| `npm run ready:deploy` | Expected fail | Typecheck, lint, tests, and build pass; readiness blocks on missing CV PDFs. |
-| `npm run test:e2e` | Expected fail | Playwright browsers are not installed in this environment; no browser dependencies were downloaded. |
+| Command                | Result        | Notes                                                                                                        |
+| ---------------------- | ------------- | ------------------------------------------------------------------------------------------------------------ |
+| `npm run build`        | Pass          | Reproduced original `/robots.txt` export failure before fixes, then passed after fixes and generated `out/`. |
+| `npm run lint`         | Pass          | Uses scoped ESLint targets.                                                                                  |
+| `npm run typecheck`    | Pass          | `tsc --noEmit`.                                                                                              |
+| `npm run test`         | Pass          | Vitest: 3 files, 6 tests.                                                                                    |
+| `npm run ready:deploy` | Expected fail | Typecheck, lint, tests, and build pass; readiness blocks on missing CV PDFs.                                 |
+| `npm run test:e2e`     | Expected fail | Playwright browsers are not installed in this environment; no browser dependencies were downloaded.          |
 
 ## Remaining Blockers
 
