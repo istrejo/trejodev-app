@@ -1,4 +1,3 @@
-import { cvFor } from "@/lib/cv";
 import type { Locale } from "@/lib/i18n";
 import { pathFor } from "@/lib/routes";
 import { ButtonLink } from "../ui/button";
@@ -31,7 +30,7 @@ export function HeroSection({
               <ButtonLink href={pathFor(locale, "experience")}>
                 {content.primaryCta}
               </ButtonLink>
-              <ButtonLink href={cvFor(locale).href} variant="secondary">
+              <ButtonLink href={pathFor(locale, "contact")} variant="secondary">
                 {content.secondaryCta}
               </ButtonLink>
               <ButtonLink href={pathFor(locale, "contact")} variant="ghost">

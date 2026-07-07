@@ -9,7 +9,7 @@ export const home: HomeContent = {
   description:
     "I build reliable web and mobile experiences with React, Angular, TypeScript, Ionic and modern frontend architecture — clear enough to scan, deep enough to trust.",
   primaryCta: "View experience",
-  secondaryCta: "Download CV",
+  secondaryCta: "Contact me",
   contactCta: "Contact me",
   signals: ["React", "Angular", "TypeScript", "Ionic", "Micro Frontends"],
   proofTitle: "Frontend signal",
@@ -41,7 +41,7 @@ export const home: HomeContent = {
     {
       title: "Direct contact",
       description:
-        "No form friction. Email, LinkedIn, GitHub and CV downloads are one click away.",
+        "No form friction. Email, LinkedIn and GitHub are one click away.",
       footer: "Tenerife, Spain · Remote-friendly",
       accent: "sky",
     },

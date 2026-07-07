@@ -7,7 +7,7 @@ test("English home renders and navigates to Spanish equivalent", async ({
   await page.goto("/en");
   await expect(
     page.getByRole("heading", {
-      name: /Frontend Developer building modern web and mobile interfaces/i,
+      name: /Frontend interfaces with product clarity and a little spark/i,
     }),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Projects" })).toHaveCount(0);
@@ -15,16 +15,17 @@ test("English home renders and navigates to Spanish equivalent", async ({
   await expect(page).toHaveURL(/\/es\/?$/);
 });
 
-test("Contact exposes direct links and CV paths", async ({ page }) => {
+test("Contact exposes direct profile links", async ({ page }) => {
   await page.goto("/en/contact");
-  await expect(page.getByRole("link", { name: /Email/i })).toHaveAttribute(
-    "href",
-    "mailto:istrejo2106@gmail.com",
-  );
-  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute(
-    "href",
-    "/cv/alejandro-trejo-cv-en.pdf",
-  );
+  await expect(
+    page.locator('a[href="mailto:istrejo2106@gmail.com"]'),
+  ).toHaveCount(2);
+  await expect(
+    page.locator('a[href="https://linkedin.com/in/alejandrotrejodev"]'),
+  ).toHaveCount(1);
+  await expect(
+    page.locator('a[href="https://github.com/istrejo"]'),
+  ).toHaveCount(1);
 });
 
 test("English home has no obvious accessibility violations", async ({

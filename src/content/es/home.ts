@@ -9,7 +9,7 @@ export const home: HomeContent = {
   description:
     "Construyo experiencias web y móviles fiables con React, Angular, TypeScript, Ionic y arquitectura frontend moderna: claras para escanear, sólidas para confiar.",
   primaryCta: "Ver experiencia",
-  secondaryCta: "Descargar CV",
+  secondaryCta: "Contactar",
   contactCta: "Contactar",
   signals: ["React", "Angular", "TypeScript", "Ionic", "Micro Frontends"],
   proofTitle: "Señal frontend",
@@ -41,7 +41,7 @@ export const home: HomeContent = {
     {
       title: "Contacto directo",
       description:
-        "Sin fricción de formulario. Email, LinkedIn, GitHub y descargas de CV a un click.",
+        "Sin fricción de formulario. Email, LinkedIn y GitHub a un clic.",
       footer: "Tenerife, España · Remote-friendly",
       accent: "sky",
     },

@@ -7,7 +7,6 @@ import {
 } from "@/components/sections/v3-page-sections";
 import { Container } from "@/components/ui/container";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
-import { cvAssets } from "@/lib/cv";
 import type { Locale } from "@/lib/i18n";
 import { contactPageCopy } from "@/translations/pages";
 
@@ -81,9 +80,9 @@ export function ContactPage({ locale }: { locale: Locale }) {
                   href: "https://github.com/istrejo",
                 },
                 {
-                  label: copy.cvFiles,
-                  value: copy.cvFilesValue,
-                  href: locale === "en" ? cvAssets.en.href : cvAssets.es.href,
+                  label: "Email",
+                  value: email,
+                  href: `mailto:${email}`,
                 },
               ].map((link) => (
                 <a

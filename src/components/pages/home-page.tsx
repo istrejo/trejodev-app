@@ -1,7 +1,6 @@
 import { contentFor } from "@/content";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { cvFor } from "@/lib/cv";
 import type { Locale } from "@/lib/i18n";
 import { pathFor } from "@/lib/routes";
 
@@ -40,7 +39,10 @@ export function HomePage({ locale }: { locale: Locale }) {
                 <ButtonLink href={pathFor(locale, "experience")}>
                   {home.primaryCta}
                 </ButtonLink>
-                <ButtonLink href={cvFor(locale).href} variant="secondary">
+                <ButtonLink
+                  href={pathFor(locale, "contact")}
+                  variant="secondary"
+                >
                   {home.secondaryCta}
                 </ButtonLink>
               </div>

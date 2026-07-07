@@ -11,8 +11,6 @@ type ContactPageCopy = {
   cards: CardCopy[];
   quickLinks: string;
   quickLinksDescription: string;
-  cvFiles: string;
-  cvFilesValue: string;
 };
 
 export function contactPageCopy(email: string) {
@@ -37,7 +35,7 @@ export function contactPageCopy(email: string) {
       ],
       sectionTitle: "Direct paths, no unnecessary friction.",
       sectionDescription:
-        "Start a conversation, review technical context or download the CV in the right language without extra friction.",
+        "Start a conversation or review technical context without extra friction.",
       cards: [
         {
           title: "Email first",
@@ -54,18 +52,16 @@ export function contactPageCopy(email: string) {
           accent: "mint",
         },
         {
-          title: "CV downloads",
+          title: "Living profile",
           description:
-            "English and Spanish CV actions stay visible, accessible and easy to scan.",
-          footer: "CV EN · CV ES",
+            "LinkedIn stays current for professional context, while GitHub keeps technical work easy to review.",
+          footer: "LinkedIn · GitHub",
           accent: "sky",
         },
       ],
       quickLinks: "Quick links",
       quickLinksDescription:
         "External links open in a new tab and keep accessible focus states.",
-      cvFiles: "CV files",
-      cvFilesValue: "English CV · Spanish CV",
     },
     es: {
       contactSignal: "Señal de contacto",
@@ -87,7 +83,7 @@ export function contactPageCopy(email: string) {
       ],
       sectionTitle: "Caminos directos, sin fricción innecesaria.",
       sectionDescription:
-        "Iniciá una conversación, revisá contexto técnico o descargá el CV adecuado sin fricción extra.",
+        "Inicia una conversación o revisa contexto técnico sin fricción extra.",
       cards: [
         {
           title: "Email primero",
@@ -104,18 +100,16 @@ export function contactPageCopy(email: string) {
           accent: "mint",
         },
         {
-          title: "Descargas de CV",
+          title: "Perfil actualizado",
           description:
-            "Las acciones de CV en inglés y español permanecen visibles, accesibles y fáciles de escanear.",
-          footer: "CV EN · CV ES",
+            "LinkedIn mantiene el contexto profesional vigente, mientras GitHub facilita revisar el trabajo técnico.",
+          footer: "LinkedIn · GitHub",
           accent: "sky",
         },
       ],
       quickLinks: "Enlaces rápidos",
       quickLinksDescription:
         "Los enlaces externos abren en una nueva pestaña y mantienen estados de foco accesibles.",
-      cvFiles: "Archivos CV",
-      cvFilesValue: "CV en inglés · CV en español",
     },
   } satisfies PageTranslations<ContactPageCopy>;
 }

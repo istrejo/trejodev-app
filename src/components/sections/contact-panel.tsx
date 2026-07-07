@@ -1,7 +1,5 @@
 import { profileLinks } from "@/data/links";
 import type { ContactContent } from "@/content/types";
-import { cvAssets } from "@/lib/cv";
-import { ButtonLink } from "../ui/button";
 import { Card } from "../ui/card";
 import { Container } from "../ui/container";
 
@@ -30,14 +28,6 @@ export function ContactPanel({ content }: { content: ContactContent }) {
                 </span>
               </a>
             ))}
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href={cvAssets.en.href} variant="secondary">
-              {content.cvEnglish}
-            </ButtonLink>
-            <ButtonLink href={cvAssets.es.href} variant="secondary">
-              {content.cvSpanish}
-            </ButtonLink>
           </div>
         </Card>
       </Container>

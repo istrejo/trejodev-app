@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "ready:deploy": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && node scripts/check-cv-assets.mjs"
+    "ready:deploy": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
     "@next/third-parties": "^15.1.8",

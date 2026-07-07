@@ -50,6 +50,4 @@ export type CertificationsContent = PageText & {
 export type ContactContent = PageText & {
   intro: string;
   copyEmail: string;
-  cvEnglish: string;
-  cvSpanish: string;
 };
