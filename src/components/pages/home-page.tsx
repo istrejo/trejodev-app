@@ -15,7 +15,7 @@ export function HomePage({ locale }: { locale: Locale }) {
   const home = content.home;
 
   return (
-    <div id="home-v3-root" className="bg-bone text-ink">
+    <div id="home-page-root" className="bg-bone text-ink">
       <section
         className="overflow-hidden py-12 sm:py-16 lg:py-20"
         aria-labelledby="home-hero-title"

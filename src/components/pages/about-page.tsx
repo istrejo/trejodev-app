@@ -1,10 +1,10 @@
 import { contentFor } from "@/content";
 import {
-  V3CardGrid,
-  V3Cta,
-  V3Hero,
-  V3SectionIntro,
-} from "@/components/sections/v3-page-sections";
+  PageCardGrid,
+  PageCta,
+  PageHero,
+  PageSectionIntro,
+} from "@/components/sections/page";
 import { Container } from "@/components/ui/container";
 import type { Locale } from "@/lib/i18n";
 import { pathFor } from "@/lib/routes";
@@ -15,8 +15,8 @@ export function AboutPage({ locale }: { locale: Locale }) {
   const copy = aboutPageCopy[locale];
 
   return (
-    <div id="about-v3-root" className="bg-bone text-ink">
-      <V3Hero
+    <div id="about-page-root" className="bg-bone text-ink">
+      <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
         description={page.description}
@@ -32,15 +32,15 @@ export function AboutPage({ locale }: { locale: Locale }) {
         aria-labelledby="about-principles-title"
       >
         <Container>
-          <V3SectionIntro
+          <PageSectionIntro
             id="about-principles-title"
             title={copy.sectionTitle}
             description={copy.sectionDescription}
           />
-          <V3CardGrid cards={copy.cards} />
+          <PageCardGrid cards={copy.cards} />
         </Container>
       </section>
-      <V3Cta
+      <PageCta
         title={copy.ctaTitle}
         description={copy.ctaDescription}
         href={pathFor(locale, "experience")}

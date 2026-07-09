@@ -1,9 +1,9 @@
 import { contentFor } from "@/content";
 import {
-  V3Cta,
-  V3Hero,
-  V3SectionIntro,
-} from "@/components/sections/v3-page-sections";
+  PageCta,
+  PageHero,
+  PageSectionIntro,
+} from "@/components/sections/page";
 import { Container } from "@/components/ui/container";
 import type { Locale } from "@/lib/i18n";
 import { pathFor } from "@/lib/routes";
@@ -14,8 +14,8 @@ export function CertificationsPage({ locale }: { locale: Locale }) {
   const copy = certificationsPageCopy[locale];
 
   return (
-    <div id="certifications-v3-root" className="bg-bone text-ink">
-      <V3Hero
+    <div id="certifications-page-root" className="bg-bone text-ink">
+      <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
         description={page.description}
@@ -31,7 +31,7 @@ export function CertificationsPage({ locale }: { locale: Locale }) {
         aria-labelledby="certification-list-title"
       >
         <Container>
-          <V3SectionIntro
+          <PageSectionIntro
             id="certification-list-title"
             title={copy.sectionTitle}
             description={copy.sectionDescription}
@@ -63,7 +63,7 @@ export function CertificationsPage({ locale }: { locale: Locale }) {
           </div>
         </Container>
       </section>
-      <V3Cta
+      <PageCta
         title={copy.ctaTitle}
         description={copy.ctaDescription}
         href={pathFor(locale, "contact")}

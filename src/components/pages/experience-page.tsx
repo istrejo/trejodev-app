@@ -1,5 +1,5 @@
 import { contentFor } from "@/content";
-import { V3Hero, V3SectionIntro } from "@/components/sections/v3-page-sections";
+import { PageHero, PageSectionIntro } from "@/components/sections/page";
 import { Container } from "@/components/ui/container";
 import { experienceItems } from "@/data/experience";
 import type { Locale } from "@/lib/i18n";
@@ -14,8 +14,8 @@ export function ExperiencePage({ locale }: { locale: Locale }) {
   const earlierRoles = experienceItems.slice(3, 6);
 
   return (
-    <div id="experience-v3-root" className="bg-bone text-ink">
-      <V3Hero
+    <div id="experience-page-root" className="bg-bone text-ink">
+      <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
         description={page.description}
@@ -33,7 +33,7 @@ export function ExperiencePage({ locale }: { locale: Locale }) {
         aria-labelledby="experience-list-title"
       >
         <Container>
-          <V3SectionIntro
+          <PageSectionIntro
             id="experience-list-title"
             title={copy.listTitle}
             description={copy.listDescription}
@@ -74,7 +74,7 @@ export function ExperiencePage({ locale }: { locale: Locale }) {
       >
         <Container>
           <div className="grid gap-8 lg:grid-cols-[420px_1fr] lg:items-start">
-            <V3SectionIntro
+            <PageSectionIntro
               id="experience-earlier-title"
               title={copy.earlierTitle}
               description={copy.earlierDescription}

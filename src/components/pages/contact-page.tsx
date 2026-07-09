@@ -1,9 +1,9 @@
 import { contentFor } from "@/content";
 import {
-  V3CardGrid,
-  V3Hero,
-  V3SectionIntro,
-} from "@/components/sections/v3-page-sections";
+  PageCardGrid,
+  PageHero,
+  PageSectionIntro,
+} from "@/components/sections/page";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
@@ -24,8 +24,8 @@ export function ContactPage({ locale }: { locale: Locale }) {
   const copy = contactPageCopy(email)[locale];
 
   return (
-    <div id="contact-v3-root" className="bg-bone text-ink">
-      <V3Hero
+    <div id="contact-page-root" className="bg-bone text-ink">
+      <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
         description={page.description}
@@ -54,12 +54,12 @@ export function ContactPage({ locale }: { locale: Locale }) {
         aria-labelledby="contact-paths-title"
       >
         <Container>
-          <V3SectionIntro
+          <PageSectionIntro
             id="contact-paths-title"
             title={copy.sectionTitle}
             description={copy.sectionDescription}
           />
-          <V3CardGrid cards={copy.cards} />
+          <PageCardGrid cards={copy.cards} />
         </Container>
       </section>
       <section
@@ -68,7 +68,7 @@ export function ContactPage({ locale }: { locale: Locale }) {
       >
         <Container>
           <div className="grid gap-8 lg:grid-cols-[360px_1fr] lg:items-start">
-            <V3SectionIntro
+            <PageSectionIntro
               id="contact-quick-links-title"
               title={copy.quickLinks}
               description={copy.quickLinksDescription}

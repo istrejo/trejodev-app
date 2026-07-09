@@ -1,34 +1,9 @@
-import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import type { ReactNode } from "react";
 
-type Accent = "ember" | "mint" | "sky";
+import { accentClasses } from "./styles";
+import type { HeroRow, HeroSignal, HeroStat, PageHeroProps } from "./types";
 
-type HeroSignal = {
-  label: string;
-  value: string;
-  accent: Accent;
-};
-
-type V3HeroProps = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  panelTitle: string;
-  panelType: "rows" | "snapshot" | "contact";
-  rows?: { text: string; accent: Accent }[];
-  stats?: { value: string; label: string }[];
-  signals?: HeroSignal[];
-  actions?: ReactNode;
-};
-
-const accentClasses: Record<Accent, string> = {
-  ember: "bg-ember text-ember",
-  mint: "bg-mint text-mint",
-  sky: "bg-sky text-sky",
-};
-
-export function V3Hero({
+export function PageHero({
   eyebrow,
   title,
   description,
@@ -38,7 +13,7 @@ export function V3Hero({
   stats = [],
   signals = [],
   actions,
-}: V3HeroProps) {
+}: PageHeroProps) {
   return (
     <section
       className="motion-section bg-bone py-16 sm:py-20 lg:py-24"
@@ -86,7 +61,7 @@ export function V3Hero({
   );
 }
 
-function DarkRows({ rows }: { rows: { text: string; accent: Accent }[] }) {
+function DarkRows({ rows }: { rows: HeroRow[] }) {
   return (
     <div className="mt-6 grid gap-3">
       {rows.map((row) => (
@@ -111,7 +86,7 @@ function SnapshotPanel({
   stats,
   signals,
 }: {
-  stats: { value: string; label: string }[];
+  stats: HeroStat[];
   signals: HeroSignal[];
 }) {
   return (
@@ -148,14 +123,11 @@ function SnapshotPanel({
 function ContactSignalPanel({
   signals,
   actions,
-}: {
-  signals: HeroSignal[];
-  actions: ReactNode;
-}) {
+}: Pick<PageHeroProps, "actions" | "signals">) {
   return (
     <>
       <div className="mt-6 grid gap-3">
-        {signals.map((signal) => (
+        {signals?.map((signal) => (
           <div className="rounded-2xl bg-zinc-900 p-4" key={signal.label}>
             <p
               className={`text-xs font-black uppercase tracking-[0.16em] ${accentClasses[signal.accent].split(" ")[1]}`}
@@ -172,109 +144,5 @@ function ContactSignalPanel({
         <div className="mt-5 grid gap-3 sm:grid-cols-2">{actions}</div>
       ) : null}
     </>
-  );
-}
-
-export function V3SectionIntro({
-  id,
-  title,
-  description,
-  dark = false,
-}: {
-  id: string;
-  title: string;
-  description: string;
-  dark?: boolean;
-}) {
-  return (
-    <div className="grid gap-6 lg:grid-cols-[520px_1fr] lg:items-end">
-      <h2
-        id={id}
-        className={`font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl ${dark ? "text-white" : "text-ink"}`}
-      >
-        {title}
-      </h2>
-      <p
-        className={`text-base leading-7 ${dark ? "text-white/65" : "text-slate"}`}
-      >
-        {description}
-      </p>
-    </div>
-  );
-}
-
-export function V3CardGrid({
-  cards,
-}: {
-  cards: {
-    title: string;
-    description: string;
-    footer?: string;
-    accent: Accent;
-  }[];
-}) {
-  return (
-    <div className="mt-10 grid gap-5 md:grid-cols-3">
-      {cards.map((card, index) => (
-        <article
-          className={`motion-card motion-delay-${Math.min(index + 1, 3)} flex min-h-[14.5rem] flex-col rounded-[1.5rem] border border-line bg-bone p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-ink/25 hover:shadow-[0_28px_80px_rgba(10,10,10,0.12)]`}
-          key={card.title}
-        >
-          <span
-            className={`h-2 w-12 rounded-full ${accentClasses[card.accent].split(" ")[0]}`}
-            aria-hidden="true"
-          />
-          <h3 className="mt-6 font-display text-2xl font-black tracking-[-0.05em] text-ink">
-            {card.title}
-          </h3>
-          <p className="mt-4 text-sm leading-7 text-slate">
-            {card.description}
-          </p>
-          {card.footer ? (
-            <p className="mt-auto pt-6 text-xs font-black uppercase leading-5 tracking-[0.14em] text-ink">
-              {card.footer}
-            </p>
-          ) : null}
-        </article>
-      ))}
-    </div>
-  );
-}
-
-export function V3Cta({
-  title,
-  description,
-  href,
-  label,
-}: {
-  title: string;
-  description: string;
-  href: string;
-  label: string;
-}) {
-  return (
-    <section
-      className="motion-section bg-ink py-16 text-white sm:py-20"
-      aria-labelledby="page-cta-title"
-    >
-      <Container>
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-3xl">
-            <h2
-              id="page-cta-title"
-              className="font-display text-4xl font-black tracking-[-0.06em] sm:text-5xl"
-            >
-              {title}
-            </h2>
-            <p className="mt-5 text-base leading-7 text-white/65">
-              {description}
-            </p>
-          </div>
-          <ButtonLink className="bg-ember text-ink hover:bg-white" href={href}>
-            {label}
-          </ButtonLink>
-        </div>
-      </Container>
-    </section>
   );
 }
