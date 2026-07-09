@@ -1,16 +1,23 @@
 import { contentFor } from "@/content";
 import {
-  ButtonLink,
   V3CardGrid,
   V3Hero,
   V3SectionIntro,
 } from "@/components/sections/v3-page-sections";
+import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
+import { profileLinks } from "@/data/links";
 import type { Locale } from "@/lib/i18n";
 import { contactPageCopy } from "@/translations/pages";
 
-const email = "istrejo2106@gmail.com";
+const emailLink = profileLinks.find((link) => link.kind === "email");
+
+if (!emailLink) {
+  throw new Error("Missing email profile link.");
+}
+
+const email = emailLink.value;
 
 export function ContactPage({ locale }: { locale: Locale }) {
   const page = contentFor(locale).contact;
@@ -68,23 +75,7 @@ export function ContactPage({ locale }: { locale: Locale }) {
               dark
             />
             <div className="grid gap-4">
-              {[
-                {
-                  label: "LinkedIn",
-                  value: "linkedin.com/in/alejandrotrejodev",
-                  href: "https://linkedin.com/in/alejandrotrejodev",
-                },
-                {
-                  label: "GitHub",
-                  value: "github.com/istrejo",
-                  href: "https://github.com/istrejo",
-                },
-                {
-                  label: "Email",
-                  value: email,
-                  href: `mailto:${email}`,
-                },
-              ].map((link) => (
+              {profileLinks.map((link) => (
                 <a
                   className="motion-card flex min-h-16 flex-col gap-2 rounded-[1.125rem] bg-zinc-900 px-6 py-4 transition duration-300 hover:-translate-y-1 hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ember sm:flex-row sm:items-center sm:justify-between"
                   href={link.href}

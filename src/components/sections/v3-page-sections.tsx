@@ -278,5 +278,3 @@ export function V3Cta({
     </section>
   );
 }
-
-export { ButtonLink };

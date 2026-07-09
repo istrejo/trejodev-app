@@ -4,6 +4,7 @@ out
 coverage
 playwright-report
 test-results
+.firebase
 .env*
 !.env.example
 dist

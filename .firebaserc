@@ -1,5 +1,12 @@
 {
   "projects": {
     "default": "portfolio-90497"
+  },
+  "targets": {
+    "portfolio-90497": {
+      "hosting": {
+        "trejodev": ["trejodev"]
+      }
+    }
   }
 }
