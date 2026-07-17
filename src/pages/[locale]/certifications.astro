@@ -1,0 +1,23 @@
+---
+import type { GetStaticPaths } from "astro";
+import { contentFor } from "@/content";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeStaticPaths } from "@/lib/astro-static-paths";
+import { certificationsPageCopy } from "@/translations/pages";
+
+export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+const locale = Astro.params.locale as Locale;
+const page = contentFor(locale).certifications;
+const copy = certificationsPageCopy[locale];
+---
+
+<LocaleLayout locale={locale} route="certifications" heading={page.title} description={page.description}>
+  <section class="page-hero narrow"><div class="container hero-copy" data-reveal><p class="eyebrow">{page.eyebrow}</p><h1 class="page-title">{page.title}</h1><p class="lead">{page.description}</p></div></section>
+  <section aria-labelledby="certifications-title" class="section surface">
+    <div class="container" data-reveal>
+      <div class="section-heading"><p class="eyebrow">{copy.focusAreas}</p><div><h2 id="certifications-title">{copy.sectionTitle}</h2><p>{copy.sectionDescription}</p></div></div>
+      <div class="stack-list">{copy.rows.map((row) => <article class="stack-row"><h3>{row.year} · {row.title}</h3><div><p>{row.description}</p><p class="card-footer">{row.tag}</p></div></article>)}</div>
+    </div>
+  </section>
+</LocaleLayout>

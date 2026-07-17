@@ -18,11 +18,14 @@ describe("metadata", () => {
   });
 
   it("keeps detail canonicals and alternates trailing-slash-free", () => {
-    const metadata = pageMetadata("en", { key: "project-detail", slug: "racerlab" });
+    const metadata = pageMetadata("en", {
+      key: "project-detail",
+      slug: "racerlab",
+    });
 
-    expect(canonicalUrl("en", { key: "project-detail", slug: "racerlab" })).toBe(
-      "https://trejodev.web.app/en/projects/racerlab",
-    );
+    expect(
+      canonicalUrl("en", { key: "project-detail", slug: "racerlab" }),
+    ).toBe("https://trejodev.web.app/en/projects/racerlab");
     expect(metadata.alternates?.canonical).toBe(
       "https://trejodev.web.app/en/projects/racerlab",
     );

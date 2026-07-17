@@ -11,7 +11,8 @@ export type PageKey =
   | "work"
   | "projects";
 
-export type RouteTarget = PageKey | { key: "project-detail"; slug: ProjectSlug };
+export type RouteTarget =
+  PageKey | { key: "project-detail"; slug: ProjectSlug };
 
 export type Route = {
   key: PageKey;

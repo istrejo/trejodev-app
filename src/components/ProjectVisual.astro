@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+  large?: boolean;
+}
+
+const { label, large = false } = Astro.props;
+---
+
+<div aria-label={label} class:list={["project-visual", { "project-detail-visual": large }]} role="img">
+  <div aria-hidden="true" class="project-window"></div>
+</div>

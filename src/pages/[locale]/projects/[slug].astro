@@ -1,20 +1,62 @@
 ---
 import type { GetStaticPaths } from "astro";
-import type { ProjectSlug } from "@/content";
+import { projectFor, type ProjectSlug } from "@/content";
+import ProjectVisual from "@/components/ProjectVisual.astro";
 import type { Locale } from "@/lib/i18n";
+import { pathFor } from "@/lib/routes";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeProjectStaticPaths } from "@/lib/astro-static-paths";
 
 export const getStaticPaths = (() => localeProjectStaticPaths()) satisfies GetStaticPaths;
-
 const locale = Astro.params.locale as Locale;
 const slug = Astro.params.slug as ProjectSlug;
+const project = projectFor(locale, slug);
+if (!project) throw new Error(`Missing project content for ${locale}/${slug}`);
+
+const copy = locale === "en" ? {
+  back: "Back to projects",
+  overview: "Project overview",
+  contribution: "Contribution",
+  contributionText: "Defined the product and technical foundation for an automotive workshop management SaaS.",
+  status: "Public case-study status",
+  statusText: "Approved product media and a public URL are still pending. The page deliberately avoids unverified screenshots or links.",
+  role: "Role",
+  period: "Period",
+  visual: "RacerLab product visual — approved media pending",
+} : {
+  back: "Volver a proyectos",
+  overview: "Resumen del proyecto",
+  contribution: "Contribución",
+  contributionText: "Definí el producto y la base técnica de un SaaS para gestión de talleres automotrices.",
+  status: "Estado del caso público",
+  statusText: "La media aprobada del producto y una URL pública siguen pendientes. La página evita deliberadamente capturas o enlaces no verificados.",
+  role: "Rol",
+  period: "Período",
+  visual: "Visual de producto RacerLab — media aprobada pendiente",
+};
 ---
 
-<LocaleLayout locale={locale} route={{ key: "project-detail", slug }} heading={locale === "en" ? "Project detail shell" : "Shell del detalle del proyecto"} description={locale === "en" ? "Static locale and slug shell for a later detail slice." : "Shell estático de locale y slug para un slice posterior del detalle."}>
-  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
-    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Project detail shell" : "Shell del detalle del proyecto"}</h1>
-    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Static locale and slug shell only. Project narrative, facts, media, and links stay out of scope for this foundation slice." : "Solo shell estático de locale y slug. La narrativa, los facts, los medios y los links del proyecto quedan fuera de alcance en este slice base."}</p>
-    <p class="mt-4 text-sm text-slate">{locale === "en" ? "Approved slug placeholder:" : "Placeholder del slug aprobado:"} <code>{slug}</code></p>
+<LocaleLayout locale={locale} route={{ key: "project-detail", slug }} heading={project.name} description={project.summary}>
+  <section class="page-hero project-detail-hero">
+    <div class="container hero-grid">
+      <div class="hero-copy" data-reveal>
+        <p class="eyebrow">{copy.overview}</p>
+        <h1 class="page-title">{project.name}</h1>
+        <p class="lead">{project.summary}</p>
+        <dl class="project-meta"><div><dt>{copy.role}</dt><dd>{project.role}</dd></div><div><dt>{copy.period}</dt><dd>{project.period}</dd></div></dl>
+      </div>
+      <div data-reveal><a class="button" href={pathFor(locale, "projects")}>← {copy.back}</a></div>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container" data-reveal><ProjectVisual label={copy.visual} large /></div>
+  </section>
+
+  <section class="section">
+    <div class="container split-grid" data-reveal>
+      <div><p class="eyebrow">{copy.contribution}</p><h2>{copy.contribution}</h2></div>
+      <div class="stack-list"><article class="stack-row"><h3>{project.role}</h3><p>{copy.contributionText}</p></article><article class="stack-row"><h3>{copy.status}</h3><p>{copy.statusText}</p></article></div>
+    </div>
   </section>
 </LocaleLayout>

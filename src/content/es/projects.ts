@@ -2,10 +2,10 @@ import type { ProjectsContent } from "../types";
 
 export const projects = {
   eyebrow: "Proyectos",
-  title: "Estoy preparando una selección de proyectos públicos.",
+  title: "Trabajo de producto con resultados claros.",
   description:
-    "Los case studies públicos se limitan a trabajo aprobado con placeholders explícitos de media y enlaces hasta completar la verificación.",
-  emptyState: "Estoy preparando una selección de proyectos públicos.",
+    "Una selección enfocada de trabajo de producto, documentada con hechos verificados y placeholders explícitos cuando la media aprobada sigue pendiente.",
+  emptyState: "Estoy preparando más material aprobado de proyectos.",
   projects: [
     {
       slug: "racerlab",
@@ -16,7 +16,9 @@ export const projects = {
       period: "Jul 2026 – Present",
       locale: "es",
       cover: { kind: "placeholder", name: "approved-cover-pending" },
-      screenshots: [{ kind: "placeholder", name: "approved-screenshot-pending" }],
+      screenshots: [
+        { kind: "placeholder", name: "approved-screenshot-pending" },
+      ],
       publicUrl: { kind: "disabled", reason: "approved-public-url-pending" },
     },
   ],

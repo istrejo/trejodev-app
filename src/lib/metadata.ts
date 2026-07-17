@@ -2,7 +2,8 @@ import { type ProjectSlug, projectFor } from "@/content";
 import { type Locale, locales } from "./i18n";
 import { pathFor, projectDetailPath, type PageKey, routeFor } from "./routes";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://trejodev.web.app";
+export const siteUrl =
+  import.meta.env.PUBLIC_SITE_URL ?? "https://trejodev.web.app";
 
 type MetadataRoute = PageKey | { key: "project-detail"; slug: ProjectSlug };
 
@@ -18,13 +19,15 @@ export type SeoMetadata = {
     description: string;
     url: string;
     siteName: string;
-    locale: Locale;
+    locale: "en_US" | "es_ES";
+    image: string;
     type: "website";
   };
   twitter: {
     card: "summary_large_image";
     title: string;
     description: string;
+    image: string;
   };
 };
 
@@ -57,10 +60,13 @@ export function canonicalUrl(locale: Locale, route: MetadataRoute) {
 }
 
 export function localizedAlternates(route: MetadataRoute) {
-  return locales.reduce<Record<Locale, string>>((alternates, locale) => {
-    alternates[locale] = canonicalUrl(locale, route);
-    return alternates;
-  }, { en: "", es: "" });
+  return locales.reduce<Record<Locale, string>>(
+    (alternates, locale) => {
+      alternates[locale] = canonicalUrl(locale, route);
+      return alternates;
+    },
+    { en: "", es: "" },
+  );
 }
 
 export function pageMetadata(
@@ -87,13 +93,15 @@ export function pageMetadata(
       description: pageDescription,
       url: canonicalUrl(locale, route),
       siteName: "TrejoDev",
-      locale,
+      locale: locale === "en" ? "en_US" : "es_ES",
+      image: new URL("/og-image.svg", siteUrl).toString(),
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
+      image: new URL("/og-image.svg", siteUrl).toString(),
     },
   };
 }

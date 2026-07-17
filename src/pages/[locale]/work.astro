@@ -1,16 +1,46 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { contentFor } from "@/content";
 import type { Locale } from "@/lib/i18n";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
 
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
+const { experience, home } = contentFor(locale);
 ---
 
-<LocaleLayout locale={locale} route="work" heading={locale === "en" ? "Work shell" : "Shell de Trabajo"} description={locale === "en" ? "Work experience cards and verified facts remain for later implementation slices." : "Las cards de experiencia y los facts verificados quedan para slices posteriores."}>
-  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
-    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Work shell" : "Shell de Trabajo"}</h1>
-    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Work experience cards and verified facts remain for later implementation slices." : "Las cards de experiencia y los facts verificados quedan para slices posteriores."}</p>
+<LocaleLayout locale={locale} route="work" heading={experience.title} description={experience.description}>
+  <section class="page-hero narrow">
+    <div class="container hero-copy" data-reveal>
+      <p class="eyebrow">{experience.eyebrow}</p>
+      <h1 class="page-title">{experience.title}</h1>
+      <p class="lead">{experience.description}</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-timeline" class="section surface">
+    <div class="container split-grid">
+      <div data-reveal><p class="eyebrow">{locale === "en" ? "Experience" : "Experiencia"}</p><h2 id="work-timeline">{home.timelineTitle}</h2><p class="lead">{experience.intro}</p></div>
+      <ol class="timeline" data-reveal>
+        {home.timelineEntries.map(([mark, company, role, description, dates, emphasized]) => (
+          <li>
+            <span aria-hidden="true" class:list={["timeline-dot", { current: emphasized }]}></span>
+            <span aria-hidden="true" class="timeline-mark">{mark}</span>
+            <div class="timeline-copy"><strong>{company}</strong><span>{role}</span><p>{description}</p></div>
+            <p class="timeline-date">{dates}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-outcomes" class="section">
+    <div class="container" data-reveal>
+      <div class="section-heading"><p class="eyebrow">{home.proofTitle}</p><div><h2 id="work-outcomes">{home.proofHeading}</h2><p>{home.proofDescription}</p></div></div>
+      <div class="card-grid">
+        {home.proofRows.map((row, index) => <article class="card"><h3>{home.proofLabels[index]}</h3><p>{row}</p></article>)}
+      </div>
+    </div>
   </section>
 </LocaleLayout>

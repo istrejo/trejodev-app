@@ -28,7 +28,9 @@ export const chromeCopy = {
 
 export const contactEmail = profileLinks.find((link) => link.kind === "email")!;
 export const profileSocialLinks = profileLinks.filter(
-  (link): link is (typeof profileLinks)[number] & { kind: "linkedin" | "github" } =>
+  (
+    link,
+  ): link is (typeof profileLinks)[number] & { kind: "linkedin" | "github" } =>
     link.kind !== "email",
 );
 

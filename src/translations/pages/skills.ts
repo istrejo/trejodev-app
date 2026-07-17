@@ -15,7 +15,7 @@ export const skillsPageCopy = {
   en: {
     coreStack: "Core stack",
     stackRows: [
-      "React · Next.js · TypeScript",
+      "React · Astro · TypeScript",
       "Angular · Ionic · Capacitor",
       "Testing · Firebase · Supabase",
       "Claude Code · Cursor · Codex",
@@ -27,8 +27,8 @@ export const skillsPageCopy = {
       {
         title: "Frontend",
         description:
-          "React, Next.js, Angular, Ionic, Capacitor and TypeScript for modern web and mobile interfaces.",
-        footer: "React · Angular · Next.js · Ionic",
+          "React, Astro, Angular, Ionic, Capacitor and TypeScript for modern web and mobile interfaces.",
+        footer: "React · Angular · Astro · Ionic",
         accent: "ember",
       },
       {
@@ -75,7 +75,7 @@ export const skillsPageCopy = {
   es: {
     coreStack: "Stack principal",
     stackRows: [
-      "React · Next.js · TypeScript",
+      "React · Astro · TypeScript",
       "Angular · Ionic · Capacitor",
       "Testing · Firebase · Supabase",
       "Claude Code · Cursor · Codex",
@@ -87,8 +87,8 @@ export const skillsPageCopy = {
       {
         title: "Frontend",
         description:
-          "React, Next.js, Angular, Ionic, Capacitor y TypeScript para interfaces web y móviles modernas.",
-        footer: "React · Angular · Next.js · Ionic",
+          "React, Astro, Angular, Ionic, Capacitor y TypeScript para interfaces web y móviles modernas.",
+        footer: "React · Angular · Astro · Ionic",
         accent: "ember",
       },
       {

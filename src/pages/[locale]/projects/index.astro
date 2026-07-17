@@ -1,16 +1,36 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { contentFor } from "@/content";
+import ProjectVisual from "@/components/ProjectVisual.astro";
 import type { Locale } from "@/lib/i18n";
+import { projectDetailPath } from "@/lib/routes";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
 
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
+const projects = contentFor(locale).projects;
 ---
 
-<LocaleLayout locale={locale} route="projects" heading={locale === "en" ? "Projects shell" : "Shell de Proyectos"} description={locale === "en" ? "Approved project slugs exist, but cards and editorial content stay out of this foundation slice." : "Los slugs aprobados existen, pero las cards y el contenido editorial quedan fuera de este slice base."}>
-  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
-    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Projects shell" : "Shell de Proyectos"}</h1>
-    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Approved project slugs exist, but cards and editorial content stay out of this foundation slice." : "Los slugs aprobados existen, pero las cards y el contenido editorial quedan fuera de este slice base."}</p>
+<LocaleLayout locale={locale} route="projects" heading={projects.title} description={projects.description}>
+  <section class="page-hero narrow">
+    <div class="container hero-copy" data-reveal>
+      <p class="eyebrow">{projects.eyebrow}</p>
+      <h1 class="page-title">{projects.title}</h1>
+      <p class="lead">{projects.description}</p>
+    </div>
+  </section>
+
+  <section aria-label={locale === "en" ? "Selected projects" : "Proyectos seleccionados"} class="section surface">
+    <div class="container project-grid" data-reveal>
+      {projects.projects.map((project) => (
+        <article class="card project-card">
+          <a href={projectDetailPath(locale, project.slug)}>
+            <ProjectVisual label={`${project.name} — ${locale === "en" ? "approved visual pending" : "visual aprobado pendiente"}`} />
+            <div class="project-card-copy"><h2>{project.name}</h2><p>{project.summary}</p><p class="card-footer">{project.role} · {project.period}</p></div>
+          </a>
+        </article>
+      ))}
+    </div>
   </section>
 </LocaleLayout>

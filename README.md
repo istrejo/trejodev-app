@@ -1,30 +1,51 @@
-# TrejoDev App
+# TrejoDev Portfolio
 
-Static-first bilingual site for Alejandro Trejo, built with Next.js App Router, TypeScript and Tailwind CSS.
+Static-first bilingual portfolio for Alejandro Trejo. Astro renders every page at build time; a few small browser scripts provide theme persistence, the mobile menu, copy-to-clipboard, section reveals, and page transitions.
 
-## Quick Path
+## Quick path
 
-1. Install dependencies with `pnpm install`.
-2. Run local development with `pnpm dev`.
-3. Validate code with `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm test:e2e`.
-4. Install Playwright browsers with `pnpm exec playwright install` before running `pnpm test:e2e` in a new environment.
-5. Run `pnpm ready:deploy` before deploy.
+```bash
+pnpm install
+pnpm dev
+pnpm ready:deploy
+pnpm test:e2e
+```
+
+Astro requires Node.js 22.12 or newer. Install Playwright browsers once with `pnpm exec playwright install` when running end-to-end tests in a new environment.
 
 ## Routes
 
-| Locale  | Pages                                                                                   |
-| ------- | --------------------------------------------------------------------------------------- |
-| English | `/en`, `/en/about`, `/en/experience`, `/en/skills`, `/en/certifications`, `/en/contact` |
-| Spanish | `/es`, `/es/about`, `/es/experience`, `/es/skills`, `/es/certifications`, `/es/contact` |
+| Content        | English                 | Spanish                 |
+| -------------- | ----------------------- | ----------------------- |
+| Home           | `/en`                   | `/es`                   |
+| About          | `/en/about`             | `/es/about`             |
+| Work           | `/en/work`              | `/es/work`              |
+| Skills         | `/en/skills`            | `/es/skills`            |
+| Certifications | `/en/certifications`    | `/es/certifications`    |
+| Contact        | `/en/contact`           | `/es/contact`           |
+| Projects       | `/en/projects`          | `/es/projects`          |
+| Project detail | `/en/projects/racerlab` | `/es/projects/racerlab` |
 
-Projects are intentionally omitted from primary navigation for v1. No public case studies are included until real public work is approved.
+Unlocalized paths redirect to English. Legacy localized `/experience` paths redirect to the equivalent `/work` page so experience content has one canonical source.
 
-## Deployment Readiness
+## Content and UI
 
-The app uses `output: 'export'`, so `pnpm build` generates the static `out/` directory for classic Firebase Hosting. `pnpm ready:deploy` runs typecheck, lint, unit tests and build. Run `pnpm test:e2e` as the browser smoke check before a public deploy.
+- Localized page content lives in `src/content` and `src/translations/pages`.
+- Astro pages live in `src/pages`; shared chrome and project visuals live in `src/components`.
+- Design tokens, responsive behavior, focus states, and reduced-motion fallbacks live in `src/styles/global.css`.
+- The three Stitch screen records expose no `htmlCode`; their full-screen captures are visual references, not RacerLab media. Because those references also use placeholders, `ProjectVisual` intentionally remains a mock until approved project assets exist.
 
-Firebase Hosting is configured for project `portfolio-90497` and Hosting target `trejodev`, which deploys to `https://trejodev.web.app`.
+## Validation
 
-## Content Sources
+| Command             | Checks                                                                      |
+| ------------------- | --------------------------------------------------------------------------- |
+| `pnpm format:check` | Formatting                                                                  |
+| `pnpm lint`         | TypeScript and Astro lint rules                                             |
+| `pnpm typecheck`    | Astro and strict TypeScript diagnostics                                     |
+| `pnpm test`         | Unit contracts for routes, metadata, and chrome                             |
+| `pnpm build`        | Static output in `dist/`                                                    |
+| `pnpm test:e2e`     | Desktop/mobile routes, accessibility, navigation, theme, and console errors |
 
-Page-specific copy lives in `src/translations/pages`. Shared route/page shell text lives in `src/content`. Structured reusable profile data lives in `src/data`, currently for experience and profile links only. Avoid adding parallel page data files unless a page actively consumes them.
+## Deployment
+
+Firebase Hosting serves `dist/` with clean URLs. `pnpm ready:deploy` runs typecheck, lint, unit tests, and build before deployment. Set `PUBLIC_SITE_URL` when building for a host other than `https://trejodev.web.app`.

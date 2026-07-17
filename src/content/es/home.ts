@@ -15,7 +15,8 @@ export const home: HomeContent = {
   signals: ["React", "Angular", "TypeScript", "Ionic", "Micro Frontends"],
   proofTitle: "TRABAJO SELECCIONADO / RESULTADOS VERIFICADOS",
   proofHeading: "Rendimiento y entrega de producto.",
-  proofDescription: "Un registro conciso de resultados en producción respaldados por el CV.",
+  proofDescription:
+    "Un registro conciso de resultados en producción respaldados por el CV.",
   proofLabels: ["REBEL QUEST INTERACTIVE", "CRSOPORTE", "REPSA LOGISTIC"],
   proofRows: [
     "Contribución en siete micro frontends con Angular y React usando Module Federation, reduciendo tiempos de carga un 50%.",
@@ -25,14 +26,57 @@ export const home: HomeContent = {
   lighthouseStat: "Lighthouse 50 → 90",
   bilingualStat: "Rutas EN / ES",
   timelineTitle: "Work",
-  timelineDescription: "Seis roles verificados en CV, del más reciente al más antiguo.",
+  timelineDescription:
+    "Seis roles verificados en CV, del más reciente al más antiguo.",
   timelineEntries: [
-    ["RL", "RacerLab", "Founder & Full-Stack Developer", "Definí el producto y la base técnica de un SaaS para gestión de talleres.", "Jul 2026 – Actualidad", true],
-    ["RQ", "Rebel Quest Interactive", "Frontend Developer", "Trabajé en siete micro frontends con Angular y React; reduje tiempos de carga un 50%.", "May 2025 – Mar 2026", false],
-    ["DS", "Digitalmente Studio", "Freelance Frontend Consultant (part-time)", "Entregué proyectos web y móviles; desplegué gestión de visitantes en dos complejos residenciales.", "2022 – Feb 2026", false],
-    ["BT", "Beartrack", "Frontend Developer", "Desarrollé un frontend modular en Angular 18 para logística y una app integrada con PrestaShop.", "May 2024 – Aug 2024", false],
-    ["CR", "CRSoporte", "Frontend Developer", "Reduje tiempos de carga un 80% y elevé Lighthouse de 50 a 90.", "Dec 2023 – Apr 2024", false],
-    ["RL", "Repsa Logistic", "Frontend Developer", "Optimicé llamadas API redundantes y la recuperación QR para inspecciones vehiculares; reduje tiempos de carga un 50%.", "Jul 2023 – Nov 2023", false],
+    [
+      "RL",
+      "RacerLab",
+      "Founder & Full-Stack Developer",
+      "Definí el producto y la base técnica de un SaaS para gestión de talleres.",
+      "Jul 2026 – Actualidad",
+      true,
+    ],
+    [
+      "RQ",
+      "Rebel Quest Interactive",
+      "Frontend Developer",
+      "Trabajé en siete micro frontends con Angular y React; reduje tiempos de carga un 50%.",
+      "May 2025 – Mar 2026",
+      false,
+    ],
+    [
+      "DS",
+      "Digitalmente Studio",
+      "Freelance Frontend Consultant (part-time)",
+      "Entregué proyectos web y móviles; desplegué gestión de visitantes en dos complejos residenciales.",
+      "2022 – Feb 2026",
+      false,
+    ],
+    [
+      "BT",
+      "Beartrack",
+      "Frontend Developer",
+      "Desarrollé un frontend modular en Angular 18 para logística y una app integrada con PrestaShop.",
+      "May 2024 – Aug 2024",
+      false,
+    ],
+    [
+      "CR",
+      "CRSoporte",
+      "Frontend Developer",
+      "Reduje tiempos de carga un 80% y elevé Lighthouse de 50 a 90.",
+      "Dec 2023 – Apr 2024",
+      false,
+    ],
+    [
+      "RL",
+      "Repsa Logistic",
+      "Frontend Developer",
+      "Optimicé llamadas API redundantes y la recuperación QR para inspecciones vehiculares; reduje tiempos de carga un 50%.",
+      "Jul 2023 – Nov 2023",
+      false,
+    ],
   ],
   previewTitle: "Vista previa de trabajo",
   previewDescription:
@@ -61,7 +105,8 @@ export const home: HomeContent = {
       accent: "sky",
     },
   ],
-  footerCtaTitle: "Trabajo frontend con claridad, calidad e intención de producto.",
+  footerCtaTitle:
+    "Trabajo frontend con claridad, calidad e intención de producto.",
   footerCtaDescription:
     "El slice dedicado de Contact queda para después, pero la dirección del portfolio sigue enfocada en entrega confiable.",
 };

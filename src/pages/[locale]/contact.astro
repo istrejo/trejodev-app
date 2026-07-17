@@ -1,0 +1,44 @@
+---
+import type { GetStaticPaths } from "astro";
+import { contentFor } from "@/content";
+import { profileLinks } from "@/data/links";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeStaticPaths } from "@/lib/astro-static-paths";
+import { contactPageCopy } from "@/translations/pages";
+
+export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+const locale = Astro.params.locale as Locale;
+const page = contentFor(locale).contact;
+const email = profileLinks.find((link) => link.kind === "email");
+if (!email) throw new Error("Missing email profile link");
+const copy = contactPageCopy(email.value)[locale];
+---
+
+<LocaleLayout locale={locale} route="contact" heading={page.title} description={page.description}>
+  <section class="page-hero">
+    <div class="container hero-grid">
+      <div class="hero-copy" data-reveal><p class="eyebrow">{page.eyebrow}</p><h1 class="page-title">{page.title}</h1><p class="lead">{page.description}</p><div class="button-row"><a class="button primary" href={email.href}>{copy.sendEmail}</a><button class="button" data-copy-email data-copied={copy.copied} data-failed={copy.copyFailed} data-value={email.value} type="button">{page.copyEmail}</button></div><p aria-live="polite" class="copy-status" data-copy-status></p></div>
+      <aside class="info-panel card" data-reveal><p class="eyebrow">{copy.contactSignal}</p><ul class="detail-list">{copy.signals.map((signal) => <li><strong>{signal.label}</strong><span>{signal.value}</span></li>)}</ul></aside>
+    </div>
+  </section>
+  <section aria-labelledby="contact-links" class="section surface"><div class="container split-grid" data-reveal><div><p class="eyebrow">{copy.quickLinks}</p><h2 id="contact-links">{copy.sectionTitle}</h2><p class="lead">{copy.sectionDescription}</p></div><div class="contact-links">{profileLinks.map((link) => <a class="contact-link" href={link.href} rel={link.href.startsWith("http") ? "noreferrer" : undefined} target={link.href.startsWith("http") ? "_blank" : undefined}><strong>{link.label}</strong><span>{link.value}</span></a>)}</div></div></section>
+</LocaleLayout>
+
+<script>
+  const bindCopyEmail = () => {
+    const button = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+    const status = document.querySelector<HTMLElement>("[data-copy-status]");
+    if (!button || !status) return;
+    button.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.value ?? "");
+        status.textContent = button.dataset.copied ?? "Email copied";
+      } catch {
+        status.textContent = button.dataset.failed ?? "Copy failed";
+      }
+    };
+  };
+  document.addEventListener("astro:page-load", bindCopyEmail);
+  bindCopyEmail();
+</script>

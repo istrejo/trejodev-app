@@ -46,5 +46,7 @@ export function contentFor(locale: Locale) {
 }
 
 export function projectFor(locale: Locale, slug: ProjectSlug) {
-  return content[locale].projects.projects.find((project) => project.slug === slug);
+  return content[locale].projects.projects.find(
+    (project) => project.slug === slug,
+  );
 }

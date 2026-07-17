@@ -1,7 +1,13 @@
 ---
 import type { Locale } from "@/lib/i18n";
 import type { RouteTarget } from "@/lib/routes";
-import { chromeCopy, contactEmail, localeSwitchPath, profileSocialLinks, v4NavItems } from "./chrome";
+import {
+  chromeCopy,
+  contactEmail,
+  localeSwitchPath,
+  profileSocialLinks,
+  v4NavItems,
+} from "./chrome";
 
 interface Props {
   locale: Locale;
@@ -12,7 +18,9 @@ const { locale, route } = Astro.props;
 const copy = chromeCopy[locale];
 const navItems = v4NavItems(locale);
 const switchPath = localeSwitchPath(locale, route);
-const socialIconPaths = {
+const routeKey = typeof route === "object" ? "projects" : route;
+const navLabel = locale === "en" ? "Primary navigation" : "Navegación principal";
+const iconPaths = {
   linkedin:
     "M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.36 8.08h4.28V22H.36zM7.3 8.08h4.1v1.9h.06c.57-1.08 1.97-2.22 4.06-2.22 4.34 0 5.14 2.86 5.14 6.57V22h-4.28v-6.78c0-1.62-.03-3.7-2.25-3.7-2.25 0-2.6 1.76-2.6 3.58V22H7.3z",
   github:
@@ -20,82 +28,131 @@ const socialIconPaths = {
 } as const;
 ---
 
-<div class="v4-shell">
-  <header class="v4-floating-nav">
-    <a aria-label="Alejandro Trejo" class="v4-brand" href={`/${locale}`}>
-      <span aria-hidden="true">AT</span>
-      <span>TrejoDev</span>
-    </a>
-    <nav aria-label={locale === "en" ? "Primary navigation" : "Navegación principal"} class="v4-nav v4-nav-desktop">
-      {navItems.map((item) => (
-        <a aria-current={item.key === route ? "page" : undefined} class="v4-nav-link" href={item.href}>{item.label}</a>
-      ))}
-    </nav>
-    <div class="v4-actions">
-      <button aria-label="Toggle color theme" class="v4-pill-button" data-theme-toggle type="button">
-        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
-      </button>
-      <button aria-controls="mobile-nav-panel" aria-expanded="false" class="v4-pill-button v4-mobile-toggle" data-nav-toggle data-closed-label={copy.menu} data-open-label={copy.close} type="button">
-        {copy.menu}
-      </button>
-    </div>
-  </header>
+<div class="site-shell">
+  <header class="site-header" data-site-header>
+    <div class="site-nav-wrap">
+      <a aria-label="Alejandro Trejo — Home" class="brand" href={`/${locale}`}>
+        <span aria-hidden="true">AT</span>
+      </a>
 
-  <nav aria-label={locale === "en" ? "Mobile primary navigation" : "Navegación principal móvil"} class="v4-mobile-panel" hidden id="mobile-nav-panel">
-    {navItems.map((item) => (
-      <a class="v4-mobile-link" href={item.href}>{item.label}</a>
-    ))}
-    <a class="v4-mobile-link" href={switchPath}>{locale === "en" ? "Español" : "English"}</a>
-  </nav>
+      <nav aria-label={navLabel} class="desktop-nav glass-panel">
+        {navItems.map((item) => (
+          <a aria-current={item.key === routeKey ? "page" : undefined} href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+
+      <div class="header-actions">
+        <a aria-label={copy.locale} class="icon-button locale-button" href={switchPath} hreflang={locale === "en" ? "es" : "en"}>
+          {locale === "en" ? "ES" : "EN"}
+        </a>
+        <button aria-label={locale === "en" ? "Toggle color theme" : "Cambiar tema de color"} aria-pressed="false" class="icon-button" data-theme-toggle type="button">
+          <svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" /></svg>
+        </button>
+        <button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label={copy.menu} class="icon-button mobile-toggle" data-nav-toggle data-close-label={copy.close} data-open-label={copy.menu} type="button">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <nav aria-hidden="true" aria-label={navLabel} class="mobile-panel glass-panel" id="mobile-nav-panel" inert>
+      {navItems.map((item) => (
+        <a aria-current={item.key === routeKey ? "page" : undefined} href={item.href}>{item.label}</a>
+      ))}
+      <a href={switchPath} hreflang={locale === "en" ? "es" : "en"}>{locale === "en" ? "Español" : "English"}</a>
+    </nav>
+  </header>
 
   <slot />
 
-  <footer class="v4-footer">
-    <div class="v4-footer-copy">
-      <nav aria-label={locale === "en" ? "Footer navigation" : "Navegación del pie"} class="v4-footer-nav">
-        {navItems.map((item) => (
-          <a class="v4-nav-link" href={item.href}>{item.label}</a>
-        ))}
+  <footer class="site-footer">
+    <div>
+      <nav aria-label={locale === "en" ? "Footer navigation" : "Navegación del pie"}>
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
-      <p class="v4-kicker">© 2026 Alejandro Trejo</p>
+      <p>© 2026 Alejandro Trejo</p>
     </div>
-    <div class="v4-footer-actions">
+    <div class="social-links">
       {profileSocialLinks.map((link) => (
-        <a aria-label={link.label} class="v4-footer-link" href={link.href} rel="noreferrer" target="_blank">
-          <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d={socialIconPaths[link.kind]} /></svg>
+        <a aria-label={link.label} href={link.href} rel="noreferrer" target="_blank">
+          <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d={iconPaths[link.kind]} /></svg>
         </a>
       ))}
-      <a aria-label={contactEmail.label} class="v4-footer-link" href={contactEmail.href}>
-        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><rect height="15" rx="2" width="20" x="2" y="4" /><path d="m3 6 9 7 9-7" /></svg>
+      <a aria-label={contactEmail.label} href={contactEmail.href}>
+        <svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><rect height="15" rx="2" width="20" x="2" y="4" /><path d="m3 6 9 7 9-7" /></svg>
       </a>
     </div>
   </footer>
 </div>
 
-<script is:inline>
+<script>
   const bindChrome = () => {
-    const navToggle = document.querySelector("[data-nav-toggle]");
-    const mobilePanel = document.querySelector("#mobile-nav-panel");
-    if (navToggle instanceof HTMLButtonElement && mobilePanel instanceof HTMLElement && !navToggle.dataset.bound) {
-      navToggle.dataset.bound = "true";
-      navToggle.addEventListener("click", () => {
-        const expanded = navToggle.getAttribute("aria-expanded") === "true";
-        navToggle.setAttribute("aria-expanded", String(!expanded));
-        navToggle.textContent = expanded
-          ? navToggle.dataset.closedLabel ?? "Menu"
-          : navToggle.dataset.openLabel ?? "Close";
-        mobilePanel.hidden = expanded;
-      });
+    const root = document.documentElement;
+    const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+    const navToggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+    const panel = document.querySelector<HTMLElement>("#mobile-nav-panel");
+
+    if (themeToggle) {
+      const isDark = root.dataset.theme === "dark";
+      themeToggle.setAttribute("aria-pressed", String(isDark));
+      themeToggle.onclick = () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("trejodev-theme", next);
+        themeToggle.setAttribute("aria-pressed", String(next === "dark"));
+      };
     }
 
-    document.querySelectorAll("[data-theme-toggle]").forEach((node) => {
-      if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
-      node.dataset.bound = "true";
-      node.addEventListener("click", () => {
-        document.documentElement.classList.toggle("v4-dark");
-      });
-    });
+    const closeMenu = (restoreFocus = false) => {
+      if (!navToggle || !panel) return;
+      const wasOpen = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", navToggle.dataset.openLabel ?? "Menu");
+      panel.dataset.open = "false";
+      panel.setAttribute("aria-hidden", "true");
+      panel.inert = true;
+      if (restoreFocus && wasOpen) navToggle.focus();
+    };
+
+    if (navToggle && panel) {
+      closeMenu();
+      navToggle.onclick = () => {
+        const open = navToggle.getAttribute("aria-expanded") !== "true";
+        if (!open) {
+          closeMenu(true);
+          return;
+        }
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? navToggle.dataset.closeLabel ?? "Close" : navToggle.dataset.openLabel ?? "Menu");
+        panel.dataset.open = String(open);
+        panel.setAttribute("aria-hidden", String(!open));
+        panel.inert = !open;
+        panel.querySelector<HTMLAnchorElement>("a")?.focus();
+      };
+      panel.onclick = (event) => {
+        if (event.target instanceof Element && event.target.closest("a")) closeMenu(true);
+      };
+      document.onkeydown = (event) => {
+        if (event.key !== "Escape") return;
+        event.preventDefault();
+        closeMenu(true);
+      };
+    }
+
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sections = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.dataset.visible = "true");
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          (entry.target as HTMLElement).dataset.visible = "true";
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
+      sections.forEach((section) => observer.observe(section));
+    }
   };
 
-  bindChrome();
+  document.addEventListener("astro:page-load", bindChrome);
 </script>

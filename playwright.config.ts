@@ -9,8 +9,8 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "pnpm exec next dev -H 127.0.0.1 -p 3101",
-    url: "http://127.0.0.1:3101/en/",
+    command: "pnpm preview --host 127.0.0.1 --port 3101",
+    url: "http://127.0.0.1:3101/en",
     reuseExistingServer: false,
     timeout: 120_000,
   },
