@@ -42,7 +42,7 @@ export const home: HomeContent = {
     [
       "DS",
       "Digitalmente Studio",
-      "Freelance Frontend Consultant (part-time)",
+      "Frontend Developer",
       "Entregué proyectos web y móviles; desplegué gestión de visitantes en dos complejos residenciales.",
       "2022 – Feb 2026",
       false,

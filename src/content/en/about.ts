@@ -32,15 +32,27 @@ export const about: AboutContent = {
   focusRows: [
     {
       label: "Frontend & mobile",
-      value: "Angular, React, Ionic, Capacitor, TypeScript",
+      value: "Angular, React, React Native, Ionic",
     },
     {
-      label: "Architecture & delivery",
-      value: "Micro Frontends, Module Federation, NgRx, Redux, Tailwind CSS",
+      label: "Backend & APIs",
+      value: "NestJS, Prisma ORM, PostgreSQL, REST APIs, Swagger/OpenAPI",
     },
     {
-      label: "Quality & platforms",
-      value: "Jest, React Testing Library, Firebase, Supabase, Docker",
+      label: "State management",
+      value: "NgRx, SignalStore, Redux",
+    },
+    {
+      label: "UI systems",
+      value: "Tailwind CSS, SCSS, PrimeNG, Storybook",
+    },
+    {
+      label: "Quality",
+      value: "Unit and component testing with Jest, React Testing Library, Karma, and Jasmine",
+    },
+    {
+      label: "Cloud & BaaS",
+      value: "Supabase, Firebase, Google Cloud Platform",
     },
   ],
 };
