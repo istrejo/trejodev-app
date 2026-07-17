@@ -3,12 +3,12 @@ import type { HomeContent } from "../types";
 export const home: HomeContent = {
   locale: "en",
   eyebrow: "FRONTEND / WEB + MOBILE",
-  title: "Alejandro Trejo — Software Developer",
+  title: "Software Developer",
   role: "Frontend Developer",
   location: "Tenerife, Spain",
   heroNote: "Architecture, technical quality, testing, and user experience.",
   description:
-    "4+ years building scalable web and mobile applications with Angular, React, and Ionic/Capacitor for distributed teams across Latin America and the US. Reduced load times by up to 80% and improved Lighthouse scores from 50 to 90.",
+    "Alejandro Trejo is a Software Developer with 4+ years building scalable web and mobile applications with Angular, React, and Ionic/Capacitor for distributed teams across Latin America and the US. He has reduced load times by up to 80% and improved Lighthouse scores from 50 to 90.",
   primaryCta: "Read about me",
   secondaryCta: "View work",
   contactCta: "Get in touch",

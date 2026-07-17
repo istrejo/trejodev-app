@@ -40,7 +40,6 @@ Datos principales:
 - Marca del portfolio: **TrejoDev**
 - Rol objetivo: **Frontend Developer**
 - Ubicación: **Tenerife, España**
-- Email: **istrejo2106@gmail.com**
 - LinkedIn: `linkedin.com/in/alejandrotrejodev`
 - GitHub: `github.com/istrejo`
 - Idiomas: Español nativo, Inglés B1 en mejora activa
@@ -600,16 +599,12 @@ No usar formulario de contacto por ahora.
 
 Usar botones directos:
 
-- Email
 - LinkedIn
 - GitHub
-- Descargar CV en inglés
-- Descargar CV en español
 
 ### Datos de contacto
 
 ```txt
-Email: istrejo2106@gmail.com
 LinkedIn: linkedin.com/in/alejandrotrejodev
 GitHub: github.com/istrejo
 Location: Tenerife, Spain
@@ -617,8 +612,6 @@ Location: Tenerife, Spain
 
 ### Funcionalidad deseable
 
-- Botón “Copy email”.
-- Link `mailto:`.
 - Links externos abren en nueva pestaña.
 - Los botones deben ser accesibles con teclado.
 

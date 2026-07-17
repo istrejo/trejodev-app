@@ -3,7 +3,6 @@ import type { Locale } from "@/lib/i18n";
 import type { RouteTarget } from "@/lib/routes";
 import {
   chromeCopy,
-  contactEmail,
   localeSwitchPath,
   profileSocialLinks,
   v4NavItems,
@@ -77,9 +76,6 @@ const iconPaths = {
           <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d={iconPaths[link.kind]} /></svg>
         </a>
       ))}
-      <a aria-label={contactEmail.label} href={contactEmail.href}>
-        <svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><rect height="15" rx="2" width="20" x="2" y="4" /><path d="m3 6 9 7 9-7" /></svg>
-      </a>
     </div>
   </footer>
 </div>

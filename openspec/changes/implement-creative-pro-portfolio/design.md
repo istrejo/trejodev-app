@@ -6,13 +6,13 @@ Create a static-first Next.js App Router app with TypeScript, Tailwind, and loca
 
 ## Architecture Decisions
 
-| Option                                                                 | Tradeoff                                                                                | Decision                                                                                                    |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `output: 'export'` on classic Firebase Hosting vs Firebase App Hosting | Static export limits runtime features but fits content-only v1 and simpler rollout.     | Use classic Hosting for v1; avoid middleware/server actions for public content.                             |
-| Shared slugs vs localized slugs                                        | Shared slugs reduce route mapping, switcher, and metadata complexity.                   | Use `/en/about` and `/es/about` for v1. Centralize route definitions for future localized slugs.            |
-| Typed TS content modules vs CMS/JSON                                   | TS modules require deploys for copy changes but keep v1 dependency-light and type-safe. | Store content in `src/content/{en,es}` and shared structured data in `src/data`.                            |
-| Server Components by default vs client-heavy UI                        | Client components enable richer interactions but add JS weight.                         | Keep pages/sections server-rendered; only language/mobile/copy-email interactions become client components. |
-| Chained PRs vs one large PR                                            | One PR will likely exceed the 400-line budget.                                          | Recommend stacked/chained slices before apply: foundation, content/pages, quality/deploy.                   |
+| Option                                                                 | Tradeoff                                                                                | Decision                                                                                              |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `output: 'export'` on classic Firebase Hosting vs Firebase App Hosting | Static export limits runtime features but fits content-only v1 and simpler rollout.     | Use classic Hosting for v1; avoid middleware/server actions for public content.                       |
+| Shared slugs vs localized slugs                                        | Shared slugs reduce route mapping, switcher, and metadata complexity.                   | Use `/en/about` and `/es/about` for v1. Centralize route definitions for future localized slugs.      |
+| Typed TS content modules vs CMS/JSON                                   | TS modules require deploys for copy changes but keep v1 dependency-light and type-safe. | Store content in `src/content/{en,es}` and shared structured data in `src/data`.                      |
+| Server Components by default vs client-heavy UI                        | Client components enable richer interactions but add JS weight.                         | Keep pages/sections server-rendered; only language and mobile-menu interactions require browser code. |
+| Chained PRs vs one large PR                                            | One PR will likely exceed the 400-line budget.                                          | Recommend stacked/chained slices before apply: foundation, content/pages, quality/deploy.             |
 
 ## Data Flow
 
@@ -52,7 +52,7 @@ type PageKey =
 type Route = { key: PageKey; slug: string; nav: boolean };
 type CvAsset = { locale: Locale; href: `/cv/${string}.pdf`; label: string };
 type ProfileLink = {
-  kind: "email" | "linkedin" | "github";
+  kind: "linkedin" | "github";
   href: string;
   label: string;
 };

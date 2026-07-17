@@ -61,6 +61,30 @@ test("theme preference persists", async ({ page }) => {
   );
 });
 
+test("home leads with the role and introduces Alejandro Trejo", async ({
+  page,
+}) => {
+  for (const route of ["/en", "/es"]) {
+    await page.goto(route);
+    await expect(page.locator("main h1")).toHaveText("Software Developer");
+    await expect(page.locator("main")).toContainText("Alejandro Trejo");
+  }
+});
+
+test("contact only exposes GitHub and LinkedIn profiles", async ({ page }) => {
+  await page.goto("/en/contact");
+  const links = page.locator("main a");
+  await expect(links).toHaveCount(2);
+  await expect(links.nth(0)).toHaveAttribute(
+    "href",
+    "https://linkedin.com/in/alejandrotrejodev",
+  );
+  await expect(links.nth(1)).toHaveAttribute(
+    "href",
+    "https://github.com/istrejo",
+  );
+});
+
 test("mobile menu opens and navigates", async ({ page }, testInfo) => {
   test.skip(
     !testInfo.project.name.includes("mobile"),

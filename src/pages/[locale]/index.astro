@@ -9,14 +9,13 @@ import { pathFor } from "@/lib/routes";
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
 const home = contentFor(locale).home;
-const name = home.title.split(" — ")[0] ?? home.title;
 ---
 
 <LocaleLayout locale={locale} route="home" heading={home.title} description={home.description}>
   <section class="page-hero">
     <div class="container hero-copy" data-reveal>
       <p class="eyebrow">{home.eyebrow}</p>
-      <h1 class="display-title">{name}<span aria-hidden="true" class="text-cursor"></span></h1>
+      <h1 class="display-title">{home.title}<span aria-hidden="true" class="text-cursor"></span></h1>
       <p class="lead">{home.description}</p>
       <div class="hero-meta"><span>{home.role}</span><span>{home.location}</span><span>{home.heroNote}</span></div>
       <div class="button-row">

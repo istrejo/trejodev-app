@@ -12,27 +12,15 @@ export const chromeCopy = {
     menu: "Menu",
     close: "Close",
     locale: "Switch language to Spanish",
-    copy: "Copy email",
-    copied: "Email copied",
-    failed: "Copy failed",
   },
   es: {
     menu: "Menú",
     close: "Cerrar",
     locale: "Cambiar idioma a inglés",
-    copy: "Copiar email",
-    copied: "Email copiado",
-    failed: "No se pudo copiar",
   },
 } as const;
 
-export const contactEmail = profileLinks.find((link) => link.kind === "email")!;
-export const profileSocialLinks = profileLinks.filter(
-  (
-    link,
-  ): link is (typeof profileLinks)[number] & { kind: "linkedin" | "github" } =>
-    link.kind !== "email",
-);
+export const profileSocialLinks = profileLinks;
 
 export function v4NavItems(locale: Locale) {
   return v4NavRoutes.map((route) => ({

@@ -1,6 +1,6 @@
 # TrejoDev Portfolio
 
-Static-first bilingual portfolio for Alejandro Trejo. Astro renders every page at build time; a few small browser scripts provide theme persistence, the mobile menu, copy-to-clipboard, section reveals, and page transitions.
+Static-first bilingual portfolio for Alejandro Trejo. Astro renders every page at build time; a few small browser scripts provide theme persistence, the mobile menu, section reveals, and page transitions.
 
 ## Quick path
 

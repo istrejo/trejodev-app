@@ -4,8 +4,8 @@ export const contact: ContactContent = {
   eyebrow: "Abierto a oportunidades frontend",
   title: "Hablemos sobre trabajo frontend que necesita claridad y cuidado.",
   description:
-    "Sin formulario por ahora. Los enlaces directos mantienen la experiencia simple: email, LinkedIn y GitHub.",
-  intro:
-    "Para v1 no hace falta formulario. La vía más rápida es email o LinkedIn, con GitHub disponible para contexto técnico.",
-  copyEmail: "Copiar email",
+    "Sin formulario por ahora. LinkedIn y GitHub mantienen la conversación y el contexto técnico accesibles.",
+  profilesTitle: "Encuéntrame donde vive el trabajo.",
+  profilesDescription:
+    "LinkedIn aporta contexto profesional actualizado, mientras GitHub facilita revisar el trabajo técnico.",
 };

@@ -3,12 +3,12 @@ import type { HomeContent } from "../types";
 export const home: HomeContent = {
   locale: "es",
   eyebrow: "FRONTEND / WEB + MOBILE",
-  title: "Alejandro Trejo — Software Developer",
+  title: "Software Developer",
   role: "Frontend Developer",
   location: "Tenerife, España",
   heroNote: "Arquitectura, calidad técnica, testing y experiencia de usuario.",
   description:
-    "Más de 4 años construyendo aplicaciones web y móviles escalables con Angular, React e Ionic/Capacitor para equipos distribuidos en Latinoamérica y Estados Unidos. Reduje tiempos de carga hasta un 80% y mejoré Lighthouse de 50 a 90.",
+    "Alejandro Trejo es Software Developer con más de 4 años construyendo aplicaciones web y móviles escalables con Angular, React e Ionic/Capacitor para equipos distribuidos en Latinoamérica y Estados Unidos. Ha reducido tiempos de carga hasta un 80% y mejorado Lighthouse de 50 a 90.",
   primaryCta: "Leer sobre mí",
   secondaryCta: "Ver trabajo",
   contactCta: "Hablemos",

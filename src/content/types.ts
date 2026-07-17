@@ -76,8 +76,8 @@ export type CertificationsContent = PageText & {
 };
 
 export type ContactContent = PageText & {
-  intro: string;
-  copyEmail: string;
+  profilesTitle: string;
+  profilesDescription: string;
 };
 
 export type ProjectPlaceholderAsset = {
