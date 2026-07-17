@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeStaticPaths } from "@/lib/astro-static-paths";
+
+export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+const locale = Astro.params.locale as Locale;
+---
+
+<LocaleLayout locale={locale} route="about" heading={locale === "en" ? "About shell" : "Shell de Sobre mí"} description={locale === "en" ? "About content stays out of scope until the dedicated route slice lands." : "El contenido de Sobre mí queda fuera de alcance hasta que llegue el slice dedicado."}>
+  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
+    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "About shell" : "Shell de Sobre mí"}</h1>
+    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "About content stays out of scope until the dedicated route slice lands." : "El contenido de Sobre mí queda fuera de alcance hasta que llegue el slice dedicado."}</p>
+  </section>
+</LocaleLayout>

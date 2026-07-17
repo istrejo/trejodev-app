@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeStaticPaths } from "@/lib/astro-static-paths";
+
+export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+const locale = Astro.params.locale as Locale;
+---
+
+<LocaleLayout locale={locale} route="home" heading={locale === "en" ? "Astro route shell" : "Shell de rutas Astro"} description={locale === "en" ? "Static bilingual foundation for the V4 migration. Page content and shared chrome arrive in later slices." : "Base bilingüe estática para la migración V4. El contenido y el chrome compartido llegan en slices posteriores."}>
+  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
+    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Astro route shell" : "Shell de rutas Astro"}</h1>
+    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Home is intentionally a placeholder in this foundation work unit." : "Inicio es intencionalmente un placeholder en esta unidad base."}</p>
+  </section>
+</LocaleLayout>

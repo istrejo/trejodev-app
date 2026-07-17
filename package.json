@@ -3,9 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.16.0",
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@vitejs/plugin-react>vite": "8"
+      }
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "astro:dev": "astro dev",
+    "astro:build": "astro build",
+    "astro:sync": "astro sync",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "eslint src e2e next.config.ts playwright.config.ts tailwind.config.ts vitest.config.ts --max-warnings=0",

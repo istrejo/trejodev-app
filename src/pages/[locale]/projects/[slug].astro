@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { ProjectSlug } from "@/content";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeProjectStaticPaths } from "@/lib/astro-static-paths";
+
+export const getStaticPaths = (() => localeProjectStaticPaths()) satisfies GetStaticPaths;
+
+const locale = Astro.params.locale as Locale;
+const slug = Astro.params.slug as ProjectSlug;
+---
+
+<LocaleLayout locale={locale} route={{ key: "project-detail", slug }} heading={locale === "en" ? "Project detail shell" : "Shell del detalle del proyecto"} description={locale === "en" ? "Static locale and slug shell for a later detail slice." : "Shell estático de locale y slug para un slice posterior del detalle."}>
+  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
+    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Project detail shell" : "Shell del detalle del proyecto"}</h1>
+    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Static locale and slug shell only. Project narrative, facts, media, and links stay out of scope for this foundation slice." : "Solo shell estático de locale y slug. La narrativa, los facts, los medios y los links del proyecto quedan fuera de alcance en este slice base."}</p>
+    <p class="mt-4 text-sm text-slate">{locale === "en" ? "Approved slug placeholder:" : "Placeholder del slug aprobado:"} <code>{slug}</code></p>
+  </section>
+</LocaleLayout>

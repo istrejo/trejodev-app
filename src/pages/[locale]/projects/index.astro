@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { Locale } from "@/lib/i18n";
+import LocaleLayout from "@/layouts/LocaleLayout.astro";
+import { localeStaticPaths } from "@/lib/astro-static-paths";
+
+export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+const locale = Astro.params.locale as Locale;
+---
+
+<LocaleLayout locale={locale} route="projects" heading={locale === "en" ? "Projects shell" : "Shell de Proyectos"} description={locale === "en" ? "Approved project slugs exist, but cards and editorial content stay out of this foundation slice." : "Los slugs aprobados existen, pero las cards y el contenido editorial quedan fuera de este slice base."}>
+  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
+    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Projects shell" : "Shell de Proyectos"}</h1>
+    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Approved project slugs exist, but cards and editorial content stay out of this foundation slice." : "Los slugs aprobados existen, pero las cards y el contenido editorial quedan fuera de este slice base."}</p>
+  </section>
+</LocaleLayout>

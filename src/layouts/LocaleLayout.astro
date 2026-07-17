@@ -1,0 +1,35 @@
+---
+import type { Locale } from "@/lib/i18n";
+import type { ProjectSlug } from "@/content";
+import { pageMetadata } from "@/lib/metadata";
+import "../app/globals.css";
+
+type RouteTarget = "home" | "about" | "work" | "projects" | { key: "project-detail"; slug: ProjectSlug };
+
+interface Props {
+  locale: Locale;
+  route: RouteTarget;
+  heading: string;
+  description: string;
+}
+
+const { locale, route, heading, description } = Astro.props;
+const meta = pageMetadata(locale, route, heading, description);
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={meta.alternates.canonical} />
+    <link rel="alternate" hreflang="en" href={meta.alternates.languages.en} />
+    <link rel="alternate" hreflang="es" href={meta.alternates.languages.es} />
+  </head>
+  <body class="font-sans antialiased">
+    <main class="min-h-screen bg-bone px-5 py-10 text-ink">
+      <slot />
+    </main>
+  </body>
+</html>
