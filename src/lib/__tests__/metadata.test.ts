@@ -9,7 +9,7 @@ describe("metadata", () => {
       "Contacto",
       "Mensaje localizado",
     );
-    expect(metadata.title).toBe("Contacto | TrejoDev - Frontend Developer");
+    expect(metadata.title).toBe("Contacto | TrejoDev - Software Developer");
     expect(metadata.description).toBe("Mensaje localizado");
     expect(metadata.alternates?.languages).toMatchObject({
       en: expect.stringContaining("/en/contact"),
@@ -33,5 +33,13 @@ describe("metadata", () => {
       en: "https://trejodev.web.app/en/projects/racerlab",
       es: "https://trejodev.web.app/es/projects/racerlab",
     });
+  });
+
+  it("uses Software Developer in the fallback SEO description", () => {
+    const metadata = pageMetadata("en", "contact");
+
+    expect(metadata.description).toContain("Software Developer");
+    expect(metadata.openGraph.description).toBe(metadata.description);
+    expect(metadata.twitter.description).toBe(metadata.description);
   });
 });

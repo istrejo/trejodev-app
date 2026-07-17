@@ -17,12 +17,6 @@ export type HomeTimelineEntry = readonly [
 
 export type HomeContent = PageText & {
   locale: Locale;
-  role: string;
-  location: string;
-  heroNote: string;
-  primaryCta: string;
-  secondaryCta: string;
-  contactCta: string;
   signals: string[];
   proofTitle: string;
   proofHeading: string;
@@ -79,14 +73,20 @@ export type ContactContent = PageText & {
   profilesDescription: string;
 };
 
-export type ProjectPlaceholderAsset = {
-  kind: "placeholder";
-  name: string;
+export type ProjectImage = {
+  src: string;
+  alt: string;
+  caption: string;
 };
 
-export type ProjectPlaceholderLink = {
-  kind: "disabled";
-  reason: string;
+export type ProjectRepository = {
+  label: string;
+  href: string;
+};
+
+export type ProjectSection = {
+  title: string;
+  description: string;
 };
 
 export type ProjectContent = {
@@ -96,9 +96,11 @@ export type ProjectContent = {
   role: string;
   period: string;
   locale: Locale;
-  cover: ProjectPlaceholderAsset;
-  screenshots: ProjectPlaceholderAsset[];
-  publicUrl: ProjectPlaceholderLink;
+  cover: ProjectImage;
+  screenshots: ProjectImage[];
+  foundation: ProjectSection[];
+  roadmap: ProjectSection;
+  repositories: ProjectRepository[];
 };
 
 export type ProjectsContent = PageText & {

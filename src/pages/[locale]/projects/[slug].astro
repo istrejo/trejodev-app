@@ -7,56 +7,135 @@ import { pathFor } from "@/lib/routes";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeProjectStaticPaths } from "@/lib/astro-static-paths";
 
-export const getStaticPaths = (() => localeProjectStaticPaths()) satisfies GetStaticPaths;
+export const getStaticPaths = (() =>
+  localeProjectStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
 const slug = Astro.params.slug as ProjectSlug;
 const project = projectFor(locale, slug);
 if (!project) throw new Error(`Missing project content for ${locale}/${slug}`);
 
-const copy = locale === "en" ? {
-  back: "Back to projects",
-  overview: "Project overview",
-  contribution: "Contribution",
-  contributionText: "Defined the product and technical foundation for an automotive workshop management SaaS.",
-  status: "Public case-study status",
-  statusText: "Approved product media and a public URL are still pending. The page deliberately avoids unverified screenshots or links.",
-  role: "Role",
-  period: "Period",
-  visual: "RacerLab product visual — approved media pending",
-} : {
-  back: "Volver a proyectos",
-  overview: "Resumen del proyecto",
-  contribution: "Contribución",
-  contributionText: "Definí el producto y la base técnica de un SaaS para gestión de talleres automotrices.",
-  status: "Estado del caso público",
-  statusText: "La media aprobada del producto y una URL pública siguen pendientes. La página evita deliberadamente capturas o enlaces no verificados.",
-  role: "Rol",
-  period: "Período",
-  visual: "Visual de producto RacerLab — media aprobada pendiente",
-};
+const copy =
+  locale === "en"
+    ? {
+        back: "Back to projects",
+        overview: "Project overview",
+        foundation: "Implemented foundation",
+        roadmap: "Roadmap status",
+        gallery: "Product interface gallery",
+        repositories: "Source repositories",
+        role: "Role",
+        period: "Period",
+      }
+    : {
+        back: "Volver a proyectos",
+        overview: "Resumen del proyecto",
+        foundation: "Base implementada",
+        roadmap: "Estado del roadmap",
+        gallery: "Galería de interfaces del producto",
+        repositories: "Repositorios de código fuente",
+        role: "Rol",
+        period: "Período",
+      };
 ---
 
-<LocaleLayout locale={locale} route={{ key: "project-detail", slug }} heading={project.name} description={project.summary}>
+<LocaleLayout
+  locale={locale}
+  route={{ key: "project-detail", slug }}
+  heading={project.name}
+  description={project.summary}
+>
   <section class="page-hero project-detail-hero">
     <div class="container hero-grid">
       <div class="hero-copy" data-reveal>
         <p class="eyebrow">{copy.overview}</p>
         <h1 class="page-title">{project.name}</h1>
         <p class="lead">{project.summary}</p>
-        <dl class="project-meta"><div><dt>{copy.role}</dt><dd>{project.role}</dd></div><div><dt>{copy.period}</dt><dd>{project.period}</dd></div></dl>
+        <dl class="project-meta">
+          <div><dt>{copy.role}</dt><dd>{project.role}</dd></div><div>
+            <dt>{copy.period}</dt><dd>{project.period}</dd>
+          </div>
+        </dl>
       </div>
-      <div data-reveal><a class="button" href={pathFor(locale, "projects")}>← {copy.back}</a></div>
+      <div data-reveal>
+        <a class="button" href={pathFor(locale, "projects")}>← {copy.back}</a>
+      </div>
     </div>
   </section>
 
   <section class="section surface">
-    <div class="container" data-reveal><ProjectVisual label={copy.visual} large /></div>
+    <div class="container" data-reveal>
+      <ProjectVisual
+        alt={project.cover.alt}
+        caption={project.cover.caption}
+        large
+        src={project.cover.src}
+      />
+    </div>
   </section>
 
   <section class="section">
     <div class="container split-grid" data-reveal>
-      <div><p class="eyebrow">{copy.contribution}</p><h2>{copy.contribution}</h2></div>
-      <div class="stack-list"><article class="stack-row"><h3>{project.role}</h3><p>{copy.contributionText}</p></article><article class="stack-row"><h3>{copy.status}</h3><p>{copy.statusText}</p></article></div>
+      <div>
+        <p class="eyebrow">{copy.foundation}</p><h2>{copy.foundation}</h2>
+      </div>
+      <div class="stack-list">
+        {
+          project.foundation.map((section) => (
+            <article class="stack-row">
+              <>
+                <h3>{section.title}</h3>
+                <p>{section.description}</p>
+              </>
+            </article>
+          ))
+        }
+        <article class="stack-row">
+          <h3>{copy.roadmap}</h3><p>{project.roadmap.description}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="project-gallery" class="section surface">
+    <div class="container" data-reveal>
+      <p class="eyebrow">{copy.gallery}</p>
+      <h2 id="project-gallery">{copy.gallery}</h2>
+      <div class="project-gallery">
+        {
+          project.screenshots.map((screenshot) => (
+            <ProjectVisual
+              alt={screenshot.alt}
+              caption={screenshot.caption}
+              src={screenshot.src}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="project-repositories" class="section">
+    <div class="container split-grid" data-reveal>
+      <div>
+        <p class="eyebrow">{copy.repositories}</p><h2 id="project-repositories">
+          {copy.repositories}
+        </h2>
+      </div>
+      <div class="project-repositories">
+        {
+          project.repositories.map((repository) => (
+            <a
+              class="button button-secondary"
+              href={repository.href}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {repository.label}
+              <span aria-hidden="true"> ↗</span>
+            </a>
+          ))
+        }
+      </div>
     </div>
   </section>
 </LocaleLayout>

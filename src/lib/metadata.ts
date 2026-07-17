@@ -32,11 +32,11 @@ export type SeoMetadata = {
 };
 
 const descriptions: Record<Locale, string> = {
-  en: "Alejandro Trejo builds modern web and mobile interfaces with React, Angular, TypeScript, Ionic and scalable frontend architectures.",
-  es: "Alejandro Trejo crea interfaces web y móviles modernas con React, Angular, TypeScript, Ionic y arquitecturas frontend escalables.",
+  en: "Alejandro Trejo is a Software Developer building modern web and mobile applications with React, Angular, TypeScript and Ionic.",
+  es: "Alejandro Trejo es Software Developer y crea aplicaciones web y móviles modernas con React, Angular, TypeScript e Ionic.",
 };
 
-const titleSuffix = "TrejoDev - Frontend Developer";
+const titleSuffix = "TrejoDev - Software Developer";
 
 function titleForRoute(locale: Locale, route: MetadataRoute) {
   if (typeof route === "object") {

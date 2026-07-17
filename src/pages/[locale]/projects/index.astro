@@ -7,12 +7,18 @@ import { projectDetailPath } from "@/lib/routes";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
 
-export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+export const getStaticPaths = (() =>
+  localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
 const projects = contentFor(locale).projects;
 ---
 
-<LocaleLayout locale={locale} route="projects" heading={projects.title} description={projects.description}>
+<LocaleLayout
+  locale={locale}
+  route="projects"
+  heading={projects.title}
+  description={projects.description}
+>
   <section class="page-hero narrow">
     <div class="container hero-copy" data-reveal>
       <p class="eyebrow">{projects.eyebrow}</p>
@@ -21,16 +27,35 @@ const projects = contentFor(locale).projects;
     </div>
   </section>
 
-  <section aria-label={locale === "en" ? "Selected projects" : "Proyectos seleccionados"} class="section surface">
+  <section
+    aria-label={locale === "en"
+      ? "Selected projects"
+      : "Proyectos seleccionados"}
+    class="section surface"
+  >
     <div class="container project-grid" data-reveal>
-      {projects.projects.map((project) => (
-        <article class="card project-card">
-          <a href={projectDetailPath(locale, project.slug)}>
-            <ProjectVisual label={`${project.name} — ${locale === "en" ? "approved visual pending" : "visual aprobado pendiente"}`} />
-            <div class="project-card-copy"><h2>{project.name}</h2><p>{project.summary}</p><p class="card-footer">{project.role} · {project.period}</p></div>
-          </a>
-        </article>
-      ))}
+      {
+        projects.projects.map((project) => (
+          <article class="card project-card">
+            <a href={projectDetailPath(locale, project.slug)}>
+              <ProjectVisual
+                alt={project.cover.alt}
+                caption={project.cover.caption}
+                src={project.cover.src}
+              />
+              <div class="project-card-copy">
+                <>
+                  <h2>{project.name}</h2>
+                  <p>{project.summary}</p>
+                  <p class="card-footer">
+                    {project.role} · {project.period}
+                  </p>
+                </>
+              </div>
+            </a>
+          </article>
+        ))
+      }
     </div>
   </section>
 </LocaleLayout>

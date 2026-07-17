@@ -50,6 +50,38 @@ test("language switch keeps the equivalent project route", async ({
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
 });
 
+test("RacerLab project pages use local product media and source repositories", async ({
+  page,
+}) => {
+  for (const route of ["/en", "/es"] as const) {
+    const locale = route.slice(1);
+    await page.goto(`${route}/projects`);
+    await expect(page.locator(".project-card img")).toHaveAttribute(
+      "src",
+      "/projects/raceplab/screen.png",
+    );
+
+    await page.goto(`${route}/projects/racerlab`);
+    const gallery = page.locator(".project-gallery");
+    await expect(gallery.getByRole("img")).toHaveCount(4);
+    await expect(gallery.getByRole("img").nth(2)).toHaveAttribute(
+      "src",
+      /\/projects\/raceplab\/screen(?:%20| )3\.png/,
+    );
+    await expect(
+      page.getByRole("link", {
+        name:
+          locale === "en" ? "View API repository" : "Ver repositorio de la API",
+      }),
+    ).toHaveAttribute("href", "https://github.com/istrejo/racerlab-api");
+    await expect(
+      page.getByRole("link", {
+        name: locale === "en" ? "View web repository" : "Ver repositorio web",
+      }),
+    ).toHaveAttribute("href", "https://github.com/istrejo/racerlab-web");
+  }
+});
+
 test("theme preference persists", async ({ page }) => {
   await page.goto("/en");
   await page.getByRole("button", { name: "Toggle color theme" }).click();
@@ -61,6 +93,29 @@ test("theme preference persists", async ({ page }) => {
   );
 });
 
+test("theme preference survives client-side navigation", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name.includes("mobile"),
+    "Desktop navigation regression check",
+  );
+  await page.goto("/en");
+  await page.getByRole("button", { name: "Toggle color theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.getByRole("banner").getByRole("link", { name: "About" }).click();
+  await expect(page).toHaveURL(/\/en\/about\/?$/);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page
+    .getByRole("banner")
+    .getByRole("link", { name: "Home", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/en\/?$/);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
 test("home leads with the role and introduces Alejandro Trejo", async ({
   page,
 }) => {
@@ -68,7 +123,37 @@ test("home leads with the role and introduces Alejandro Trejo", async ({
     await page.goto(route);
     await expect(page.locator("main h1")).toHaveText("Software Developer");
     await expect(page.locator("main")).toContainText("Alejandro Trejo");
+    await expect(page.locator(".hero-meta")).toHaveCount(0);
+    const heroLinks = page.locator(".page-hero .button-row a");
+    await expect(heroLinks).toHaveCount(2);
+    await expect(heroLinks.nth(0)).toHaveAttribute(
+      "href",
+      "https://linkedin.com/in/alejandrotrejodev",
+    );
+    await expect(heroLinks.nth(1)).toHaveAttribute(
+      "href",
+      "https://github.com/istrejo",
+    );
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+      "href",
+      "/logo.png",
+    );
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+      "type",
+      "image/png",
+    );
   }
+});
+
+test("header logo is readable in each theme", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/en");
+  const logo = page.getByRole("img", { name: "Alejandro Trejo logo" });
+  await expect(logo).toHaveAttribute("src", "/logo.png");
+  await expect(logo).toHaveCSS("filter", "invert(1)");
+
+  await page.getByRole("button", { name: "Toggle color theme" }).click();
+  await expect(logo).toHaveCSS("filter", "none");
 });
 
 test("contact only exposes GitHub and LinkedIn profiles", async ({ page }) => {

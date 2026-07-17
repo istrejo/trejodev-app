@@ -4,6 +4,7 @@ import { contentFor } from "@/content";
 import type { Locale } from "@/lib/i18n";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
+import { profileLinks } from "@/data/links";
 import { pathFor } from "@/lib/routes";
 
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
@@ -17,11 +18,17 @@ const home = contentFor(locale).home;
       <p class="eyebrow">{home.eyebrow}</p>
       <h1 class="display-title">{home.title}<span aria-hidden="true" class="text-cursor"></span></h1>
       <p class="lead">{home.description}</p>
-      <div class="hero-meta"><span>{home.role}</span><span>{home.location}</span><span>{home.heroNote}</span></div>
       <div class="button-row">
-        <a class="button primary" href={pathFor(locale, "projects")}>{home.secondaryCta}</a>
-        <a class="button" href={pathFor(locale, "about")}>{home.primaryCta}</a>
-        <a class="button" href={pathFor(locale, "contact")}>{home.contactCta}</a>
+        {profileLinks.map((link, index) => (
+          <a
+            class:list={["button", { primary: index === 0 }]}
+            href={link.href}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
     </div>
   </section>

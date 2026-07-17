@@ -4,7 +4,7 @@ export const about: AboutContent = {
   eyebrow: "Sobre mí",
   title: "Soy Alejandro Trejo.",
   description:
-    "Frontend Developer en Tenerife, España, construyendo productos web y móviles confiables para equipos distribuidos en Latinoamérica y Estados Unidos.",
+    "Software Developer en Tenerife, España, construyendo productos web y móviles confiables para equipos distribuidos en Latinoamérica y Estados Unidos.",
   paragraphs: [
     "Construyo productos web y móviles para equipos distribuidos en Latinoamérica y Estados Unidos, cuidando los detalles que convierten una idea en una herramienta confiable para el día a día.",
     "Mi foco está en mantenibilidad, calidad técnica, testing y experiencia de usuario para que los equipos reciban interfaces que puedan entender, evolucionar y confiar.",
