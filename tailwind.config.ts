@@ -4,16 +4,19 @@ const config: Config = {
   content: ["./src/**/*.{astro,js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      colors: {
-        ink: "#0a0a0a",
-        bone: "#fbfaf7",
-        paper: "#ffffff",
-        slate: "#525252",
-        line: "rgba(10, 10, 10, 0.1)",
-        ember: "#ff6b35",
-        mint: "#86efac",
-        sky: "#93c5fd",
-      },
+        colors: {
+          ink: "#0a0a0a",
+          bone: "#fbfaf7",
+          paper: "#ffffff",
+          slate: "#525252",
+          line: "rgba(10, 10, 10, 0.1)",
+          ember: "#ff6b35",
+          mint: "#86efac",
+          sky: "#93c5fd",
+          offwhite: "#f7f5ef",
+          zinc: "#18181b",
+          docker: "#1d63ed",
+        },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
         display: [

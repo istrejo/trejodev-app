@@ -1,10 +1,10 @@
 ---
 import type { Locale } from "@/lib/i18n";
-import type { ProjectSlug } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
+import type { RouteTarget } from "@/lib/routes";
+import SiteChrome from "@/components/v4/SiteChrome.astro";
 import "../app/globals.css";
-
-type RouteTarget = "home" | "about" | "work" | "projects" | { key: "project-detail"; slug: ProjectSlug };
+import "../styles/v4.css";
 
 interface Props {
   locale: Locale;
@@ -28,8 +28,10 @@ const meta = pageMetadata(locale, route, heading, description);
     <link rel="alternate" hreflang="es" href={meta.alternates.languages.es} />
   </head>
   <body class="font-sans antialiased">
-    <main class="min-h-screen bg-bone px-5 py-10 text-ink">
-      <slot />
-    </main>
+    <SiteChrome locale={locale} route={route}>
+      <main class="min-h-screen px-5 pb-10 pt-8 text-ink sm:px-8 lg:px-10">
+        <slot />
+      </main>
+    </SiteChrome>
   </body>
 </html>

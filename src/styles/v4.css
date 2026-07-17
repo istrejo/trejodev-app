@@ -1,0 +1,133 @@
+:root {
+  --v4-canvas: #f7f5ef;
+  --v4-surface: rgba(255, 253, 250, 0.92);
+  --v4-ink: #18181b;
+  --v4-muted: #52525b;
+  --v4-border: rgba(24, 24, 27, 0.12);
+  --v4-accent: #1d63ed;
+}
+
+body {
+  background: linear-gradient(180deg, var(--v4-canvas) 0%, #fffdfa 100%);
+  color: var(--v4-ink);
+}
+
+.v4-shell {
+  min-height: 100vh;
+  padding: 1.25rem 1.25rem 4rem;
+}
+
+.v4-floating-nav,
+.v4-mobile-panel,
+.v4-footer {
+  margin: 0 auto;
+  max-width: 72rem;
+  border: 1px solid var(--v4-border);
+  background: var(--v4-surface);
+  backdrop-filter: blur(18px);
+}
+
+.v4-floating-nav,
+.v4-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 999px;
+  padding: 0.9rem 1.1rem;
+}
+
+.v4-brand,
+.v4-nav,
+.v4-actions,
+.v4-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.v4-brand,
+.v4-nav-link,
+.v4-footer-link,
+.v4-copy-button,
+.v4-pill-button,
+.v4-mobile-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.v4-brand,
+.v4-kicker {
+  font-family: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.v4-brand span:first-child {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: var(--v4-accent);
+  color: #fff;
+}
+
+.v4-nav-desktop,
+.v4-footer-link,
+.v4-kicker {
+  color: var(--v4-muted);
+}
+
+.v4-pill-button,
+.v4-copy-button,
+.v4-mobile-link {
+  border: 1px solid var(--v4-border);
+  border-radius: 999px;
+  background: #fff;
+  padding: 0.65rem 0.9rem;
+  font: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.v4-mobile-toggle,
+.v4-mobile-panel {
+  display: none;
+}
+
+.v4-mobile-panel {
+  margin-top: 0.75rem;
+  border-radius: 1.5rem;
+  padding: 0.75rem;
+}
+
+.v4-footer {
+  margin-top: 3rem;
+}
+
+@media (max-width: 767px) {
+  .v4-nav-desktop {
+    display: none;
+  }
+
+  .v4-mobile-toggle,
+  .v4-mobile-panel {
+    display: flex;
+  }
+
+  .v4-floating-nav,
+  .v4-footer,
+  .v4-footer-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    border-radius: 1.75rem;
+  }
+
+  .v4-footer-actions,
+  .v4-mobile-panel {
+    width: 100%;
+  }
+}

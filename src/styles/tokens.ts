@@ -7,6 +7,9 @@ export const tokens = {
     ember: "#ff6b35",
     mint: "#86efac",
     sky: "#93c5fd",
+    offwhite: "#f7f5ef",
+    zinc: "#18181b",
+    docker: "#1d63ed",
   },
   radii: {
     card: "1.5rem",

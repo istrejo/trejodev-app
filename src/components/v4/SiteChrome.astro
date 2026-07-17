@@ -1,0 +1,120 @@
+---
+import type { Locale } from "@/lib/i18n";
+import type { RouteTarget } from "@/lib/routes";
+import { chromeCopy, contactEmail, localeSwitchPath, profileSocialLinks, v4NavItems } from "./chrome";
+
+interface Props {
+  locale: Locale;
+  route: RouteTarget;
+}
+
+const { locale, route } = Astro.props;
+const copy = chromeCopy[locale];
+const navItems = v4NavItems(locale);
+const switchPath = localeSwitchPath(locale, route);
+---
+
+<div class="v4-shell">
+  <header class="v4-floating-nav">
+    <a class="v4-brand" href={`/${locale}`}>
+      <span aria-hidden="true">TD</span>
+      <span>TrejoDev</span>
+    </a>
+    <nav aria-label={locale === "en" ? "Primary navigation" : "Navegación principal"} class="v4-nav v4-nav-desktop">
+      {navItems.map((item) => (
+        <a class="v4-nav-link" href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="v4-actions">
+      <button aria-label={copy.locale} class="v4-pill-button" data-locale-switch data-target={switchPath} type="button">
+        {locale.toUpperCase()} / {locale === "en" ? "ES" : "EN"}
+      </button>
+      <button aria-controls="mobile-nav-panel" aria-expanded="false" class="v4-pill-button v4-mobile-toggle" data-nav-toggle data-closed-label={copy.menu} data-open-label={copy.close} type="button">
+        {copy.menu}
+      </button>
+    </div>
+  </header>
+
+  <nav aria-label={locale === "en" ? "Mobile primary navigation" : "Navegación principal móvil"} class="v4-mobile-panel" hidden id="mobile-nav-panel">
+    {navItems.map((item) => (
+      <a class="v4-mobile-link" href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+
+  <slot />
+
+  <footer class="v4-footer">
+    <p class="v4-kicker">Alejandro Trejo · Frontend Developer · Tenerife, Spain</p>
+    <div class="v4-footer-actions">
+      <button class="v4-copy-button" data-copy-email data-copied={copy.copied} data-default={copy.copy} data-email={contactEmail.value} data-failed={copy.failed} type="button">
+        {copy.copy}
+      </button>
+      <a class="v4-footer-link" href={contactEmail.href}>{contactEmail.value}</a>
+      {profileSocialLinks.map((link) => (
+        <a class="v4-footer-link" href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+      ))}
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+  const bindChrome = () => {
+    const navToggle = document.querySelector("[data-nav-toggle]");
+    const mobilePanel = document.querySelector("#mobile-nav-panel");
+    if (navToggle instanceof HTMLButtonElement && mobilePanel instanceof HTMLElement && !navToggle.dataset.bound) {
+      navToggle.dataset.bound = "true";
+      navToggle.addEventListener("click", () => {
+        const expanded = navToggle.getAttribute("aria-expanded") === "true";
+        navToggle.setAttribute("aria-expanded", String(!expanded));
+        navToggle.textContent = expanded
+          ? navToggle.dataset.closedLabel ?? "Menu"
+          : navToggle.dataset.openLabel ?? "Close";
+        mobilePanel.hidden = expanded;
+      });
+    }
+
+    document.querySelectorAll("[data-locale-switch]").forEach((node) => {
+      if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
+      node.dataset.bound = "true";
+      node.addEventListener("click", () => {
+        const target = node.dataset.target;
+        if (target) window.location.assign(target);
+      });
+    });
+
+    document.querySelectorAll("[data-copy-email]").forEach((node) => {
+      if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
+      node.dataset.bound = "true";
+      node.addEventListener("click", async () => {
+        const email = node.dataset.email ?? "";
+        try {
+          await Promise.race([
+            navigator.clipboard.writeText(email),
+            new Promise((_, reject) =>
+              window.setTimeout(() => reject(new Error("Clipboard timeout")), 400),
+            ),
+          ]);
+          node.textContent = node.dataset.copied ?? "Copied";
+        } catch {
+          const fallback = document.createElement("textarea");
+          fallback.value = email;
+          fallback.setAttribute("readonly", "true");
+          fallback.style.position = "absolute";
+          fallback.style.left = "-9999px";
+          document.body.appendChild(fallback);
+          fallback.select();
+          const copied = document.execCommand("copy");
+          document.body.removeChild(fallback);
+          node.textContent = copied
+            ? node.dataset.copied ?? "Copied"
+            : node.dataset.failed ?? "Failed";
+        }
+        window.setTimeout(() => {
+          node.textContent = node.dataset.default ?? "Copy email";
+        }, 1800);
+      });
+    });
+  };
+
+  bindChrome();
+</script>
