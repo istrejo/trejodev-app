@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pageMetadata } from "../metadata";
+import { canonicalUrl, pageMetadata } from "../metadata";
 
 describe("metadata", () => {
   it("creates localized titles and alternates", () => {
@@ -14,6 +14,21 @@ describe("metadata", () => {
     expect(metadata.alternates?.languages).toMatchObject({
       en: expect.stringContaining("/en/contact"),
       es: expect.stringContaining("/es/contact"),
+    });
+  });
+
+  it("keeps detail canonicals and alternates trailing-slash-free", () => {
+    const metadata = pageMetadata("en", { key: "project-detail", slug: "racerlab" });
+
+    expect(canonicalUrl("en", { key: "project-detail", slug: "racerlab" })).toBe(
+      "https://trejodev.web.app/en/projects/racerlab",
+    );
+    expect(metadata.alternates?.canonical).toBe(
+      "https://trejodev.web.app/en/projects/racerlab",
+    );
+    expect(metadata.alternates?.languages).toEqual({
+      en: "https://trejodev.web.app/en/projects/racerlab",
+      es: "https://trejodev.web.app/es/projects/racerlab",
     });
   });
 });

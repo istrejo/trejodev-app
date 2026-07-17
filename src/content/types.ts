@@ -51,3 +51,30 @@ export type ContactContent = PageText & {
   intro: string;
   copyEmail: string;
 };
+
+export type ProjectPlaceholderAsset = {
+  kind: "placeholder";
+  name: string;
+};
+
+export type ProjectPlaceholderLink = {
+  kind: "disabled";
+  reason: string;
+};
+
+export type ProjectContent = {
+  slug: string;
+  name: string;
+  summary: string;
+  role: string;
+  period: string;
+  locale: Locale;
+  cover: ProjectPlaceholderAsset;
+  screenshots: ProjectPlaceholderAsset[];
+  publicUrl: ProjectPlaceholderLink;
+};
+
+export type ProjectsContent = PageText & {
+  emptyState: string;
+  projects: ProjectContent[];
+};

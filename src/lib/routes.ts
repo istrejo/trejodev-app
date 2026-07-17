@@ -1,4 +1,5 @@
-import { defaultLocale, type Locale, locales } from "./i18n";
+import { projectSlugs, type ProjectSlug } from "@/content";
+import { type Locale, locales } from "./i18n";
 
 export type PageKey =
   | "home"
@@ -7,7 +8,10 @@ export type PageKey =
   | "skills"
   | "certifications"
   | "contact"
+  | "work"
   | "projects";
+
+export type RouteTarget = PageKey | { key: "project-detail"; slug: ProjectSlug };
 
 export type Route = {
   key: PageKey;
@@ -49,6 +53,12 @@ export const routes: Route[] = [
     labels: { en: "Contact", es: "Contacto" },
   },
   {
+    key: "work",
+    slug: "work",
+    nav: false,
+    labels: { en: "Work", es: "Trabajo" },
+  },
+  {
     key: "projects",
     slug: "projects",
     nav: false,
@@ -57,6 +67,25 @@ export const routes: Route[] = [
 ];
 
 export const navRoutes = routes.filter((route) => route.nav);
+
+const v4NavKeys = ["home", "about", "work", "projects"] as const;
+
+export const v4NavRoutes = v4NavKeys.map((key) => ({
+  key,
+  slug: key === "home" ? "" : key,
+  nav: true,
+  labels: {
+    en: key === "work" ? "Work" : routeFor(key).labels.en,
+    es:
+      key === "home"
+        ? "Inicio"
+        : key === "about"
+          ? "Sobre mí"
+          : key === "work"
+            ? "Trabajo"
+            : "Proyectos",
+  },
+}));
 
 export function routeFor(key: PageKey) {
   const route = routes.find((item) => item.key === key);
@@ -73,17 +102,58 @@ export function pathFor(locale: Locale, key: PageKey): `/${Locale}${string}` {
   return route.slug ? `/${locale}/${route.slug}` : `/${locale}`;
 }
 
+export function projectDetailPath(
+  locale: Locale,
+  slug: ProjectSlug,
+): `/${Locale}/projects/${ProjectSlug}` {
+  return `/${locale}/projects/${slug}`;
+}
+
+function normalizePath(path: string): string {
+  const [pathname] = path.split(/[?#]/);
+  if (!pathname) return "/";
+  return pathname !== "/" && pathname.endsWith("/")
+    ? pathname.slice(0, -1)
+    : pathname;
+}
+
+function isProjectSlug(value: string | undefined): value is ProjectSlug {
+  return !!value && projectSlugs.includes(value as ProjectSlug);
+}
+
+export function localizedRouteTarget(currentPath: string): RouteTarget {
+  const normalizedPath = normalizePath(currentPath);
+  const [, , maybeSection, maybeSlug] = normalizedPath.split("/");
+  const section = maybeSection ?? "";
+
+  if (section === "projects" && isProjectSlug(maybeSlug)) {
+    return { key: "project-detail", slug: maybeSlug };
+  }
+
+  const key = routes.find((route) => route.slug === section)?.key;
+
+  if (key) {
+    return key;
+  }
+
+  if (section === "work") {
+    return "work";
+  }
+
+  return "home";
+}
+
 export function localizedPath(
   currentPath: string,
   nextLocale: Locale,
 ): `/${Locale}${string}` {
-  const [, maybeLocale, maybeSlug] = currentPath.split("/");
-  const key =
-    routes.find((route) => route.slug === (maybeSlug ?? ""))?.key ?? "home";
-  return pathFor(
-    locales.includes(maybeLocale as Locale) ? nextLocale : defaultLocale,
-    key,
-  );
+  const target = localizedRouteTarget(currentPath);
+
+  if (typeof target === "object") {
+    return projectDetailPath(nextLocale, target.slug);
+  }
+
+  return pathFor(nextLocale, target);
 }
 
 export function staticPageParams() {

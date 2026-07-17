@@ -1,8 +1,32 @@
-import type { Metadata } from "next";
+import { type ProjectSlug, projectFor } from "@/content";
 import { type Locale, locales } from "./i18n";
-import { pathFor, type PageKey, routeFor } from "./routes";
+import { pathFor, projectDetailPath, type PageKey, routeFor } from "./routes";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://trejodev.web.app";
+
+type MetadataRoute = PageKey | { key: "project-detail"; slug: ProjectSlug };
+
+export type SeoMetadata = {
+  title: string;
+  description: string;
+  alternates: {
+    canonical: string;
+    languages: Record<Locale, string>;
+  };
+  openGraph: {
+    title: string;
+    description: string;
+    url: string;
+    siteName: string;
+    locale: Locale;
+    type: "website";
+  };
+  twitter: {
+    card: "summary_large_image";
+    title: string;
+    description: string;
+  };
+};
 
 const descriptions: Record<Locale, string> = {
   en: "Alejandro Trejo builds modern web and mobile interfaces with React, Angular, TypeScript, Ionic and scalable frontend architectures.",
@@ -11,40 +35,57 @@ const descriptions: Record<Locale, string> = {
 
 const titleSuffix = "TrejoDev - Frontend Developer";
 
-export function canonicalUrl(locale: Locale, key: PageKey) {
-  return new URL(pathFor(locale, key), siteUrl).toString();
+function titleForRoute(locale: Locale, route: MetadataRoute) {
+  if (typeof route === "object") {
+    return projectFor(locale, route.slug)?.name ?? "Project";
+  }
+
+  if (route === "work") {
+    return locale === "en" ? "Work" : "Trabajo";
+  }
+
+  return routeFor(route).labels[locale];
 }
 
-export function localizedAlternates(key: PageKey) {
-  return Object.fromEntries(
-    locales.map((locale) => [locale, canonicalUrl(locale, key)]),
-  );
+export function canonicalUrl(locale: Locale, route: MetadataRoute) {
+  const path =
+    typeof route === "object"
+      ? projectDetailPath(locale, route.slug)
+      : pathFor(locale, route);
+
+  return new URL(path, siteUrl).toString();
+}
+
+export function localizedAlternates(route: MetadataRoute) {
+  return locales.reduce<Record<Locale, string>>((alternates, locale) => {
+    alternates[locale] = canonicalUrl(locale, route);
+    return alternates;
+  }, { en: "", es: "" });
 }
 
 export function pageMetadata(
   locale: Locale,
-  key: PageKey,
+  route: MetadataRoute,
   title?: string,
   description?: string,
-): Metadata {
-  const route = routeFor(key);
+): SeoMetadata {
   const pageTitle =
-    key === "home"
+    route === "home"
       ? titleSuffix
-      : `${title ?? route.labels[locale]} | ${titleSuffix}`;
+      : `${title ?? titleForRoute(locale, route)} | ${titleSuffix}`;
   const pageDescription = description ?? descriptions[locale];
 
   return {
     title: pageTitle,
     description: pageDescription,
     alternates: {
-      canonical: canonicalUrl(locale, key),
-      languages: localizedAlternates(key),
+      canonical: canonicalUrl(locale, route),
+      languages: localizedAlternates(route),
     },
     openGraph: {
       title: pageTitle,
       description: pageDescription,
-      url: canonicalUrl(locale, key),
+      url: canonicalUrl(locale, route),
       siteName: "TrejoDev",
       locale,
       type: "website",
