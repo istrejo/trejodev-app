@@ -49,7 +49,6 @@ export type HomeContent = PageText & {
 
 export type AboutContent = PageText & {
   paragraphs: string[];
-  portraitLabel: string;
   networksLabel: string;
   principlesTitle: string;
   principles: {

@@ -4,42 +4,107 @@ import { contentFor } from "@/content";
 import type { Locale } from "@/lib/i18n";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
+import { pathFor } from "@/lib/routes";
 
-export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
+export const getStaticPaths = (() =>
+  localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
 const { experience, home } = contentFor(locale);
+const copy =
+  locale === "en"
+    ? {
+        workLabel: "Work",
+        chronology: "Chronology",
+        projectsPrompt:
+          "For product-level examples and the systems behind them, visit Projects.",
+        projectsCta: "View Projects",
+        outcomes: "Verified outcomes",
+      }
+    : {
+        workLabel: "Trabajo",
+        chronology: "Cronología",
+        projectsPrompt:
+          "Para ejemplos de producto y los sistemas detrás de ellos, visitá Proyectos.",
+        projectsCta: "Ver proyectos",
+        outcomes: "Resultados verificados",
+      };
 ---
 
-<LocaleLayout locale={locale} route="work" heading={experience.title} description={experience.description}>
-  <section class="page-hero narrow">
-    <div class="container hero-copy" data-reveal>
-      <p class="eyebrow">{experience.eyebrow}</p>
-      <h1 class="page-title">{experience.title}</h1>
-      <p class="lead">{experience.description}</p>
+<LocaleLayout
+  locale={locale}
+  route="work"
+  heading={experience.title}
+  description={experience.description}
+>
+  <section class="work-hero">
+    <div class="container work-hero-copy" data-reveal>
+      <p class="work-kicker">{copy.workLabel} / {experience.eyebrow}</p>
+      <h1>{experience.title}</h1>
+      <p class="work-hero-intro">{experience.intro}</p>
+      <p class="work-hero-description">{experience.description}</p>
+      <span aria-hidden="true" class="work-hero-rule"></span>
     </div>
   </section>
 
-  <section aria-labelledby="work-timeline" class="section surface">
-    <div class="container split-grid">
-      <div data-reveal><p class="eyebrow">{locale === "en" ? "Experience" : "Experiencia"}</p><h2 id="work-timeline">{home.timelineTitle}</h2><p class="lead">{experience.intro}</p></div>
-      <ol class="timeline" data-reveal>
-        {home.timelineEntries.map(([mark, company, role, description, dates, emphasized]) => (
-          <li>
-            <span aria-hidden="true" class:list={["timeline-dot", { current: emphasized }]}></span>
-            <span aria-hidden="true" class="timeline-mark">{mark}</span>
-            <div class="timeline-copy"><strong>{company}</strong><span>{role}</span><p>{description}</p></div>
-            <p class="timeline-date">{dates}</p>
-          </li>
-        ))}
+  <section aria-labelledby="work-timeline" class="work-chronology">
+    <div class="container">
+      <header class="work-chronology-header" data-reveal>
+        <h2 id="work-timeline" class="work-kicker">{copy.chronology}</h2>
+        <p>{home.timelineDescription}</p>
+      </header>
+
+      <ol class="work-timeline" data-reveal>
+        {
+          home.timelineEntries.map(
+            ([mark, company, role, description, dates, emphasized], index) => (
+              <li
+                class:list={[
+                  "work-entry",
+                  { featured: emphasized, "is-right": index % 2 !== 0 },
+                ]}
+              >
+                <article class="work-entry-copy">
+                  <p class="work-entry-role">{role}</p>
+                  <h3>{company}</h3>
+                  <p class="work-entry-description">{description}</p>
+                </article>
+                <div class="work-entry-node" aria-hidden="true">
+                  <span>{mark}</span>
+                </div>
+                <time class="work-entry-date">{dates}</time>
+              </li>
+            ),
+          )
+        }
       </ol>
+
+      <div class="work-projects-cta" data-reveal>
+        <p>{copy.projectsPrompt}</p>
+        <a class="work-projects-link" href={pathFor(locale, "projects")}>
+          {copy.projectsCta}<span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <section aria-labelledby="work-outcomes" class="section">
+  <section aria-labelledby="work-outcomes" class="work-evidence">
     <div class="container" data-reveal>
-      <div class="section-heading"><p class="eyebrow">{home.proofTitle}</p><div><h2 id="work-outcomes">{home.proofHeading}</h2><p>{home.proofDescription}</p></div></div>
-      <div class="card-grid">
-        {home.proofRows.map((row, index) => <article class="card"><h3>{home.proofLabels[index]}</h3><p>{row}</p></article>)}
+      <div class="work-evidence-heading">
+        <p class="work-kicker">{copy.outcomes}</p>
+        <div>
+          <h2 id="work-outcomes">{home.proofHeading}</h2>
+          <p>{home.proofDescription}</p>
+        </div>
+      </div>
+      <div class="work-evidence-list">
+        {
+          home.proofRows.map((row, index) => (
+            <article>
+              <h3>{home.proofLabels[index]}</h3>
+              <p>{row}</p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>

@@ -20,7 +20,17 @@ const about = contentFor(locale).about;
         {about.paragraphs.map((paragraph) => <p class="lead">{paragraph}</p>)}
       </div>
       <aside data-reveal>
-        <div class="portrait-placeholder"><span>{about.portraitLabel}</span></div>
+        <div class="portrait-frame">
+          <img
+            alt={locale === "en" ? "Portrait of Alejandro Trejo" : "Retrato de Alejandro Trejo"}
+            class="portrait-image"
+            decoding="async"
+            fetchpriority="high"
+            height="1449"
+            src="/profile.png"
+            width="1085"
+          />
+        </div>
         <p class="eyebrow" style="margin-top: 1.5rem">{about.networksLabel}</p>
         <ul class="profile-list">
           {profileSocialLinks.map((link) => <li><a href={link.href} rel="noreferrer" target="_blank"><strong>{link.label}</strong><span>{link.value}</span></a></li>)}

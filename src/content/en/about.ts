@@ -9,7 +9,6 @@ export const about: AboutContent = {
     "I build web and mobile products for distributed teams across Latin America and the United States, working on the details that turn an idea into a dependable everyday tool.",
     "My focus stays on maintainability, technical quality, testing, and user experience so teams inherit interfaces they can understand, evolve, and trust.",
   ],
-  portraitLabel: "Portrait placeholder — add approved photo",
   networksLabel: "Professional networks",
   principlesTitle: "How I work",
   principles: [

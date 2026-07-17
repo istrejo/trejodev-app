@@ -9,7 +9,6 @@ export const about: AboutContent = {
     "Construyo productos web y móviles para equipos distribuidos en Latinoamérica y Estados Unidos, cuidando los detalles que convierten una idea en una herramienta confiable para el día a día.",
     "Mi foco está en mantenibilidad, calidad técnica, testing y experiencia de usuario para que los equipos reciban interfaces que puedan entender, evolucionar y confiar.",
   ],
-  portraitLabel: "Placeholder de retrato — agregar foto aprobada",
   networksLabel: "Redes profesionales",
   principlesTitle: "Cómo trabajo",
   principles: [

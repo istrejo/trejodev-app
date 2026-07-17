@@ -116,6 +116,64 @@ test("revealed content remains visible without JavaScript", async ({
   await context.close();
 });
 
+test("work keeps its Stitch-inspired chronology readable across viewports", async ({
+  page,
+}, testInfo) => {
+  const errors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  page.on("pageerror", (error) => errors.push(error.message));
+
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  await page.goto("/en/work");
+
+  await expect(page.locator(".work-hero h1")).toHaveText(
+    "Real product work across frontend teams, mobile apps and UI systems.",
+  );
+  await expect(page.getByRole("heading", { name: "Chronology" })).toBeVisible();
+  await expect(page.locator(".work-entry")).toHaveCount(6);
+  await expect(page.locator(".work-timeline")).toHaveCSS(
+    "position",
+    "relative",
+  );
+  await expect(
+    page.getByRole("link", { name: "View Projects" }),
+  ).toHaveAttribute("href", "/en/projects");
+
+  const entries = page.locator(".work-entry");
+  const firstBox = await entries.first().boundingBox();
+  const secondBox = await entries.nth(1).boundingBox();
+  expect(firstBox).not.toBeNull();
+  expect(secondBox).not.toBeNull();
+  expect(secondBox!.y).toBeGreaterThan(firstBox!.y);
+
+  if (testInfo.project.name.includes("mobile")) {
+    await expect(page.locator(".work-entry-node").first()).toBeVisible();
+    await expect(page.locator(".work-entry-date").first()).toBeVisible();
+    for (const selector of [
+      ".work-entry-role",
+      ".work-entry-description",
+      ".work-entry-date",
+    ]) {
+      const fontSize = await page
+        .locator(selector)
+        .first()
+        .evaluate((element) =>
+          Number.parseFloat(getComputedStyle(element).fontSize),
+        );
+      expect(fontSize).toBeGreaterThanOrEqual(11);
+    }
+  }
+
+  await page.goto("/es/work");
+  await expect(page.locator(".work-hero .work-kicker")).toContainText(
+    "Trabajo",
+  );
+
+  expect(errors).toEqual([]);
+});
+
 test("English home has no obvious accessibility violations", async ({
   page,
 }) => {
