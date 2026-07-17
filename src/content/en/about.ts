@@ -1,20 +1,47 @@
 import type { AboutContent } from "../types";
 
 export const about: AboutContent = {
-  eyebrow: "About Alejandro",
-  title:
-    "A frontend developer who turns product context into reliable interfaces.",
+  eyebrow: "About",
+  title: "I'm Alejandro Trejo.",
   description:
-    "Based in Tenerife, Spain, I build modern web and mobile experiences with React, Angular, TypeScript, Ionic and clean frontend architecture. My focus is simple: clear product thinking, maintainable UI systems and interfaces teams can trust.",
+    "Frontend Developer based in Tenerife, Spain, building dependable web and mobile products for distributed teams across Latin America and the United States.",
   paragraphs: [
-    "I'm Alejandro Trejo, a Frontend Developer based in Tenerife, Spain.",
-    "I have experience building scalable web and mobile applications for remote teams across Latin America and the United States. My work focuses on modern frontend development with Angular, React, TypeScript, Ionic, state management, performance optimization and clean UI systems.",
-    "I enjoy turning product ideas into reliable interfaces, improving existing applications and collaborating with teams to create maintainable frontend solutions.",
+    "I build web and mobile products for distributed teams across Latin America and the United States, working on the details that turn an idea into a dependable everyday tool.",
+    "My focus stays on maintainability, technical quality, testing, and user experience so teams inherit interfaces they can understand, evolve, and trust.",
   ],
+  portraitLabel: "Portrait placeholder — add approved photo",
+  networksLabel: "Professional networks",
+  principlesTitle: "How I work",
   principles: [
-    "Readable interfaces",
-    "Typed contracts",
-    "Performance awareness",
-    "Practical collaboration",
+    {
+      title: "Architecture with intent",
+      description:
+        "I use modular frontend architecture and clear state boundaries so products remain understandable as they grow.",
+    },
+    {
+      title: "Quality as a product feature",
+      description:
+        "Testing, performance, and well-documented components are part of the product from the start, not a final pass.",
+    },
+    {
+      title: "Interfaces for real work",
+      description:
+        "I begin with the workflow so people can move quickly, understand what happens next, and use complex tools with confidence.",
+    },
+  ],
+  focusTitle: "Technical focus",
+  focusRows: [
+    {
+      label: "Frontend & mobile",
+      value: "Angular, React, Ionic, Capacitor, TypeScript",
+    },
+    {
+      label: "Architecture & delivery",
+      value: "Micro Frontends, Module Federation, NgRx, Redux, Tailwind CSS",
+    },
+    {
+      label: "Quality & platforms",
+      value: "Jest, React Testing Library, Firebase, Supabase, Docker",
+    },
   ],
 };

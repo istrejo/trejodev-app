@@ -27,10 +27,14 @@ export const chromeCopy = {
 } as const;
 
 export const contactEmail = profileLinks.find((link) => link.kind === "email")!;
-export const profileSocialLinks = profileLinks.filter((link) => link.kind !== "email");
+export const profileSocialLinks = profileLinks.filter(
+  (link): link is (typeof profileLinks)[number] & { kind: "linkedin" | "github" } =>
+    link.kind !== "email",
+);
 
 export function v4NavItems(locale: Locale) {
   return v4NavRoutes.map((route) => ({
+    key: route.key,
     href: pathFor(locale, route.key),
     label: route.labels[locale],
   }));

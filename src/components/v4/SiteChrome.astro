@@ -12,22 +12,28 @@ const { locale, route } = Astro.props;
 const copy = chromeCopy[locale];
 const navItems = v4NavItems(locale);
 const switchPath = localeSwitchPath(locale, route);
+const socialIconPaths = {
+  linkedin:
+    "M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.36 8.08h4.28V22H.36zM7.3 8.08h4.1v1.9h.06c.57-1.08 1.97-2.22 4.06-2.22 4.34 0 5.14 2.86 5.14 6.57V22h-4.28v-6.78c0-1.62-.03-3.7-2.25-3.7-2.25 0-2.6 1.76-2.6 3.58V22H7.3z",
+  github:
+    "M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z",
+} as const;
 ---
 
 <div class="v4-shell">
   <header class="v4-floating-nav">
-    <a class="v4-brand" href={`/${locale}`}>
-      <span aria-hidden="true">TD</span>
+    <a aria-label="Alejandro Trejo" class="v4-brand" href={`/${locale}`}>
+      <span aria-hidden="true">AT</span>
       <span>TrejoDev</span>
     </a>
     <nav aria-label={locale === "en" ? "Primary navigation" : "Navegación principal"} class="v4-nav v4-nav-desktop">
       {navItems.map((item) => (
-        <a class="v4-nav-link" href={item.href}>{item.label}</a>
+        <a aria-current={item.key === route ? "page" : undefined} class="v4-nav-link" href={item.href}>{item.label}</a>
       ))}
     </nav>
     <div class="v4-actions">
-      <button aria-label={copy.locale} class="v4-pill-button" data-locale-switch data-target={switchPath} type="button">
-        {locale.toUpperCase()} / {locale === "en" ? "ES" : "EN"}
+      <button aria-label="Toggle color theme" class="v4-pill-button" data-theme-toggle type="button">
+        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
       </button>
       <button aria-controls="mobile-nav-panel" aria-expanded="false" class="v4-pill-button v4-mobile-toggle" data-nav-toggle data-closed-label={copy.menu} data-open-label={copy.close} type="button">
         {copy.menu}
@@ -39,20 +45,29 @@ const switchPath = localeSwitchPath(locale, route);
     {navItems.map((item) => (
       <a class="v4-mobile-link" href={item.href}>{item.label}</a>
     ))}
+    <a class="v4-mobile-link" href={switchPath}>{locale === "en" ? "Español" : "English"}</a>
   </nav>
 
   <slot />
 
   <footer class="v4-footer">
-    <p class="v4-kicker">Alejandro Trejo · Frontend Developer · Tenerife, Spain</p>
+    <div class="v4-footer-copy">
+      <nav aria-label={locale === "en" ? "Footer navigation" : "Navegación del pie"} class="v4-footer-nav">
+        {navItems.map((item) => (
+          <a class="v4-nav-link" href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <p class="v4-kicker">© 2026 Alejandro Trejo</p>
+    </div>
     <div class="v4-footer-actions">
-      <button class="v4-copy-button" data-copy-email data-copied={copy.copied} data-default={copy.copy} data-email={contactEmail.value} data-failed={copy.failed} type="button">
-        {copy.copy}
-      </button>
-      <a class="v4-footer-link" href={contactEmail.href}>{contactEmail.value}</a>
       {profileSocialLinks.map((link) => (
-        <a class="v4-footer-link" href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
+        <a aria-label={link.label} class="v4-footer-link" href={link.href} rel="noreferrer" target="_blank">
+          <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d={socialIconPaths[link.kind]} /></svg>
+        </a>
       ))}
+      <a aria-label={contactEmail.label} class="v4-footer-link" href={contactEmail.href}>
+        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><rect height="15" rx="2" width="20" x="2" y="4" /><path d="m3 6 9 7 9-7" /></svg>
+      </a>
     </div>
   </footer>
 </div>
@@ -73,45 +88,11 @@ const switchPath = localeSwitchPath(locale, route);
       });
     }
 
-    document.querySelectorAll("[data-locale-switch]").forEach((node) => {
+    document.querySelectorAll("[data-theme-toggle]").forEach((node) => {
       if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
       node.dataset.bound = "true";
       node.addEventListener("click", () => {
-        const target = node.dataset.target;
-        if (target) window.location.assign(target);
-      });
-    });
-
-    document.querySelectorAll("[data-copy-email]").forEach((node) => {
-      if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
-      node.dataset.bound = "true";
-      node.addEventListener("click", async () => {
-        const email = node.dataset.email ?? "";
-        try {
-          await Promise.race([
-            navigator.clipboard.writeText(email),
-            new Promise((_, reject) =>
-              window.setTimeout(() => reject(new Error("Clipboard timeout")), 400),
-            ),
-          ]);
-          node.textContent = node.dataset.copied ?? "Copied";
-        } catch {
-          const fallback = document.createElement("textarea");
-          fallback.value = email;
-          fallback.setAttribute("readonly", "true");
-          fallback.style.position = "absolute";
-          fallback.style.left = "-9999px";
-          document.body.appendChild(fallback);
-          fallback.select();
-          const copied = document.execCommand("copy");
-          document.body.removeChild(fallback);
-          node.textContent = copied
-            ? node.dataset.copied ?? "Copied"
-            : node.dataset.failed ?? "Failed";
-        }
-        window.setTimeout(() => {
-          node.textContent = node.dataset.default ?? "Copy email";
-        }, 1800);
+        document.documentElement.classList.toggle("v4-dark");
       });
     });
   };

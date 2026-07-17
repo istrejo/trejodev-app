@@ -6,20 +6,37 @@ export type PageText = {
   description: string;
 };
 
+export type HomeTimelineEntry = readonly [
+  mark: string,
+  company: string,
+  role: string,
+  description: string,
+  dates: string,
+  emphasized: boolean,
+];
+
 export type HomeContent = PageText & {
   locale: Locale;
   role: string;
   location: string;
+  heroNote: string;
   primaryCta: string;
   secondaryCta: string;
   contactCta: string;
   signals: string[];
   proofTitle: string;
+  proofHeading: string;
+  proofDescription: string;
+  proofLabels: string[];
   proofRows: string[];
   lighthouseStat: string;
   bilingualStat: string;
+  timelineTitle: string;
+  timelineDescription: string;
+  timelineEntries: HomeTimelineEntry[];
   previewTitle: string;
   previewDescription: string;
+  previewCta: string;
   previewCards: {
     title: string;
     description: string;
@@ -32,7 +49,18 @@ export type HomeContent = PageText & {
 
 export type AboutContent = PageText & {
   paragraphs: string[];
-  principles: string[];
+  portraitLabel: string;
+  networksLabel: string;
+  principlesTitle: string;
+  principles: {
+    title: string;
+    description: string;
+  }[];
+  focusTitle: string;
+  focusRows: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export type ExperienceContent = PageText & {

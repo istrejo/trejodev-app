@@ -1,16 +1,76 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { contentFor } from "@/content";
+import { profileSocialLinks } from "@/components/v4/chrome";
 import type { Locale } from "@/lib/i18n";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
 
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
+const home = contentFor(locale).home;
+
+const iconPaths = {
+  linkedin:
+    "M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.36 8.08h4.28V22H.36zM7.3 8.08h4.1v1.9h.06c.57-1.08 1.97-2.22 4.06-2.22 4.34 0 5.14 2.86 5.14 6.57V22h-4.28v-6.78c0-1.62-.03-3.7-2.25-3.7-2.25 0-2.6 1.76-2.6 3.58V22H7.3z",
+  github:
+    "M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z",
+} as const;
 ---
 
-<LocaleLayout locale={locale} route="home" heading={locale === "en" ? "Astro route shell" : "Shell de rutas Astro"} description={locale === "en" ? "Static bilingual foundation for the V4 migration. Page content and shared chrome arrive in later slices." : "Base bilingüe estática para la migración V4. El contenido y el chrome compartido llegan en slices posteriores."}>
-  <section class="mx-auto max-w-5xl rounded-[2rem] border border-line bg-paper p-8 shadow-soft">
-    <h1 class="font-display text-4xl font-black tracking-[-0.06em]">{locale === "en" ? "Astro route shell" : "Shell de rutas Astro"}</h1>
-    <p class="mt-4 text-base leading-7 text-slate">{locale === "en" ? "Home is intentionally a placeholder in this foundation work unit." : "Inicio es intencionalmente un placeholder en esta unidad base."}</p>
+<LocaleLayout locale={locale} route="home" heading={home.title} description={home.description}>
+  <section class="v4-home-hero" aria-labelledby="home-title">
+    <div class="v4-home-hero-content">
+      <p class="v4-home-eyebrow">{home.eyebrow}</p>
+      <h1 class="v4-home-title" id="home-title">{home.title}</h1>
+      <p class="v4-home-description">{home.description}</p>
+      <p class="v4-home-note">{home.heroNote}</p>
+      <div class="v4-home-socials">
+        {profileSocialLinks.map((link) => (
+          <a aria-label={link.label} class="v4-home-social-link" href={link.href} rel="noreferrer" target="_blank">
+            <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d={iconPaths[link.kind]} /></svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="v4-home-proof" aria-label={home.proofTitle}>
+    <div class="v4-home-proof-grid">
+      <div class="v4-home-outcomes">
+        <p class="v4-home-eyebrow">{home.proofTitle}</p>
+        <h2 class="v4-home-section-title">{home.proofHeading}</h2>
+        <p class="v4-home-section-description">{home.proofDescription}</p>
+        <div class="v4-home-outcome-rows">
+          {home.proofRows.map((row, index) => (
+            <article class="v4-home-outcome-row">
+              <p>{home.proofLabels[index]}</p>
+              <p>{row}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="v4-home-timeline">
+        <div class="v4-home-timeline-heading">
+          <h2 class="v4-home-section-title">{home.timelineTitle}</h2>
+          <p class="v4-home-section-description">{home.timelineDescription}</p>
+        </div>
+        <ol>
+          {home.timelineEntries.map(([mark, company, role, description, dates, emphasized]) => (
+            <li>
+              <span aria-hidden="true" class:list={["v4-home-timeline-dot", { "is-current": emphasized }]}></span>
+              <span class:list={["v4-home-timeline-mark", { "is-current": emphasized }]}>{mark}</span>
+              <div class="v4-home-timeline-copy">
+                <p>{company}</p>
+                <p>{role}</p>
+                <p>{description}</p>
+              </div>
+              <p class="v4-home-timeline-date">{dates}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </section>
 </LocaleLayout>
