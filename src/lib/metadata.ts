@@ -3,7 +3,7 @@ import { type Locale, locales } from "./i18n";
 import { pathFor, projectDetailPath, type PageKey, routeFor } from "./routes";
 
 export const siteUrl =
-  import.meta.env.PUBLIC_SITE_URL ?? "https://trejodev.web.app";
+  import.meta.env.PUBLIC_SITE_URL ?? "https://trejodev.com";
 
 type MetadataRoute = PageKey | { key: "project-detail"; slug: ProjectSlug };
 

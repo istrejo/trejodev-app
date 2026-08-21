@@ -48,4 +48,4 @@ Unlocalized paths redirect to English. Legacy localized `/experience` paths redi
 
 ## Deployment
 
-Firebase Hosting serves `dist/` with clean URLs. `pnpm ready:deploy` runs typecheck, lint, unit tests, and build before deployment. Set `PUBLIC_SITE_URL` when building for a host other than `https://trejodev.web.app`.
+Cloudflare Workers (static assets) serves `dist/` under the custom domain `trejodev.com`, configured in `wrangler.jsonc`. `pnpm ready:deploy` runs typecheck, lint, unit tests, and build before deployment; `pnpm deploy` builds and runs `wrangler deploy`. Set `PUBLIC_SITE_URL` when building for a host other than `https://trejodev.com`. Pushes to `main` also trigger an automatic build/deploy via Cloudflare Workers Builds (configured in the Cloudflare dashboard, not in this repo).

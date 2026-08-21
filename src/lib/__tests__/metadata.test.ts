@@ -25,13 +25,13 @@ describe("metadata", () => {
 
     expect(
       canonicalUrl("en", { key: "project-detail", slug: "racerlab" }),
-    ).toBe("https://trejodev.web.app/en/projects/racerlab");
+    ).toBe("https://trejodev.com/en/projects/racerlab");
     expect(metadata.alternates?.canonical).toBe(
-      "https://trejodev.web.app/en/projects/racerlab",
+      "https://trejodev.com/en/projects/racerlab",
     );
     expect(metadata.alternates?.languages).toEqual({
-      en: "https://trejodev.web.app/en/projects/racerlab",
-      es: "https://trejodev.web.app/es/projects/racerlab",
+      en: "https://trejodev.com/en/projects/racerlab",
+      es: "https://trejodev.com/es/projects/racerlab",
     });
   });
 

@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site ?? new URL("https://trejodev.web.app");
+  const origin = site ?? new URL("https://trejodev.com");
   return new Response(
     `User-agent: *\nAllow: /\nSitemap: ${new URL("/sitemap.xml", origin)}\n`,
     {

@@ -13,7 +13,7 @@ const pageSlugs = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site ?? new URL("https://trejodev.web.app");
+  const origin = site ?? new URL("https://trejodev.com");
   const paths = locales.flatMap((locale) => [
     ...pageSlugs.map((slug) => `/${locale}${slug ? `/${slug}` : ""}`),
     ...projectSlugs.map((slug) => `/${locale}/projects/${slug}`),

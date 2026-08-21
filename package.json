@@ -17,7 +17,9 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "ready:deploy": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+    "ready:deploy": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "deploy": "pnpm build && wrangler deploy",
+    "preview:cf": "wrangler dev"
   },
   "dependencies": {
     "@fontsource-variable/hanken-grotesk": "^5.2.8"
@@ -35,6 +37,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.0.0",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "wrangler": "4.113.0"
   }
 }

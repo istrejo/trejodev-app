@@ -6,7 +6,6 @@ export default tseslint.config(
   {
     ignores: [
       "**/.astro/**",
-      "**/.firebase/**",
       "**/.next/**",
       "**/dist/**",
       "**/out/**",
