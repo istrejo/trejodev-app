@@ -43,6 +43,12 @@ Review follow-ups (branch `fix/review-follow-ups`, requested by the user after t
 - [x] T7 — R3-004: overflow + touch-target check at a 390px viewport for `/en` and `/es`.
 - [x] T8 — R3-005: assert the micro-frontends metric value exactly (`.metric-value` text "7").
 
+Cleanup (branch `chore/portfolio-cleanup`, requested by the user after the follow-up deploy). Route: one delegated writer (writer trigger: assets + en/es content + e2e + CSS).
+
+- [x] T9 — Rename `public/projects/raceplab/` → `public/projects/racerlab/` with web-safe file names (no spaces); update en/es project content and e2e paths together.
+- [x] T10 — Remove CSS left unused by the proposal B home (`.outcomes`, `.timeline`, `.home-proof-grid` and related selectors) only where no page or component still uses it.
+- [x] T11 — Confirm the RacerLab cover renders on mobile (390px) on home and the projects pages after scrolling it into view; fix if it does not.
+
 ## Acceptance criteria
 
 - `/en` and `/es`: H1 is "Alejandro Trejo"; status chip names FreshCommerce; hero CTAs go to work section and contact.
@@ -68,12 +74,15 @@ Forecast ~500 authored changed lines. Strategy: `ask-on-risk` (default) — chai
 
 - T4–T8 `b04780e` fix(home): localize stack label and harden external link rel (single commit: spec + src). RED (old build, `pnpm test:e2e --project=chromium`): 2 failed — T5 `/es` list "Tecnologías" missing (hardcoded "Stack"); T4 live link `rel` was "noreferrer", expected /noopener/ (real hygiene bug; fixed with `noopener noreferrer` on live and repository links). GREEN after rebuild: 42 passed, 2 skipped. Already passing, coverage only: T6 dark Axe on `/en/projects/miraigo`, T7 overflow/touch targets at 390x844 for `/en` and `/es` (no CSS fix needed), T8 exact `.metric-value` "7", T4 repositories hidden/present branches.
 
+- T9 `0c1b093` refactor(assets): `public/projects/raceplab/` -> `racerlab/` via `git mv`; files `dashboard.png`, `service-orders.png`, `inventory.png`, `sign-in.png` (match captions); en/es content + e2e paths updated. RED (e2e updated first, `-g "RacerLab project pages"`): 1 failed on cover src -> GREEN after rename. Remaining `raceplab` hits only in historical `docs/` (none found live).
+- T10 `cbd5c09` refactor(styles): refactor, behavior unchanged. Deleted `.home-proof-grid`, `.outcomes`, `.outcome` (+ `strong`, `p`), `.timeline` (+ `::before`, `li`), `.timeline-dot` (+ `.current`), `.timeline-mark`, `.timeline-copy` (+ `strong`, `span`, `p`), `.timeline-date`, and their 900px/640px media variants. rg proof: zero class usages in `src/` pages/components/layouts and `e2e/`; `/work` uses `work-timeline`/`work-evidence` (kept). Build + full e2e (Axe/visual) green.
+- T11 `8eb2100` test(e2e): coverage only. At 390x844 the RacerLab cover on `/en` (home work card), `/en/projects` and `/en/projects/racerlab` loads (`naturalWidth > 0`) and is visible after `scrollIntoViewIfNeeded`; the blank capture was an unscrolled lazy image, not a defect. No source fix.
+- Verification (branch): typecheck 0 errors · lint clean · test 18 passed · build 20 pages · test:e2e 44 passed, 2 skipped (viewport-specific).
+
 ## Follow-ups
 
-- Rename `public/projects/raceplab` → `racerlab` (content + e2e paths together).
-- Remove now-unused `.outcomes`, `.timeline`, `.home-proof-grid` CSS if no other page uses it.
-- Confirm RacerLab cover renders on mobile (lazy image blank in a full-page capture, unconfirmed).
+None open.
 
 ## Next step
 
-Proposal B shipped: `main` at `97b2eed` auto-deployed by Cloudflare Workers Builds (verified live on trejodev.com/en). Next: T4–T8 on `fix/review-follow-ups`; ask before pushing to `main` (push deploys).
+T4–T8 shipped: `main` at `d2ad386`, verified live. T9–T11 done on `chore/portfolio-cleanup`; ask before pushing/merging to `main` (push deploys).
