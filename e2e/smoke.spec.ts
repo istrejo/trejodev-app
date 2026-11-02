@@ -144,22 +144,30 @@ test("home leads with the person and the current role", async ({ page }) => {
   }
 });
 
+const stackLabel = {
+  "/en": "Stack",
+  "/es": "Tecnologías",
+};
+
 test("home shows verified metrics, selected work, experience and contact", async ({
   page,
 }) => {
-  for (const route of ["/en", "/es"]) {
+  for (const route of ["/en", "/es"] as const) {
     await page.goto(route);
 
     const metrics = page.locator(".metric");
     await expect(metrics).toHaveCount(4);
     await expect(metrics.nth(0)).toContainText("−80%");
     await expect(metrics.nth(1)).toContainText("50→90");
-    await expect(metrics.nth(2)).toContainText("7");
+    await expect(metrics.nth(2).locator(".metric-value")).toHaveText("7");
     await expect(metrics.nth(3)).toContainText("4+");
 
     const work = page.locator("#work");
     const features = work.locator(".work-feature");
     await expect(features).toHaveCount(2);
+    await expect(
+      features.nth(0).getByRole("list", { name: stackLabel[route] }),
+    ).toBeVisible();
     await expect(features.nth(0)).toContainText("Mirai Go");
     await expect(features.nth(0)).toContainText("WordPress FSE");
     await expect(features.nth(0)).toContainText("HubSpot Forms");
@@ -197,20 +205,50 @@ test("home shows verified metrics, selected work, experience and contact", async
   }
 });
 
-test("home stays inside the viewport and meets touch targets", async ({
+for (const viewport of [undefined, { width: 390, height: 844 }] as const) {
+  for (const route of ["/en", "/es"]) {
+    const size = viewport ? `${viewport.width}px viewport` : "default viewport";
+    test(`home ${route} stays inside the viewport and meets touch targets (${size})`, async ({
+      page,
+    }) => {
+      if (viewport) await page.setViewportSize(viewport);
+      await page.goto(route);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - window.innerWidth,
+      );
+      expect(overflow).toBeLessThanOrEqual(0);
+      const links = page.locator("main .button");
+      const count = await links.count();
+      expect(count).toBeGreaterThan(0);
+      for (let index = 0; index < count; index += 1) {
+        const box = await links.nth(index).boundingBox();
+        expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+      }
+    });
+  }
+}
+
+test("project detail renders the live link and hides empty repositories", async ({
   page,
 }) => {
-  await page.goto("/en");
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - window.innerWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-  const links = page.locator("main .button");
-  const count = await links.count();
-  for (let index = 0; index < count; index += 1) {
-    const box = await links.nth(index).boundingBox();
-    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
-  }
+  await page.goto("/en/projects/miraigo");
+  const live = page.getByRole("link", { name: /Visit the live site/ });
+  await expect(live).toHaveAttribute("href", "https://miraigo.com");
+  await expect(live).toHaveAttribute("target", "_blank");
+  await expect(live).toHaveAttribute("rel", /noopener/);
+  await expect(
+    page.getByRole("heading", { name: "Source repositories" }),
+  ).toHaveCount(0);
+  await expect(page.locator("#project-repositories")).toHaveCount(0);
+
+  await page.goto("/en/projects/racerlab");
+  await expect(
+    page.getByRole("link", { name: /Visit the live site/ }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Source repositories" }),
+  ).toBeVisible();
+  await expect(page.locator(".project-repositories a")).toHaveCount(2);
 });
 
 test("header logo is readable in each theme", async ({ page }) => {
@@ -349,3 +387,13 @@ for (const scheme of ["light", "dark"] as const) {
     expect(results.violations).toEqual([]);
   });
 }
+
+test("project detail has no accessibility violations in dark theme", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "dark", reducedMotion: "reduce" });
+  await page.goto("/en/projects/miraigo");
+  await expect(page.locator(".button.primary").first()).toBeVisible();
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});

@@ -38,6 +38,7 @@ export const home: HomeContent = {
     },
     { value: "4+ yrs", label: "shipping production web and mobile" },
   ],
+  stackLabel: "Stack",
   workHeading: "Shipped products, real outcomes.",
   caseStudyLabel: "Case study",
   currentLabel: "Current",

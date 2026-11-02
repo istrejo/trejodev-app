@@ -87,7 +87,7 @@ const projects: ProjectContent[] = content.projects.projects;
                 <p class="work-summary">{project.summary}</p>
                 {project.contribution && <p class="work-part">{project.contribution}</p>}
                 {stack.length > 0 && (
-                  <ul aria-label="Stack" class="tags">
+                  <ul aria-label={home.stackLabel} class="tags">
                     {stack.map((tag) => <li>{tag}</li>)}
                   </ul>
                 )}

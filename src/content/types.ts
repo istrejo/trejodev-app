@@ -33,6 +33,7 @@ export type HomeContent = PageText & {
   metricsLabel: string;
   metrics: { value: string; label: string }[];
   workHeading: string;
+  stackLabel: string;
   caseStudyLabel: string;
   currentLabel: string;
   viewAllWork: string;

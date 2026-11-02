@@ -40,6 +40,7 @@ export const home: HomeContent = {
     },
     { value: "4+ años", label: "entregando web y móvil en producción" },
   ],
+  stackLabel: "Tecnologías",
   workHeading: "Productos entregados, resultados reales.",
   caseStudyLabel: "Caso de estudio",
   currentLabel: "Actual",
