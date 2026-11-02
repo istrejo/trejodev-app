@@ -1236,6 +1236,10 @@ h3 {
   ::view-transition-new(*) {
     animation: none !important;
   }
+
+  .pointer-follower {
+    display: none !important;
+  }
 }
 
 /* ---------- Home (proposal B) ---------- */
@@ -1447,6 +1451,10 @@ h3 {
 
 .work-feature:not(.is-featured) .work-media {
   order: 2;
+}
+
+.work-media {
+  display: block;
 }
 
 .work-media.is-collage {
@@ -1829,4 +1837,84 @@ h3 {
   .home-hero .button-row .button {
     flex: 1 1 100%;
   }
+}
+
+/* ---------- Pointer follower (fine pointers only; the native cursor stays) ---------- */
+
+.pointer-follower {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border: 0 solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  translate: -50% -50%;
+  transition:
+    width 220ms var(--ease-out),
+    height 220ms var(--ease-out),
+    background 220ms var(--ease-out),
+    border-width 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out),
+    scale 220ms var(--ease-out),
+    translate 220ms var(--ease-out),
+    opacity 220ms var(--ease-out);
+  will-change: transform;
+}
+
+.pointer-follower[data-active] {
+  display: block;
+}
+
+.pointer-follower[data-shown] {
+  opacity: 1;
+}
+
+.pointer-follower[data-state="ring"] {
+  width: 44px;
+  height: 44px;
+  border-width: 1.5px;
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--canvas);
+}
+
+.pointer-follower[data-state="pill"] {
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+  background: var(--accent);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 22%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: visible;
+  white-space: nowrap;
+  translate: 14px 14px;
+}
+
+:root[data-theme="dark"] .pointer-follower[data-state="pill"] {
+  color: #04121f;
+}
+
+.pointer-label {
+  display: block;
+  opacity: 0;
+  scale: 0.85;
+  transform-origin: 0 0;
+  transition:
+    opacity 220ms var(--ease-out),
+    scale 220ms var(--ease-out);
+}
+
+.pointer-follower[data-state="pill"] .pointer-label {
+  opacity: 1;
+  scale: 1;
 }

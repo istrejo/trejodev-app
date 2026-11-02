@@ -52,7 +52,13 @@ const projects: ProjectContent[] = content.projects.projects;
           const stack = project.stack ?? [];
           return (
             <article class:list={["work-feature", { "is-featured": index === 0 }]} data-reveal={index === 0 ? "deal" : "true"}>
-              <div class:list={["work-media", { "is-collage": shots.length > 0 }]}>
+              <a
+                aria-hidden="true"
+                class:list={["work-media", { "is-collage": shots.length > 0 }]}
+                data-cursor="case-study"
+                href={projectDetailPath(locale, project.slug as ProjectSlug)}
+                tabindex="-1"
+              >
                 {shots.length > 0 ? (
                   shots.map((shot, shotIndex) => (
                     <img
@@ -78,7 +84,7 @@ const projects: ProjectContent[] = content.projects.projects;
                     width={project.cover.width ?? 1600}
                   />
                 )}
-              </div>
+              </a>
               <div class="work-copy">
                 <ul class="badges">
                   {project.status && <li class="badge badge-live">{project.status}</li>}

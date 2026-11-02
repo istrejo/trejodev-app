@@ -1,0 +1,131 @@
+---
+import { contentFor } from "@/content";
+
+// Both labels ship on the persisted node so it can relabel after a locale switch.
+const label = {
+  en: contentFor("en").home.caseStudyLabel,
+  es: contentFor("es").home.caseStudyLabel,
+};
+---
+
+<div
+  aria-hidden="true"
+  class="pointer-follower"
+  data-label-en={`${label.en} ↗`}
+  data-label-es={`${label.es} ↗`}
+  data-pointer-follower
+  data-state="dot"
+  transition:persist="pointer-follower"
+>
+  <span class="pointer-label"></span>
+</div>
+
+<script>
+  import { resolvePointerState } from "./pointer";
+
+  const LERP = 0.22;
+  const SNAP = 0.1;
+  const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  let follower: HTMLElement | null = null;
+  let label: HTMLElement | null = null;
+  let active = false;
+  let frame = 0;
+  let target = { x: 0, y: 0 };
+  let current = { x: 0, y: 0 };
+  let placed = false;
+
+  const ensure = () => {
+    follower ??= document.querySelector<HTMLElement>("[data-pointer-follower]");
+    label ??= follower?.querySelector<HTMLElement>(".pointer-label") ?? null;
+    return follower;
+  };
+
+  const syncLabel = () => {
+    if (!ensure() || !label) return;
+    const lang = document.documentElement.lang === "es" ? "es" : "en";
+    label.textContent = follower?.dataset[lang === "es" ? "labelEs" : "labelEn"] ?? "";
+  };
+
+  const setShown = (shown: boolean) => {
+    if (!ensure()) return;
+    if (shown) follower!.dataset.shown = "true";
+    else delete follower!.dataset.shown;
+  };
+
+  const setState = (state: string) => {
+    if (ensure() && follower!.dataset.state !== state) follower!.dataset.state = state;
+  };
+
+  const paint = () => {
+    if (follower) follower.style.transform = `translate3d(${current.x}px, ${current.y}px, 0)`;
+  };
+
+  const tick = () => {
+    frame = 0;
+    current.x += (target.x - current.x) * LERP;
+    current.y += (target.y - current.y) * LERP;
+    if (Math.abs(target.x - current.x) < SNAP && Math.abs(target.y - current.y) < SNAP) {
+      current = { ...target };
+      paint();
+      return;
+    }
+    paint();
+    frame = requestAnimationFrame(tick);
+  };
+
+  const refresh = () => {
+    if (!ensure()) return;
+    active = finePointer.matches && !reducedMotion.matches;
+    if (active) {
+      follower!.setAttribute("data-active", "");
+      syncLabel();
+    } else {
+      follower!.removeAttribute("data-active");
+      setShown(false);
+      cancelAnimationFrame(frame);
+      frame = 0;
+      placed = false;
+    }
+  };
+
+  document.addEventListener(
+    "pointermove",
+    (event) => {
+      if (!active || (event.pointerType !== "mouse" && event.pointerType !== "pen")) return;
+      target = { x: event.clientX, y: event.clientY };
+      if (!placed) {
+        current = { ...target };
+        placed = true;
+        paint();
+      }
+      setShown(document.visibilityState !== "hidden");
+      setState(event.target instanceof Element ? resolvePointerState(event.target) : "dot");
+      if (!frame) frame = requestAnimationFrame(tick);
+    },
+    { passive: true },
+  );
+
+  const hide = () => setShown(false);
+  document.addEventListener("pointerout", (event) => {
+    if (!event.relatedTarget) hide();
+  });
+  document.documentElement.addEventListener("mouseleave", hide);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") hide();
+  });
+
+  finePointer.addEventListener("change", refresh);
+  reducedMotion.addEventListener("change", refresh);
+
+  // The element is persisted, so it survives swaps: reset it and relabel for the new locale.
+  document.addEventListener("astro:after-swap", () => {
+    follower = null;
+    label = null;
+    setState("dot");
+    refresh();
+  });
+
+  refresh();
+</script>

@@ -37,7 +37,7 @@ const projects = contentFor(locale).projects;
       {
         projects.projects.map((project) => (
           <article class="card project-card">
-            <a href={projectDetailPath(locale, project.slug)}>
+            <a data-cursor="case-study" href={projectDetailPath(locale, project.slug)}>
               <ProjectVisual
                 alt={project.cover.alt}
                 caption={project.cover.caption}

@@ -175,11 +175,19 @@ test("home shows verified metrics, selected work, experience and contact", async
       features.nth(0).locator('a[href="https://miraigo.com"]'),
     ).toHaveAttribute("target", "_blank");
     await expect(
-      features.nth(0).locator(`a[href="${route}/projects/miraigo"]`),
+      features
+        .nth(0)
+        .locator(
+          `a[href="${route}/projects/miraigo"]:not([aria-hidden="true"])`,
+        ),
     ).toHaveCount(1);
     await expect(features.nth(1)).toContainText("RacerLab");
     await expect(
-      features.nth(1).locator(`a[href="${route}/projects/racerlab"]`),
+      features
+        .nth(1)
+        .locator(
+          `a[href="${route}/projects/racerlab"]:not([aria-hidden="true"])`,
+        ),
     ).toHaveCount(1);
     await expect(features.nth(0).locator("img")).toHaveCount(3);
 
@@ -580,4 +588,101 @@ test("inner page lists show their final state under reduced motion", async ({
   await expect(figure).toHaveCSS("opacity", "1");
   await expect(figure).toHaveCSS("transform", "none");
   await expect(figure).toHaveCSS("animation-name", "none");
+});
+
+test.describe("pointer follower", () => {
+  const follower = "[data-pointer-follower]";
+
+  test.skip(({ isMobile }) => isMobile, "pointer follower is desktop-only");
+
+  test("activates on the first mouse move and starts as a dot", async ({
+    page,
+  }) => {
+    await page.goto("/en");
+    const el = page.locator(follower);
+    await expect(el).toHaveAttribute("aria-hidden", "true");
+    await page.mouse.move(400, 300);
+    await page.mouse.move(420, 320);
+    await expect(el).toHaveAttribute("data-active", "");
+    await expect(el).toHaveAttribute("data-state", "dot");
+    await expect(el).toHaveCSS("opacity", "1", { timeout: 2500 });
+  });
+
+  test("turns into a ring over buttons", async ({ page }) => {
+    await page.goto("/en");
+    await page.locator(".home-hero .button.primary").hover();
+    await expect(page.locator(follower)).toHaveAttribute("data-state", "ring");
+  });
+
+  test("turns into a case-study pill over featured media", async ({ page }) => {
+    await page.goto("/en");
+    const media = page.locator(".work-feature.is-featured .work-media");
+    await media.scrollIntoViewIfNeeded();
+    await media.hover();
+    const el = page.locator(follower);
+    await expect(el).toHaveAttribute("data-state", "pill");
+    await expect(el).toContainText("Case study");
+    await expect(el).toBeVisible();
+  });
+
+  test("uses the Spanish label on /es", async ({ page }) => {
+    await page.goto("/es");
+    const media = page.locator(".work-feature.is-featured .work-media");
+    await media.scrollIntoViewIfNeeded();
+    await media.hover();
+    const el = page.locator(follower);
+    await expect(el).toHaveAttribute("data-state", "pill");
+    await expect(el).toContainText("Caso de estudio");
+  });
+
+  test("featured media opens the case study", async ({ page }) => {
+    await page.goto("/en");
+    const media = page.locator(".work-feature.is-featured .work-media");
+    await media.scrollIntoViewIfNeeded();
+    await media.click();
+    await expect(page).toHaveURL(/\/en\/projects\/miraigo\/?$/);
+  });
+
+  test("persists across client navigation and resets to a dot", async ({
+    page,
+  }) => {
+    await page.goto("/en");
+    await page.evaluate(() => {
+      (
+        document.querySelector("[data-pointer-follower]") as HTMLElement & {
+          __kept?: boolean;
+        }
+      ).__kept = true;
+    });
+    await page.locator(".desktop-nav a", { hasText: "Work" }).click();
+    await expect(page).toHaveURL(/\/en\/work\/?$/);
+    const el = page.locator(follower);
+    await expect(el).toHaveAttribute("data-state", "dot");
+    expect(
+      await el.evaluate(
+        (node) => (node as HTMLElement & { __kept?: boolean }).__kept,
+      ),
+    ).toBe(true);
+  });
+
+  test("stays inactive under reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/en");
+    await page.mouse.move(400, 300);
+    await page.mouse.move(420, 320);
+    const el = page.locator(follower);
+    await expect(el).not.toHaveAttribute("data-active", /.*/);
+    await expect(el).toBeHidden();
+  });
+});
+
+test("pointer follower is inactive on touch devices", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === "chromium", "touch project only");
+  await page.goto("/en");
+  const el = page.locator("[data-pointer-follower]");
+  await expect(el).toHaveCount(1);
+  await expect(el).not.toHaveAttribute("data-active", /.*/);
+  await expect(el).toBeHidden();
 });
