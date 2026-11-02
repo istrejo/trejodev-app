@@ -524,10 +524,13 @@ test("inner page lists and gallery are visible without JavaScript", async ({
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("/en/work");
+  await expect(page.locator(".work-timeline > li").first()).toBeVisible();
   for (const item of await page.locator(".work-timeline > li").all()) {
     await expect(item).toBeVisible();
   }
   await page.goto("/en/projects/racerlab");
+  await expect(page.locator(".project-gallery img").first()).toBeVisible();
+  await expect(page.locator(".stack-list > .stack-row").first()).toBeVisible();
   for (const image of await page.locator(".project-gallery img").all()) {
     await expect(image).toBeVisible();
   }

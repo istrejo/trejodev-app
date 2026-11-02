@@ -51,7 +51,7 @@ const projects: ProjectContent[] = content.projects.projects;
           const shots = index === 0 && project.screenshots.length >= 3 ? project.screenshots.slice(0, 3) : [];
           const stack = project.stack ?? [];
           return (
-            <article class:list={["work-feature", { "is-featured": index === 0 }]} data-reveal={index === 0 ? "deal" : ""}>
+            <article class:list={["work-feature", { "is-featured": index === 0 }]} data-reveal={index === 0 ? "deal" : "true"}>
               <div class:list={["work-media", { "is-collage": shots.length > 0 }]}>
                 {shots.length > 0 ? (
                   shots.map((shot, shotIndex) => (
