@@ -24,22 +24,30 @@ export const projects = {
       liveUrl: "https://miraigo.com",
       cover: {
         src: "/projects/miraigo/home.jpg",
+        width: 1440,
+        height: 900,
         alt: "Página de inicio de Mirai Go: vende directo desde tu web, sin depender de las OTA",
         caption: "Página de inicio de Mirai Go",
       },
       screenshots: [
         {
           src: "/projects/miraigo/home.jpg",
+          width: 1440,
+          height: 900,
           alt: "Página de inicio de Mirai Go: vende directo desde tu web, sin depender de las OTA",
           caption: "Página de inicio",
         },
         {
           src: "/projects/miraigo/booking.jpg",
+          width: 1440,
+          height: 760,
           alt: "Motor de reservas de Mirai Go mostrando la selección de habitaciones de un hotel",
           caption: "Motor de reservas: selección de habitación",
         },
         {
           src: "/projects/miraigo/mobile.jpg",
+          width: 585,
+          height: 831,
           alt: "Página de inicio de Mirai Go en un teléfono",
           caption: "Página de inicio en móvil",
         },
@@ -69,6 +77,8 @@ export const projects = {
       locale: "es",
       cover: {
         src: "/projects/raceplab/screen.png",
+        width: 1600,
+        height: 1280,
         alt: "Interfaz del panel de taller de RacerLab",
         caption: "Interfaz de resumen del taller",
       },

@@ -3,7 +3,7 @@ import type { HomeContent } from "../types";
 export const home: HomeContent = {
   locale: "es",
   eyebrow: "FRONTEND / WEB + MOBILE",
-  title: "Software Developer",
+  title: "Alejandro Trejo",
   description:
     "Alejandro Trejo es Software Developer con más de 4 años construyendo aplicaciones web y móviles escalables con Angular, React e Ionic/Capacitor para equipos distribuidos en Latinoamérica y Estados Unidos. Ha reducido tiempos de carga hasta un 80% y mejorado Lighthouse de 50 a 90.",
   proofTitle: "TRABAJO SELECCIONADO / RESULTADOS VERIFICADOS",
@@ -16,9 +16,36 @@ export const home: HomeContent = {
     "Reduje tiempos de carga un 80% y elevé Lighthouse de 50 a 90 en una app logística usada por conductores de la región.",
     "Consolidé llamadas API redundantes con backend e integré recuperación de QR para inspecciones vehiculares, reduciendo tiempos de carga un 50%.",
   ],
-  timelineTitle: "Work",
+  timelineTitle: "Dónde he entregado producto.",
   timelineDescription:
     "Siete roles verificados en CV, del más reciente al más antiguo.",
+  heroStatus: "Ahora — Software Developer en FreshCommerce",
+  heroPromise:
+    "Entrego productos web y móviles que cargan rápido y son fáciles de cambiar, ahora acelerados con IA, para clientes en España, Latinoamérica y Estados Unidos.",
+  heroMeta:
+    "Radicado en Tenerife, España · Angular · React · Ionic · WordPress FSE",
+  ctaWork: "Ver el trabajo",
+  ctaContact: "Contactar",
+  metricsLabel: "Resultados",
+  metrics: [
+    {
+      value: "−80%",
+      label:
+        "en el tiempo de carga de una app logística usada por conductores · CRSoporte",
+    },
+    { value: "50→90", label: "en rendimiento Lighthouse de la misma app" },
+    {
+      value: "7",
+      label: "micro frontends con Angular y React · Rebel Quest Interactive",
+    },
+    { value: "4+ años", label: "entregando web y móvil en producción" },
+  ],
+  workHeading: "Productos entregados, resultados reales.",
+  caseStudyLabel: "Caso de estudio",
+  currentLabel: "Actual",
+  viewAllWork: "Ver experiencia completa",
+  contactHeading: "¿Tienes una app lenta o un frontend desordenado? Hablemos.",
+  contactDescription: "Encuéntrame en LinkedIn o GitHub.",
   timelineEntries: [
     [
       "FC",

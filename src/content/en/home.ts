@@ -3,7 +3,7 @@ import type { HomeContent } from "../types";
 export const home: HomeContent = {
   locale: "en",
   eyebrow: "FRONTEND / WEB + MOBILE",
-  title: "Software Developer",
+  title: "Alejandro Trejo",
   description:
     "Alejandro Trejo is a Software Developer with 4+ years building scalable web and mobile applications with Angular, React, and Ionic/Capacitor for distributed teams across Latin America and the US. He has reduced load times by up to 80% and improved Lighthouse scores from 50 to 90.",
   proofTitle: "SELECTED WORK / VERIFIED OUTCOMES",
@@ -16,8 +16,34 @@ export const home: HomeContent = {
     "Reduced load times by 80% and raised Lighthouse performance from 50 to 90 for a logistics app used by truck drivers across the region.",
     "Consolidated redundant API calls with the backend team and integrated QR retrieval for vehicle inspections, reducing load times by 50%.",
   ],
-  timelineTitle: "Work",
+  timelineTitle: "Where I've shipped.",
   timelineDescription: "Seven CV-verified roles, latest first.",
+  heroStatus: "Now — Software Developer at FreshCommerce",
+  heroPromise:
+    "I ship web and mobile products that load fast and stay easy to change — now AI-accelerated, for clients across Spain, Latin America and the US.",
+  heroMeta:
+    "Based in Tenerife, Spain · Angular · React · Ionic · WordPress FSE",
+  ctaWork: "See the work",
+  ctaContact: "Get in touch",
+  metricsLabel: "Results",
+  metrics: [
+    {
+      value: "−80%",
+      label: "load time on a logistics app used by truck drivers · CRSoporte",
+    },
+    { value: "50→90", label: "Lighthouse performance on the same app" },
+    {
+      value: "7",
+      label: "Angular + React micro frontends · Rebel Quest Interactive",
+    },
+    { value: "4+ yrs", label: "shipping production web and mobile" },
+  ],
+  workHeading: "Shipped products, real outcomes.",
+  caseStudyLabel: "Case study",
+  currentLabel: "Current",
+  viewAllWork: "View full work history",
+  contactHeading: "Have a slow app or a messy frontend? Let's talk.",
+  contactDescription: "Find me on LinkedIn or GitHub.",
   timelineEntries: [
     [
       "FC",

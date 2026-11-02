@@ -123,24 +123,16 @@ test("theme preference survives client-side navigation", async ({
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 
-test("home leads with the role and introduces Alejandro Trejo", async ({
-  page,
-}) => {
+test("home leads with the person and the current role", async ({ page }) => {
   for (const route of ["/en", "/es"]) {
     await page.goto(route);
-    await expect(page.locator("main h1")).toHaveText("Software Developer");
-    await expect(page.locator("main")).toContainText("Alejandro Trejo");
-    await expect(page.locator(".hero-meta")).toHaveCount(0);
+    await expect(page.locator("main h1")).toHaveText("Alejandro Trejo");
+    await expect(page.locator(".hero-status")).toContainText("FreshCommerce");
+    await expect(page.locator(".hero-meta")).toContainText("Tenerife");
     const heroLinks = page.locator(".page-hero .button-row a");
     await expect(heroLinks).toHaveCount(2);
-    await expect(heroLinks.nth(0)).toHaveAttribute(
-      "href",
-      "https://linkedin.com/in/alejandrotrejodev",
-    );
-    await expect(heroLinks.nth(1)).toHaveAttribute(
-      "href",
-      "https://github.com/istrejo",
-    );
+    await expect(heroLinks.nth(0)).toHaveAttribute("href", "#work");
+    await expect(heroLinks.nth(1)).toHaveAttribute("href", `${route}/contact`);
     await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
       "href",
       "/logo.png",
@@ -149,6 +141,75 @@ test("home leads with the role and introduces Alejandro Trejo", async ({
       "type",
       "image/png",
     );
+  }
+});
+
+test("home shows verified metrics, selected work, experience and contact", async ({
+  page,
+}) => {
+  for (const route of ["/en", "/es"]) {
+    await page.goto(route);
+
+    const metrics = page.locator(".metric");
+    await expect(metrics).toHaveCount(4);
+    await expect(metrics.nth(0)).toContainText("−80%");
+    await expect(metrics.nth(1)).toContainText("50→90");
+    await expect(metrics.nth(2)).toContainText("7");
+    await expect(metrics.nth(3)).toContainText("4+");
+
+    const work = page.locator("#work");
+    const features = work.locator(".work-feature");
+    await expect(features).toHaveCount(2);
+    await expect(features.nth(0)).toContainText("Mirai Go");
+    await expect(features.nth(0)).toContainText("WordPress FSE");
+    await expect(features.nth(0)).toContainText("HubSpot Forms");
+    await expect(
+      features.nth(0).locator('a[href="https://miraigo.com"]'),
+    ).toHaveAttribute("target", "_blank");
+    await expect(
+      features.nth(0).locator(`a[href="${route}/projects/miraigo"]`),
+    ).toHaveCount(1);
+    await expect(features.nth(1)).toContainText("RacerLab");
+    await expect(
+      features.nth(1).locator(`a[href="${route}/projects/racerlab"]`),
+    ).toHaveCount(1);
+    await expect(features.nth(0).locator("img")).toHaveCount(3);
+
+    const experience = page.locator(".home-experience li");
+    await expect(experience).toHaveCount(7);
+    await expect(experience.first()).toContainText("FreshCommerce");
+    await expect(page.locator(".badge-current")).toHaveCount(1);
+    await expect(
+      page.locator(`.home-experience a[href="${route}/work"]`),
+    ).toHaveCount(1);
+
+    const contactLinks = page.locator("#contact a");
+    await expect(contactLinks).toHaveCount(2);
+    await expect(contactLinks.nth(0)).toHaveAttribute(
+      "href",
+      "https://linkedin.com/in/alejandrotrejodev",
+    );
+    await expect(contactLinks.nth(1)).toHaveAttribute(
+      "href",
+      "https://github.com/istrejo",
+    );
+    await expect(page.locator("main")).not.toContainText("@");
+  }
+});
+
+test("home stays inside the viewport and meets touch targets", async ({
+  page,
+}) => {
+  await page.goto("/en");
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - window.innerWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+  const links = page.locator("main .button");
+  const count = await links.count();
+  for (let index = 0; index < count; index += 1) {
+    const box = await links.nth(index).boundingBox();
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
   }
 });
 
@@ -269,11 +330,22 @@ test("work keeps its Stitch-inspired chronology readable across viewports", asyn
   expect(errors).toEqual([]);
 });
 
-test("English home has no obvious accessibility violations", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/en");
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations).toEqual([]);
-});
+for (const scheme of ["light", "dark"] as const) {
+  test(`English home has no accessibility violations (${scheme})`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+    await page.goto("/en");
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  });
+
+  test(`Spanish home has no accessibility violations (${scheme})`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+    await page.goto("/es");
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  });
+}

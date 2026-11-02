@@ -24,22 +24,30 @@ export const projects = {
       liveUrl: "https://miraigo.com",
       cover: {
         src: "/projects/miraigo/home.jpg",
+        width: 1440,
+        height: 900,
         alt: "Mirai Go homepage: sell direct from your website, without depending on OTAs",
         caption: "Mirai Go homepage",
       },
       screenshots: [
         {
           src: "/projects/miraigo/home.jpg",
+          width: 1440,
+          height: 900,
           alt: "Mirai Go homepage: sell direct from your website, without depending on OTAs",
           caption: "Marketing homepage",
         },
         {
           src: "/projects/miraigo/booking.jpg",
+          width: 1440,
+          height: 760,
           alt: "Mirai Go booking engine showing room selection for a hotel",
           caption: "Booking engine: room selection",
         },
         {
           src: "/projects/miraigo/mobile.jpg",
+          width: 585,
+          height: 831,
           alt: "Mirai Go homepage on a phone",
           caption: "Homepage on mobile",
         },
@@ -69,6 +77,8 @@ export const projects = {
       locale: "en",
       cover: {
         src: "/projects/raceplab/screen.png",
+        width: 1600,
+        height: 1280,
         alt: "RacerLab workshop dashboard interface",
         caption: "Workshop overview interface",
       },

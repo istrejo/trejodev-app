@@ -1,69 +1,157 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { contentFor } from "@/content";
+import { contentFor, type ProjectSlug } from "@/content";
+import type { ProjectContent } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import LocaleLayout from "@/layouts/LocaleLayout.astro";
 import { localeStaticPaths } from "@/lib/astro-static-paths";
 import { profileLinks } from "@/data/links";
-import { pathFor } from "@/lib/routes";
+import { pathFor, projectDetailPath } from "@/lib/routes";
 
 export const getStaticPaths = (() => localeStaticPaths()) satisfies GetStaticPaths;
 const locale = Astro.params.locale as Locale;
-const home = contentFor(locale).home;
+const content = contentFor(locale);
+const home = content.home;
+const projects: ProjectContent[] = content.projects.projects;
 ---
 
 <LocaleLayout locale={locale} route="home" heading={home.title} description={home.description}>
-  <section class="page-hero">
+  <section class="page-hero home-hero">
     <div class="container hero-copy" data-reveal>
-      <p class="eyebrow">{home.eyebrow}</p>
-      <h1 class="display-title">{home.title}<span aria-hidden="true" class="text-cursor"></span></h1>
-      <p class="lead">{home.description}</p>
+      <p class="hero-status"><span aria-hidden="true" class="status-dot"></span>{home.heroStatus}</p>
+      <h1 class="display-title">{home.title}</h1>
+      <p class="hero-promise">{home.heroPromise}</p>
+      <p class="hero-meta">{home.heroMeta}</p>
       <div class="button-row">
-        {profileLinks.map((link, index) => (
-          <a
-            class:list={["button", { primary: index === 0 }]}
-            href={link.href}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {link.label}
-          </a>
-        ))}
+        <a class="button primary" href="#work">{home.ctaWork}</a>
+        <a class="button" href={pathFor(locale, "contact")}>{home.ctaContact}</a>
       </div>
     </div>
   </section>
 
-  <section aria-labelledby="outcomes-title" class="section surface">
-    <div class="container home-proof-grid">
-      <div data-reveal>
-        <p class="eyebrow">{home.proofTitle}</p>
-        <h2 id="outcomes-title">{home.proofHeading}</h2>
-        <p class="lead">{home.proofDescription}</p>
-        <div class="outcomes">
-          {home.proofRows.map((row, index) => (
-            <article class="outcome">
-              <strong>{home.proofLabels[index]}</strong>
-              <p>{row}</p>
+  <section aria-label={home.metricsLabel} class="home-metrics">
+    <div class="container" data-reveal>
+      <ul class="metrics">
+        {home.metrics.map(({ value, label }) => (
+          <li class="metric">
+            <p class="metric-value">{value}</p>
+            <p class="metric-label">{label}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-title" class="home-work" id="work">
+    <div class="container" data-reveal>
+      <h2 class="home-heading" id="work-title">{home.workHeading}</h2>
+      <div class="work-features">
+        {projects.map((project, index) => {
+          // The featured (first) project gets a three-image collage; the rest show their cover.
+          const shots = index === 0 && project.screenshots.length >= 3 ? project.screenshots.slice(0, 3) : [];
+          const stack = project.stack ?? [];
+          return (
+            <article class:list={["work-feature", { "is-featured": index === 0 }]}>
+              <div class:list={["work-media", { "is-collage": shots.length > 0 }]}>
+                {shots.length > 0 ? (
+                  shots.map((shot, shotIndex) => (
+                    <img
+                      alt={shot.alt}
+                      class:list={["work-shot", `shot-${shotIndex + 1}`]}
+                      decoding="async"
+                      height={shot.height ?? 900}
+                      loading="lazy"
+                      src={shot.src}
+                      width={shot.width ?? 1440}
+                    />
+                  ))
+                ) : (
+                  <img
+                    alt={project.cover.alt}
+                    class="work-shot shot-cover"
+                    decoding="async"
+                    height={project.cover.height ?? 1280}
+                    loading="lazy"
+                    src={project.cover.src}
+                    width={project.cover.width ?? 1600}
+                  />
+                )}
+              </div>
+              <div class="work-copy">
+                <ul class="badges">
+                  {project.status && <li class="badge badge-live">{project.status}</li>}
+                  {project.client && <li class="badge">{project.client}</li>}
+                  {!project.status && <li class="badge">{project.role} · {project.period}</li>}
+                </ul>
+                <h3>{project.name} — {project.tagline}</h3>
+                <p class="work-summary">{project.summary}</p>
+                {project.contribution && <p class="work-part">{project.contribution}</p>}
+                {stack.length > 0 && (
+                  <ul aria-label="Stack" class="tags">
+                    {stack.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )}
+                <div class="button-row">
+                  <a class="button primary" href={projectDetailPath(locale, project.slug as ProjectSlug)}>
+                    {home.caseStudyLabel}<span class="visually-hidden"> — {project.name}</span>
+                  </a>
+                  {project.liveUrl && (
+                    <a class="button" href={project.liveUrl} rel="noreferrer" target="_blank">
+                      {new URL(project.liveUrl).host}<span aria-hidden="true"> ↗</span>
+                    </a>
+                  )}
+                  {project.repositories.map((repository) => (
+                    <a class="button" href={repository.href} rel="noreferrer" target="_blank">
+                      {repository.label}<span aria-hidden="true"> ↗</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="experience-title" class="home-experience" id="experience">
+    <div class="container" data-reveal>
+      <div class="experience-header">
+        <h2 class="home-heading" id="experience-title">{home.timelineTitle}</h2>
+        <a class="button" href={pathFor(locale, "work")}>{home.viewAllWork}</a>
+      </div>
+      <ol class="experience-list">
+        {home.timelineEntries.map(([, company, role, description, dates, emphasized]) => (
+          <li>
+            <div class="experience-when">
+              {emphasized && <span class="badge badge-current">{home.currentLabel}</span>}
+              <span>{dates}</span>
+            </div>
+            <div class="experience-who">
+              <h3>{company}</h3>
+              <p>{role}</p>
+            </div>
+            <p class="experience-what">{description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="contact-title" class="home-contact-wrap" id="contact">
+    <div class="container" data-reveal>
+      <div class="home-contact">
+        <div>
+          <h2 id="contact-title">{home.contactHeading}</h2>
+          <p>{home.contactDescription}</p>
+        </div>
+        <div class="button-row">
+          {profileLinks.map((link) => (
+            <a class="button" href={link.href} rel="noreferrer" target="_blank">
+              {link.label}<span aria-hidden="true"> ↗</span>
+            </a>
           ))}
         </div>
-      </div>
-
-      <div data-reveal>
-        <p class="eyebrow">{locale === "en" ? "Experience" : "Experiencia"}</p>
-        <h2>{home.timelineTitle}</h2>
-        <p class="lead">{home.timelineDescription}</p>
-        <ol class="timeline">
-          {home.timelineEntries.map(([mark, company, role, description, dates, emphasized]) => (
-            <li>
-              <span aria-hidden="true" class:list={["timeline-dot", { current: emphasized }]}></span>
-              <span aria-hidden="true" class="timeline-mark">{mark}</span>
-              <div class="timeline-copy"><strong>{company}</strong><span>{role}</span><p>{description}</p></div>
-              <p class="timeline-date">{dates}</p>
-            </li>
-          ))}
-        </ol>
-        <div class="button-row"><a class="button" href={pathFor(locale, "work")}>{locale === "en" ? "View full work history" : "Ver experiencia completa"}</a></div>
       </div>
     </div>
   </section>

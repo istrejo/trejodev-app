@@ -25,6 +25,19 @@ export type HomeContent = PageText & {
   timelineTitle: string;
   timelineDescription: string;
   timelineEntries: HomeTimelineEntry[];
+  heroStatus: string;
+  heroPromise: string;
+  heroMeta: string;
+  ctaWork: string;
+  ctaContact: string;
+  metricsLabel: string;
+  metrics: { value: string; label: string }[];
+  workHeading: string;
+  caseStudyLabel: string;
+  currentLabel: string;
+  viewAllWork: string;
+  contactHeading: string;
+  contactDescription: string;
 };
 
 export type AboutContent = PageText & {
@@ -63,6 +76,8 @@ export type ProjectImage = {
   src: string;
   alt: string;
   caption: string;
+  width?: number;
+  height?: number;
 };
 
 export type ProjectRepository = {
