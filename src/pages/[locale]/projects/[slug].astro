@@ -48,7 +48,7 @@ const copy =
 >
   <section class="page-hero project-detail-hero">
     <div class="container hero-grid">
-      <div class="hero-copy" data-reveal>
+      <div class="hero-copy">
         <p class="eyebrow">{copy.overview}</p>
         <h1 class="page-title">{project.name}</h1>
         <p class="lead">{project.summary}</p>
@@ -58,7 +58,7 @@ const copy =
           </div>
         </dl>
       </div>
-      <div class="button-row" data-reveal>
+      <div class="button-row">
         <a class="button" href={pathFor(locale, "projects")}>← {copy.back}</a>
         {
           project.liveUrl && (
@@ -90,11 +90,11 @@ const copy =
   </section>
 
   <section class="section">
-    <div class="container split-grid" data-reveal>
-      <div>
+    <div class="container split-grid">
+      <div data-reveal>
         <p class="eyebrow">{copy.foundation}</p><h2>{copy.foundation}</h2>
       </div>
-      <div class="stack-list">
+      <div class="stack-list" data-reveal="list">
         {
           project.foundation.map((section) => (
             <article class="stack-row">
@@ -118,10 +118,12 @@ const copy =
   </section>
 
   <section aria-labelledby="project-gallery" class="section surface">
-    <div class="container" data-reveal>
-      <p class="eyebrow">{copy.gallery}</p>
-      <h2 id="project-gallery">{copy.gallery}</h2>
-      <div class="project-gallery">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">{copy.gallery}</p>
+        <h2 id="project-gallery">{copy.gallery}</h2>
+      </div>
+      <div class="project-gallery" data-reveal="gallery">
         {
           project.screenshots.map((screenshot) => (
             <ProjectVisual

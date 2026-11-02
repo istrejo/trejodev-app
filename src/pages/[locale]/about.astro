@@ -14,7 +14,7 @@ const about = contentFor(locale).about;
 <LocaleLayout locale={locale} route="about" heading={about.title} description={about.description}>
   <section class="page-hero">
     <div class="container hero-grid">
-      <div class="hero-copy" data-reveal>
+      <div class="hero-copy">
         <p class="eyebrow">{about.eyebrow}</p>
         <h1 class="page-title">{about.title}</h1>
         {about.paragraphs.map((paragraph) => <p class="lead">{paragraph}</p>)}
@@ -40,18 +40,18 @@ const about = contentFor(locale).about;
   </section>
 
   <section aria-labelledby="principles-title" class="section surface">
-    <div class="container split-grid" data-reveal>
-      <div><p class="eyebrow">{locale === "en" ? "Practice" : "Práctica"}</p><h2 id="principles-title">{about.principlesTitle}</h2></div>
-      <div class="stack-list">
+    <div class="container split-grid">
+      <div data-reveal><p class="eyebrow">{locale === "en" ? "Practice" : "Práctica"}</p><h2 id="principles-title">{about.principlesTitle}</h2></div>
+      <div class="stack-list" data-reveal="list">
         {about.principles.map((principle) => <article class="stack-row"><h3>{principle.title}</h3><p>{principle.description}</p></article>)}
       </div>
     </div>
   </section>
 
   <section aria-labelledby="focus-title" class="section">
-    <div class="container split-grid" data-reveal>
-      <div><p class="eyebrow">{locale === "en" ? "Toolkit" : "Herramientas"}</p><h2 id="focus-title">{about.focusTitle}</h2></div>
-      <div class="stack-list">
+    <div class="container split-grid">
+      <div data-reveal><p class="eyebrow">{locale === "en" ? "Toolkit" : "Herramientas"}</p><h2 id="focus-title">{about.focusTitle}</h2></div>
+      <div class="stack-list" data-reveal="list">
         {about.focusRows.map((row) => <article class="stack-row"><h3>{row.label}</h3><p>{row.value}</p></article>)}
       </div>
     </div>

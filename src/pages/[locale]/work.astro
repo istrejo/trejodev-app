@@ -37,7 +37,7 @@ const copy =
   description={experience.description}
 >
   <section class="work-hero">
-    <div class="container work-hero-copy" data-reveal>
+    <div class="container work-hero-copy">
       <p class="work-kicker">{copy.workLabel} / {experience.eyebrow}</p>
       <h1>{experience.title}</h1>
       <p class="work-hero-intro">{experience.intro}</p>
@@ -53,7 +53,7 @@ const copy =
         <p>{home.timelineDescription}</p>
       </header>
 
-      <ol class="work-timeline" data-reveal>
+      <ol class="work-timeline" data-reveal="list">
         {
           home.timelineEntries.map(
             ([mark, company, role, description, dates, emphasized], index) => (

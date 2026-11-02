@@ -1210,14 +1210,19 @@ h3 {
   }
 
   [data-reveal],
-  [data-reveal] li,
+  [data-reveal="list"] > *,
+  [data-reveal="gallery"] > *,
   .work-shot {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
   }
 
-  .js .home-hero .hero-copy > *,
+  .js .page-hero .hero-copy > *,
+  .js .project-detail-hero .button-row,
+  .js .work-hero-copy > *,
+  .js [data-reveal="list"] > *,
+  .js [data-reveal="gallery"] > *,
   .js .status-dot::after {
     animation: none !important;
   }
@@ -1301,24 +1306,31 @@ h3 {
   }
 }
 
-/* Hero load sequence: quiet rise with blur clearing, capped at 900ms total. */
-.js .home-hero .hero-copy > * {
+/* Hero load sequence: quiet rise with blur clearing, stagger capped at 280ms. */
+.js .page-hero .hero-copy > *,
+.js .project-detail-hero .button-row,
+.js .work-hero-copy > * {
   animation: hero-in 600ms var(--ease-out) both;
 }
 
-.js .home-hero .hero-copy > :nth-child(2) {
+.js .page-hero .hero-copy > :nth-child(2),
+.js .work-hero-copy > :nth-child(2) {
   animation-delay: 70ms;
 }
 
-.js .home-hero .hero-copy > :nth-child(3) {
+.js .page-hero .hero-copy > :nth-child(3),
+.js .work-hero-copy > :nth-child(3) {
   animation-delay: 140ms;
 }
 
-.js .home-hero .hero-copy > :nth-child(4) {
+.js .page-hero .hero-copy > :nth-child(4),
+.js .work-hero-copy > :nth-child(4) {
   animation-delay: 210ms;
 }
 
-.js .home-hero .hero-copy > :nth-child(5) {
+.js .page-hero .hero-copy > :nth-child(n + 5),
+.js .work-hero-copy > :nth-child(n + 5),
+.js .project-detail-hero .button-row {
   animation-delay: 280ms;
 }
 
@@ -1664,36 +1676,55 @@ h3 {
   outline-color: var(--cta-fg);
 }
 
-/* List reveal: the container stays put, its items rise in a capped stagger. */
+/* List and gallery reveal: the container stays put, its children rise in a capped
+   stagger. An animation (not a transition) so hover transforms keep working after. */
 .js [data-reveal="list"],
+.js [data-reveal="gallery"],
 .js [data-reveal="deal"] {
   opacity: 1;
   transform: none;
 }
 
-.js [data-reveal="list"] li {
+.js [data-reveal="list"]:not([data-visible="true"]) > *,
+.js [data-reveal="gallery"]:not([data-visible="true"]) > * {
   opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 520ms var(--ease-out),
-    transform 520ms var(--ease-out);
 }
 
-.js [data-reveal="list"][data-visible="true"] li {
-  opacity: 1;
-  transform: none;
+.js [data-reveal="list"][data-visible="true"] > * {
+  animation: list-in 520ms var(--ease-out) backwards;
 }
 
-.js [data-reveal="list"] li:nth-child(2) {
-  transition-delay: 60ms;
+.js [data-reveal="gallery"][data-visible="true"] > * {
+  animation: gallery-in 640ms var(--ease-out) backwards;
 }
 
-.js [data-reveal="list"] li:nth-child(3) {
-  transition-delay: 120ms;
+.js [data-reveal="list"][data-visible="true"] > :nth-child(2),
+.js [data-reveal="gallery"][data-visible="true"] > :nth-child(2) {
+  animation-delay: 60ms;
 }
 
-.js [data-reveal="list"] li:nth-child(n + 4) {
-  transition-delay: 180ms;
+.js [data-reveal="list"][data-visible="true"] > :nth-child(3),
+.js [data-reveal="gallery"][data-visible="true"] > :nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.js [data-reveal="list"][data-visible="true"] > :nth-child(n + 4),
+.js [data-reveal="gallery"][data-visible="true"] > :nth-child(n + 4) {
+  animation-delay: 180ms;
+}
+
+@keyframes list-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes gallery-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
 }
 
 /* Focal moment: the two secondary screens start tucked under the primary one and settle. */

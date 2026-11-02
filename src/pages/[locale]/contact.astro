@@ -14,9 +14,9 @@ const page = contentFor(locale).contact;
 <LocaleLayout locale={locale} route="contact" heading={page.title} description={page.description}>
   <section class="page-hero">
     <div class="container hero-grid">
-      <div class="hero-copy" data-reveal><p class="eyebrow">{page.eyebrow}</p><h1 class="page-title">{page.title}</h1><p class="lead">{page.description}</p></div>
+      <div class="hero-copy"><p class="eyebrow">{page.eyebrow}</p><h1 class="page-title">{page.title}</h1><p class="lead">{page.description}</p></div>
       <aside class="info-panel card" data-reveal><p class="eyebrow">{locale === "en" ? "Professional profiles" : "Perfiles profesionales"}</p><ul class="detail-list"><li><strong>{locale === "en" ? "Location" : "Ubicación"}</strong><span>{locale === "en" ? "Tenerife, Spain · Remote-friendly" : "Tenerife, España · Remoto"}</span></li><li><strong>{locale === "en" ? "Languages" : "Idiomas"}</strong><span>{locale === "en" ? "Spanish native · English B1 improving" : "Español nativo · Inglés B1 en mejora"}</span></li></ul></aside>
     </div>
   </section>
-  <section aria-labelledby="contact-links" class="section surface"><div class="container split-grid" data-reveal><div><p class="eyebrow">{locale === "en" ? "Quick links" : "Enlaces rápidos"}</p><h2 id="contact-links">{page.profilesTitle}</h2><p class="lead">{page.profilesDescription}</p></div><div class="contact-links">{profileLinks.map((link) => <a class="contact-link" href={link.href} rel="noreferrer" target="_blank"><strong>{link.label}</strong><span>{link.value}</span></a>)}</div></div></section>
+  <section aria-labelledby="contact-links" class="section surface"><div class="container split-grid"><div data-reveal><p class="eyebrow">{locale === "en" ? "Quick links" : "Enlaces rápidos"}</p><h2 id="contact-links">{page.profilesTitle}</h2><p class="lead">{page.profilesDescription}</p></div><div class="contact-links" data-reveal="list">{profileLinks.map((link) => <a class="contact-link" href={link.href} rel="noreferrer" target="_blank"><strong>{link.label}</strong><span>{link.value}</span></a>)}</div></div></section>
 </LocaleLayout>

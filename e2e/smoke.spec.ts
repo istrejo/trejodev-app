@@ -492,3 +492,89 @@ test("featured collage settles into its grid when scrolled into view", async ({
     timeout: 2000,
   });
 });
+
+for (const route of ["/en/about", "/en/work", "/en/skills", "/en/projects"]) {
+  const heroTitle = route === "/en/work" ? ".work-hero h1" : ".page-hero h1";
+
+  test(`reduced motion shows the ${route} hero in its final state`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto(route);
+    const title = page.locator(heroTitle).first();
+    await expect(title).toHaveCSS("animation-name", "none");
+    await expect(title).toHaveCSS("opacity", "1");
+  });
+
+  test(`${route} hero runs the load sequence when motion is allowed`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(route);
+    await expect(page.locator(heroTitle).first()).toHaveCSS(
+      "animation-name",
+      "hero-in",
+    );
+  });
+}
+
+test("inner page lists and gallery are visible without JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/en/work");
+  for (const item of await page.locator(".work-timeline > li").all()) {
+    await expect(item).toBeVisible();
+  }
+  await page.goto("/en/projects/racerlab");
+  for (const image of await page.locator(".project-gallery img").all()) {
+    await expect(image).toBeVisible();
+  }
+  for (const row of await page.locator(".stack-list > .stack-row").all()) {
+    await expect(row).toBeVisible();
+  }
+  await context.close();
+});
+
+test("inner page lists stagger in and settle when scrolled into view", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const cases = [
+    { route: "/en/work", list: ".work-timeline", reveal: "list" },
+    { route: "/en/skills", list: ".card-grid", reveal: "list" },
+    { route: "/en/certifications", list: ".stack-list", reveal: "list" },
+    { route: "/en/contact", list: ".contact-links", reveal: "list" },
+    { route: "/en/projects", list: ".project-grid", reveal: "list" },
+    {
+      route: "/en/projects/racerlab",
+      list: ".project-gallery",
+      reveal: "gallery",
+    },
+  ];
+  for (const { route, list, reveal } of cases) {
+    await page.goto(route);
+    const container = page.locator(list).first();
+    await expect(container, route).toHaveAttribute("data-reveal", reveal);
+    const last = container.locator("> *").last();
+    await last.scrollIntoViewIfNeeded();
+    await expect(container, route).toHaveAttribute("data-visible", "true");
+    await expect(last, route).toHaveCSS("opacity", "1", { timeout: 2500 });
+    await expect(last, route).toHaveCSS("transform", "none", {
+      timeout: 2500,
+    });
+  }
+});
+
+test("inner page lists show their final state under reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/en/projects/racerlab");
+  const figure = page.locator(".project-gallery > *").last();
+  await figure.scrollIntoViewIfNeeded();
+  await expect(figure).toHaveCSS("opacity", "1");
+  await expect(figure).toHaveCSS("transform", "none");
+  await expect(figure).toHaveCSS("animation-name", "none");
+});

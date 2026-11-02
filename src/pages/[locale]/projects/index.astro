@@ -20,7 +20,7 @@ const projects = contentFor(locale).projects;
   description={projects.description}
 >
   <section class="page-hero narrow">
-    <div class="container hero-copy" data-reveal>
+    <div class="container hero-copy">
       <p class="eyebrow">{projects.eyebrow}</p>
       <h1 class="page-title">{projects.title}</h1>
       <p class="lead">{projects.description}</p>
@@ -33,7 +33,7 @@ const projects = contentFor(locale).projects;
       : "Proyectos seleccionados"}
     class="section surface"
   >
-    <div class="container project-grid" data-reveal>
+    <div class="container project-grid" data-reveal="list">
       {
         projects.projects.map((project) => (
           <article class="card project-card">
