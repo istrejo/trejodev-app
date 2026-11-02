@@ -76,7 +76,7 @@ export const projects = {
       period: "Jul 2026 – Present",
       locale: "es",
       cover: {
-        src: "/projects/raceplab/screen.png",
+        src: "/projects/racerlab/dashboard.png",
         width: 1600,
         height: 1280,
         alt: "Interfaz del panel de taller de RacerLab",
@@ -84,22 +84,22 @@ export const projects = {
       },
       screenshots: [
         {
-          src: "/projects/raceplab/screen.png",
+          src: "/projects/racerlab/dashboard.png",
           alt: "Interfaz del panel de taller de RacerLab",
           caption: "Resumen del taller",
         },
         {
-          src: "/projects/raceplab/screen 5.png",
+          src: "/projects/racerlab/service-orders.png",
           alt: "Interfaz de órdenes de servicio de RacerLab",
           caption: "Interfaz de órdenes de servicio",
         },
         {
-          src: "/projects/raceplab/screen 3.png",
+          src: "/projects/racerlab/inventory.png",
           alt: "Interfaz de gestión de inventario de RacerLab",
           caption: "Interfaz de gestión de inventario",
         },
         {
-          src: "/projects/raceplab/screen 4.png",
+          src: "/projects/racerlab/sign-in.png",
           alt: "Interfaz de inicio de sesión de RacerLab",
           caption: "Interfaz de inicio de sesión",
         },

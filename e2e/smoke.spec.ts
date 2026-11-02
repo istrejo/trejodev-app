@@ -65,7 +65,7 @@ test("RacerLab project pages use local product media and source repositories", a
     );
     await expect(page.locator(".project-card img").nth(1)).toHaveAttribute(
       "src",
-      "/projects/raceplab/screen.png",
+      "/projects/racerlab/dashboard.png",
     );
 
     await page.goto(`${route}/projects/racerlab`);
@@ -73,7 +73,7 @@ test("RacerLab project pages use local product media and source repositories", a
     await expect(gallery.getByRole("img")).toHaveCount(4);
     await expect(gallery.getByRole("img").nth(2)).toHaveAttribute(
       "src",
-      /\/projects\/raceplab\/screen(?:%20| )3\.png/,
+      "/projects/racerlab/inventory.png",
     );
     await expect(
       page.getByRole("link", {
