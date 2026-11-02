@@ -397,3 +397,33 @@ test("project detail has no accessibility violations in dark theme", async ({
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 });
+
+test("RacerLab cover loads and is visible on mobile after scrolling into view", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const covers = ["/en", "/en/projects", "/en/projects/racerlab"].map(
+    (route) => ({
+      route,
+      selector:
+        route === "/en"
+          ? '.work-feature img[src="/projects/racerlab/dashboard.png"]'
+          : 'img[src="/projects/racerlab/dashboard.png"]',
+    }),
+  );
+
+  for (const { route, selector } of covers) {
+    await page.goto(route);
+    const image = page.locator(selector).first();
+    await image.scrollIntoViewIfNeeded();
+    await expect(image, route).toBeVisible();
+    await expect
+      .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth), {
+        message: route,
+      })
+      .toBeGreaterThan(0);
+    const box = await image.boundingBox();
+    expect(box?.width ?? 0, route).toBeGreaterThan(100);
+    expect(box?.height ?? 0, route).toBeGreaterThan(50);
+  }
+});
