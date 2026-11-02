@@ -56,7 +56,15 @@ Forecast ~500 authored changed lines. Strategy: `ask-on-risk` (default) — chai
 - T3 (writer, foreground): typecheck 0 errors · lint clean · test 18 passed · build 20 pages · test:e2e 32 passed, 2 skipped (viewport-specific). Parent spot check: `pnpm test` 18 passed.
 - Review: `gentle-ai review assess` → medium (executable change in e2e), `slice_budget_reached` (1,204 changed lines vs ~400 budget).
 
+- Native review (consent granted, lens reliability): approved and acknowledged, lineage `review-27815b77187a0240`. Non-blocking findings recorded as follow-ups below (R3-001…R3-005).
+
 ## Follow-ups
+
+- R3-001: test the project detail branches (Mirai Go live link, hidden repositories section).
+- R3-002: localize the hardcoded `aria-label="Stack"` on home.
+- R3-003: run Axe in dark theme on a non-home page (global `.button.primary` dark override).
+- R3-004: overflow/touch-target test at mobile viewport and for `/es`.
+- R3-005: assert the micro-frontends metric value exactly instead of `toContainText("7")`.
 
 - Rename `public/projects/raceplab` → `racerlab` (content + e2e paths together).
 - Remove now-unused `.outcomes`, `.timeline`, `.home-proof-grid` CSS if no other page uses it.
