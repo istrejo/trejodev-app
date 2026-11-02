@@ -8,8 +8,60 @@ export const projects = {
   emptyState: "More project material is being prepared.",
   projects: [
     {
+      slug: "miraigo",
+      name: "Mirai Go",
+      tagline: "Direct bookings for independent hotels, no OTAs.",
+      summary:
+        "A direct-booking engine for independent hotels, guesthouses, rural houses and apartments, so they sell from their own website without depending on OTAs.",
+      role: "Software Developer",
+      period: "Launched Oct 2026",
+      locale: "en",
+      client: "FreshCommerce",
+      status: "Live · Oct 2026",
+      contribution:
+        "I owned the web build: a WordPress block theme (FSE) with custom Gutenberg blocks in React and HubSpot forms for lead capture.",
+      stack: ["WordPress FSE", "Gutenberg", "React", "HubSpot Forms"],
+      liveUrl: "https://miraigo.com",
+      cover: {
+        src: "/projects/miraigo/home.jpg",
+        alt: "Mirai Go homepage: sell direct from your website, without depending on OTAs",
+        caption: "Mirai Go homepage",
+      },
+      screenshots: [
+        {
+          src: "/projects/miraigo/home.jpg",
+          alt: "Mirai Go homepage: sell direct from your website, without depending on OTAs",
+          caption: "Marketing homepage",
+        },
+        {
+          src: "/projects/miraigo/booking.jpg",
+          alt: "Mirai Go booking engine showing room selection for a hotel",
+          caption: "Booking engine: room selection",
+        },
+        {
+          src: "/projects/miraigo/mobile.jpg",
+          alt: "Mirai Go homepage on a phone",
+          caption: "Homepage on mobile",
+        },
+      ],
+      foundation: [
+        {
+          title: "The product",
+          description:
+            "Guided onboarding, fast checkout with cards, Apple Pay, Google Pay and PayPal, a loyalty club, real-time sync with 200+ channel managers and PMS, and optional AI sales add-ons.",
+        },
+        {
+          title: "My part: the web build",
+          description:
+            "A WordPress block theme (FSE) with custom Gutenberg blocks built in React, and HubSpot forms integrated for lead capture.",
+        },
+      ],
+      repositories: [],
+    },
+    {
       slug: "racerlab",
       name: "RacerLab",
+      tagline: "Workshop management SaaS.",
       summary:
         "An automotive workshop management SaaS, with a NestJS API and an Angular client focused on a secure session foundation.",
       role: "Founder & Full-Stack Developer",

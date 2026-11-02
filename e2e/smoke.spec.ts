@@ -9,6 +9,7 @@ const localizedRoutes = [
   "/en/certifications",
   "/en/contact",
   "/en/projects",
+  "/en/projects/miraigo",
   "/en/projects/racerlab",
   "/es",
   "/es/about",
@@ -17,6 +18,7 @@ const localizedRoutes = [
   "/es/certifications",
   "/es/contact",
   "/es/projects",
+  "/es/projects/miraigo",
   "/es/projects/racerlab",
 ];
 
@@ -56,7 +58,12 @@ test("RacerLab project pages use local product media and source repositories", a
   for (const route of ["/en", "/es"] as const) {
     const locale = route.slice(1);
     await page.goto(`${route}/projects`);
-    await expect(page.locator(".project-card img")).toHaveAttribute(
+    await expect(page.locator(".project-card img")).toHaveCount(2);
+    await expect(page.locator(".project-card img").first()).toHaveAttribute(
+      "src",
+      "/projects/miraigo/home.jpg",
+    );
+    await expect(page.locator(".project-card img").nth(1)).toHaveAttribute(
       "src",
       "/projects/raceplab/screen.png",
     );
@@ -217,7 +224,10 @@ test("work keeps its Stitch-inspired chronology readable across viewports", asyn
     "Real product work across frontend teams, mobile apps and UI systems.",
   );
   await expect(page.getByRole("heading", { name: "Chronology" })).toBeVisible();
-  await expect(page.locator(".work-entry")).toHaveCount(6);
+  await expect(page.locator(".work-entry")).toHaveCount(7);
+  await expect(page.locator(".work-entry").first()).toContainText(
+    "FreshCommerce",
+  );
   await expect(page.locator(".work-timeline")).toHaveCSS(
     "position",
     "relative",

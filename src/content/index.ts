@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import type { ProjectContent } from "./types";
 import { about as aboutEn } from "./en/about";
 import { certifications as certificationsEn } from "./en/certifications";
 import { contact as contactEn } from "./en/contact";
@@ -45,7 +46,10 @@ export function contentFor(locale: Locale) {
   return content[locale];
 }
 
-export function projectFor(locale: Locale, slug: ProjectSlug) {
+export function projectFor(
+  locale: Locale,
+  slug: ProjectSlug,
+): ProjectContent | undefined {
   return content[locale].projects.projects.find(
     (project) => project.slug === slug,
   );

@@ -17,28 +17,14 @@ export type HomeTimelineEntry = readonly [
 
 export type HomeContent = PageText & {
   locale: Locale;
-  signals: string[];
   proofTitle: string;
   proofHeading: string;
   proofDescription: string;
   proofLabels: string[];
   proofRows: string[];
-  lighthouseStat: string;
-  bilingualStat: string;
   timelineTitle: string;
   timelineDescription: string;
   timelineEntries: HomeTimelineEntry[];
-  previewTitle: string;
-  previewDescription: string;
-  previewCta: string;
-  previewCards: {
-    title: string;
-    description: string;
-    footer: string;
-    accent: "ember" | "mint" | "sky";
-  }[];
-  footerCtaTitle: string;
-  footerCtaDescription: string;
 };
 
 export type AboutContent = PageText & {
@@ -92,14 +78,20 @@ export type ProjectSection = {
 export type ProjectContent = {
   slug: string;
   name: string;
+  tagline: string;
   summary: string;
   role: string;
   period: string;
   locale: Locale;
+  client?: string;
+  status?: string;
+  contribution?: string;
+  stack?: readonly string[];
+  liveUrl?: string;
   cover: ProjectImage;
   screenshots: ProjectImage[];
   foundation: ProjectSection[];
-  roadmap: ProjectSection;
+  roadmap?: ProjectSection;
   repositories: ProjectRepository[];
 };
 

@@ -8,8 +8,60 @@ export const projects = {
   emptyState: "Estoy preparando más material de proyectos.",
   projects: [
     {
+      slug: "miraigo",
+      name: "Mirai Go",
+      tagline: "Reservas directas para hoteles independientes, sin OTA.",
+      summary:
+        "Un motor de reservas directas para hoteles independientes, pensiones, casas rurales y apartamentos, para que vendan desde su propia web sin depender de las OTA.",
+      role: "Software Developer",
+      period: "Lanzado en oct. 2026",
+      locale: "es",
+      client: "FreshCommerce",
+      status: "En producción · oct. 2026",
+      contribution:
+        "Me encargué de la web: un tema de bloques de WordPress (FSE) con bloques Gutenberg personalizados en React y formularios de HubSpot para captar leads.",
+      stack: ["WordPress FSE", "Gutenberg", "React", "HubSpot Forms"],
+      liveUrl: "https://miraigo.com",
+      cover: {
+        src: "/projects/miraigo/home.jpg",
+        alt: "Página de inicio de Mirai Go: vende directo desde tu web, sin depender de las OTA",
+        caption: "Página de inicio de Mirai Go",
+      },
+      screenshots: [
+        {
+          src: "/projects/miraigo/home.jpg",
+          alt: "Página de inicio de Mirai Go: vende directo desde tu web, sin depender de las OTA",
+          caption: "Página de inicio",
+        },
+        {
+          src: "/projects/miraigo/booking.jpg",
+          alt: "Motor de reservas de Mirai Go mostrando la selección de habitaciones de un hotel",
+          caption: "Motor de reservas: selección de habitación",
+        },
+        {
+          src: "/projects/miraigo/mobile.jpg",
+          alt: "Página de inicio de Mirai Go en un teléfono",
+          caption: "Página de inicio en móvil",
+        },
+      ],
+      foundation: [
+        {
+          title: "El producto",
+          description:
+            "Onboarding guiado, pago rápido con tarjeta, Apple Pay, Google Pay y PayPal, club de fidelidad, sincronización en tiempo real con más de 200 channel managers y PMS, y complementos opcionales de venta con IA.",
+        },
+        {
+          title: "Mi parte: la web",
+          description:
+            "Un tema de bloques de WordPress (FSE) con bloques Gutenberg personalizados creados en React, y formularios de HubSpot integrados para captar leads.",
+        },
+      ],
+      repositories: [],
+    },
+    {
       slug: "racerlab",
       name: "RacerLab",
+      tagline: "SaaS de gestión para talleres.",
       summary:
         "Un SaaS de gestión para talleres automotrices, con una API en NestJS y un cliente Angular centrados en una base segura de sesiones.",
       role: "Founder & Full-Stack Developer",

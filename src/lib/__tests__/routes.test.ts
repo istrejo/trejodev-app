@@ -51,7 +51,7 @@ describe("route contracts", () => {
   });
 
   it("limits project details to approved shared slugs", () => {
-    expect(projectSlugs).toEqual(["racerlab"]);
+    expect(projectSlugs).toEqual(["miraigo", "racerlab"]);
     expect(projectDetailPath("en", "racerlab")).toBe("/en/projects/racerlab");
     expect(projectDetailPath("es", "racerlab")).toBe("/es/projects/racerlab");
   });

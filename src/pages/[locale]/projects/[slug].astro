@@ -19,22 +19,24 @@ const copy =
     ? {
         back: "Back to projects",
         overview: "Project overview",
-        foundation: "Implemented foundation",
+        foundation: "What was built",
         roadmap: "Roadmap status",
         gallery: "Product interface gallery",
         repositories: "Source repositories",
         role: "Role",
         period: "Period",
+        visit: "Visit the live site",
       }
     : {
         back: "Volver a proyectos",
         overview: "Resumen del proyecto",
-        foundation: "Base implementada",
+        foundation: "Qué se construyó",
         roadmap: "Estado del roadmap",
         gallery: "Galería de interfaces del producto",
         repositories: "Repositorios de código fuente",
         role: "Rol",
         period: "Período",
+        visit: "Visitar el sitio en vivo",
       };
 ---
 
@@ -56,8 +58,21 @@ const copy =
           </div>
         </dl>
       </div>
-      <div data-reveal>
+      <div class="button-row" data-reveal>
         <a class="button" href={pathFor(locale, "projects")}>← {copy.back}</a>
+        {
+          project.liveUrl && (
+            <a
+              class="button primary"
+              href={project.liveUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {copy.visit}
+              <span aria-hidden="true"> ↗</span>
+            </a>
+          )
+        }
       </div>
     </div>
   </section>
@@ -89,9 +104,14 @@ const copy =
             </article>
           ))
         }
-        <article class="stack-row">
-          <h3>{copy.roadmap}</h3><p>{project.roadmap.description}</p>
-        </article>
+        {
+          project.roadmap && (
+            <article class="stack-row">
+              <h3>{copy.roadmap}</h3>
+              <p>{project.roadmap.description}</p>
+            </article>
+          )
+        }
       </div>
     </div>
   </section>
@@ -114,28 +134,32 @@ const copy =
     </div>
   </section>
 
-  <section aria-labelledby="project-repositories" class="section">
-    <div class="container split-grid" data-reveal>
-      <div>
-        <p class="eyebrow">{copy.repositories}</p><h2 id="project-repositories">
-          {copy.repositories}
-        </h2>
-      </div>
-      <div class="project-repositories">
-        {
-          project.repositories.map((repository) => (
-            <a
-              class="button button-secondary"
-              href={repository.href}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {repository.label}
-              <span aria-hidden="true"> ↗</span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  {
+    project.repositories.length > 0 && (
+      <section aria-labelledby="project-repositories" class="section">
+        <div class="container split-grid" data-reveal>
+          <div>
+            <p class="eyebrow">{copy.repositories}</p><h2 id="project-repositories">
+              {copy.repositories}
+            </h2>
+          </div>
+          <div class="project-repositories">
+            {
+              project.repositories.map((repository) => (
+                <a
+                  class="button button-secondary"
+                  href={repository.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {repository.label}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    )
+  }
 </LocaleLayout>
