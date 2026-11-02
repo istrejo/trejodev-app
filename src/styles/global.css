@@ -487,121 +487,6 @@ h3 {
   text-transform: uppercase;
 }
 
-.home-proof-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(3rem, 8vw, 8rem);
-}
-
-.outcomes {
-  display: grid;
-  gap: 0.6rem;
-  margin-top: 2rem;
-}
-
-.outcome {
-  display: grid;
-  grid-template-columns: minmax(130px, 0.65fr) minmax(0, 1.5fr);
-  gap: 1.3rem;
-  padding: 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-raised);
-}
-
-.outcome strong {
-  color: var(--soft);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-}
-
-.outcome p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.timeline {
-  position: relative;
-  display: grid;
-  gap: 1.1rem;
-  margin: 2.25rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.timeline::before {
-  position: absolute;
-  top: 1rem;
-  bottom: 1rem;
-  left: 0.35rem;
-  width: 1px;
-  background: var(--border);
-  content: "";
-}
-
-.timeline li {
-  position: relative;
-  display: grid;
-  grid-template-columns: 0.75rem 2.8rem minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  align-items: start;
-}
-
-.timeline-dot {
-  position: relative;
-  z-index: 1;
-  width: 0.72rem;
-  height: 0.72rem;
-  margin-top: 0.65rem;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  background: var(--surface);
-}
-
-.timeline-dot.current {
-  background: var(--accent);
-}
-
-.timeline-mark {
-  display: grid;
-  width: 2.8rem;
-  height: 2.8rem;
-  place-items: center;
-  border-radius: var(--radius-sm);
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 0.72rem;
-  font-weight: 750;
-}
-
-.timeline-copy strong,
-.timeline-copy span {
-  display: block;
-}
-
-.timeline-copy strong {
-  font-weight: 640;
-}
-
-.timeline-copy span,
-.timeline-copy p,
-.timeline-date {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.timeline-copy p {
-  margin: 0.3rem 0 0;
-  line-height: 1.45;
-}
-
-.timeline-date {
-  margin: 0.1rem 0 0;
-  white-space: nowrap;
-  text-align: right;
-}
-
 .project-visual {
   position: relative;
   overflow: hidden;
@@ -1124,7 +1009,6 @@ h3 {
 
 @media (max-width: 900px) {
   .hero-grid,
-  .home-proof-grid,
   .split-grid {
     grid-template-columns: 1fr;
   }
@@ -1218,20 +1102,6 @@ h3 {
   .project-grid,
   .project-gallery {
     grid-template-columns: 1fr;
-  }
-
-  .timeline li {
-    grid-template-columns: 0.75rem 2.6rem minmax(0, 1fr);
-  }
-
-  .timeline-mark {
-    width: 2.6rem;
-    height: 2.6rem;
-  }
-
-  .timeline-date {
-    grid-column: 3;
-    text-align: left;
   }
 
   .work-chronology-header {
