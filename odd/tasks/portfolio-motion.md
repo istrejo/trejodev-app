@@ -48,6 +48,11 @@ Strategy: `ask-on-risk` · Forecast: ~250 authored changed lines (single PR slic
 - [x] T1 — E2E RED: shared cover `view-transition-name` on home and detail; reduced motion shows hero and collage in final state (no animation, no transform); collage visible without JS. Then implement motion (GREEN). Route: delegated writer (writer trigger: 5 non-trivial files).
 - [x] T2 — Verification: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm test:e2e`; visual check desktop + 390px. Route: writer reports, parent spot-checks + screenshots.
 
+Extension (user request 2026-11-02: "extendelo al resto de las páginas"). Rationale: other pages still use the identical section fade criticized on home; no collage copy, reuse the same vocabulary. Route: one delegated writer (mapping + writer triggers: 6+ page files).
+
+- [x] T3 — Inner pages: page heroes (about, work, skills, certifications, contact, projects index, project detail, 404) run the hero load sequence instead of the section fade; lists (work timeline, skills, certifications, contact links, projects cards, project detail stack rows) stagger as lists; project detail gallery gets a softened settle; remaining sections keep a single plain reveal. E2E RED first (inner hero in final state under reduced motion; list items visible without JS).
+- [x] T4 — Verification + visual check of inner pages (1440 + 390).
+
 ## Progress / evidence
 
 - Branch created from `main` at `0660755`.
@@ -60,3 +65,6 @@ Strategy: `ask-on-risk` · Forecast: ~250 authored changed lines (single PR slic
 ## Next step
 
 Push / PR are the user's call. Optional follow-up: `/impeccable polish`.
+- T3 RED: 10 failed / 64 passed (inner hero `hero-in`, list attributes). GREEN: typecheck 0 errors, lint clean, vitest 18, build 20 pages, e2e 74 passed. Commit `60b0943`. Deviations: list reveal uses CSS animation with backwards fill (keeps `.card`/`.contact-link` hover transforms); split-grid reveal moved to heading column (no nested reveals); about/contact hero asides keep plain reveal; 404 untouched (no `.js` layout).
+- T4 visual (1440 + 390): about, work, skills, project detail hero/list/gallery frames checked; no horizontal overflow.
+- Review: assess medium, `slice_budget_reached` (499 lines) → consent granted → reliability lens approved; acknowledged, authority burned (lineage `review-654606100ee663a5`). Advisory follow-ups fixed in a separate commit: vacuous no-JS loops now assert a first match; non-featured `data-reveal` value `""` → `"true"`. e2e 74 passed after fix.
