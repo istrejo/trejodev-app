@@ -35,6 +35,14 @@ Mode: strict (on) · Source: session orchestrator config ("Strict TDD Mode: enab
 - [x] T2 — Home page redesign per proposal B (index.astro + global.css home section styles), update e2e home assertions first (RED), then implement (GREEN). Route: delegated writer (same writer, writer trigger).
 - [x] T3 — Verification: `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm test:e2e`. Route: writer reports, parent spot-checks.
 
+Review follow-ups (branch `fix/review-follow-ups`, requested by the user after the proposal B deploy). Route: one delegated writer (writer trigger: e2e + page + en/es content files).
+
+- [x] T4 — R3-001: e2e for `/en/projects/miraigo` (live link to https://miraigo.com opens in a new tab with `rel` including `noopener`; no repositories section/heading) and `/en/projects/racerlab` (repositories section still present).
+- [x] T5 — R3-002: localize the stack list `aria-label` on home from en/es content; e2e asserts the Spanish label on `/es`.
+- [x] T6 — R3-003: Axe in dark theme on a non-home page that renders `.button.primary` (`/en/projects/miraigo`).
+- [x] T7 — R3-004: overflow + touch-target check at a 390px viewport for `/en` and `/es`.
+- [x] T8 — R3-005: assert the micro-frontends metric value exactly (`.metric-value` text "7").
+
 ## Acceptance criteria
 
 - `/en` and `/es`: H1 is "Alejandro Trejo"; status chip names FreshCommerce; hero CTAs go to work section and contact.
@@ -58,13 +66,9 @@ Forecast ~500 authored changed lines. Strategy: `ask-on-risk` (default) — chai
 
 - Native review (consent granted, lens reliability): approved and acknowledged, lineage `review-27815b77187a0240`. Non-blocking findings recorded as follow-ups below (R3-001…R3-005).
 
-## Follow-ups
+- T4–T8 `b04780e` fix(home): localize stack label and harden external link rel (single commit: spec + src). RED (old build, `pnpm test:e2e --project=chromium`): 2 failed — T5 `/es` list "Tecnologías" missing (hardcoded "Stack"); T4 live link `rel` was "noreferrer", expected /noopener/ (real hygiene bug; fixed with `noopener noreferrer` on live and repository links). GREEN after rebuild: 42 passed, 2 skipped. Already passing, coverage only: T6 dark Axe on `/en/projects/miraigo`, T7 overflow/touch targets at 390x844 for `/en` and `/es` (no CSS fix needed), T8 exact `.metric-value` "7", T4 repositories hidden/present branches.
 
-- R3-001: test the project detail branches (Mirai Go live link, hidden repositories section).
-- R3-002: localize the hardcoded `aria-label="Stack"` on home.
-- R3-003: run Axe in dark theme on a non-home page (global `.button.primary` dark override).
-- R3-004: overflow/touch-target test at mobile viewport and for `/es`.
-- R3-005: assert the micro-frontends metric value exactly instead of `toContainText("7")`.
+## Follow-ups
 
 - Rename `public/projects/raceplab` → `racerlab` (content + e2e paths together).
 - Remove now-unused `.outcomes`, `.timeline`, `.home-proof-grid` CSS if no other page uses it.
@@ -72,4 +76,4 @@ Forecast ~500 authored changed lines. Strategy: `ask-on-risk` (default) — chai
 
 ## Next step
 
-Native review of the branch slice, then user decides on push/PR (delivery strategy pending).
+Proposal B shipped: `main` at `97b2eed` auto-deployed by Cloudflare Workers Builds (verified live on trejodev.com/en). Next: T4–T8 on `fix/review-follow-ups`; ask before pushing to `main` (push deploys).
