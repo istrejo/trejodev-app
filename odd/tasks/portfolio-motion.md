@@ -53,6 +53,11 @@ Extension (user request 2026-11-02: "extendelo al resto de las páginas"). Ratio
 - [x] T3 — Inner pages: page heroes (about, work, skills, certifications, contact, projects index, project detail, 404) run the hero load sequence instead of the section fade; lists (work timeline, skills, certifications, contact links, projects cards, project detail stack rows) stagger as lists; project detail gallery gets a softened settle; remaining sections keep a single plain reveal. E2E RED first (inner hero in final state under reduced motion; list items visible without JS).
 - [x] T4 — Verification + visual check of inner pages (1440 + 390).
 
+Pointer follower (user picked "Recomendada" from canvas artboard `Cursors.dc.html`, 2026-11-02). One follower, three states: accent dot everywhere, ring over interactive controls, "Case study ↗" pill over project media (media becomes a link to the case study). Native cursor stays. Active only with `(hover: hover) and (pointer: fine)` and no reduced motion. Route: one delegated writer (writer trigger: layout/chrome script + pointer module + home/projects markup + CSS + tests).
+
+- [x] T5 — Unit RED/GREEN for state resolution (`dot`/`ring`/`pill`) + e2e RED/GREEN (activation, ring on buttons, pill on media, inactive on touch and reduced motion, media link navigates). Implement follower (persisted across ClientRouter navigations, rAF lerp only while moving, hidden when pointer leaves the window).
+- [x] T6 — Verification + visual check (desktop light/dark).
+
 ## Progress / evidence
 
 - Branch created from `main` at `0660755`.
@@ -68,3 +73,6 @@ Push / PR are the user's call. Optional follow-up: `/impeccable polish`.
 - T3 RED: 10 failed / 64 passed (inner hero `hero-in`, list attributes). GREEN: typecheck 0 errors, lint clean, vitest 18, build 20 pages, e2e 74 passed. Commit `60b0943`. Deviations: list reveal uses CSS animation with backwards fill (keeps `.card`/`.contact-link` hover transforms); split-grid reveal moved to heading column (no nested reveals); about/contact hero asides keep plain reveal; 404 untouched (no `.js` layout).
 - T4 visual (1440 + 390): about, work, skills, project detail hero/list/gallery frames checked; no horizontal overflow.
 - Review: assess medium, `slice_budget_reached` (499 lines) → consent granted → reliability lens approved; acknowledged, authority burned (lineage `review-654606100ee663a5`). Advisory follow-ups fixed in a separate commit: vacuous no-JS loops now assert a first match; non-featured `data-reveal` value `""` → `"true"`. e2e 74 passed after fix.
+- T5 RED: vitest `pointer.test.ts` failed to load `./pointer`; e2e 8 failed / 74 passed (missing follower). GREEN: typecheck 0 errors, lint clean, vitest 23, build 20 pages, e2e 82 passed / 10 skipped (desktop-only pointer tests on mobile). Commit `f0fd5e9`. Deviations: `.work-media` is itself the `aria-hidden` `tabindex="-1"` anchor; two home link assertions scoped to non-hidden anchors; pill scale animates its label (auto size can't animate).
+- T6 visual (1440, light + dark): dot, ring over primary button (canvas halo keeps it legible on accent), pill over featured media — all render correctly.
+- Review: base `60b0943` (last reviewed boundary), medium, `slice_budget_reached` (442 lines) → consent granted → reliability lens approved; acknowledged, authority burned (lineage `review-c8348eae2b87f622`). Advisory follow-ups (non-blocking, not yet addressed): R3-001 `e2e/smoke.spec.ts:682`, R3-002 `PointerFollower.astro:123-128`, R3-003 `e2e/smoke.spec.ts:606`, R3-004 `PointerFollower.astro:103-104`.
