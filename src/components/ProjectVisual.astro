@@ -4,9 +4,10 @@ interface Props {
   alt: string;
   caption?: string;
   large?: boolean;
+  transitionName?: string;
 }
 
-const { src, alt, caption, large = false } = Astro.props;
+const { src, alt, caption, large = false, transitionName } = Astro.props;
 ---
 
 <figure class:list={["project-visual", { "project-detail-visual": large }]}>
@@ -15,6 +16,7 @@ const { src, alt, caption, large = false } = Astro.props;
     class="project-image"
     loading={large ? "eager" : "lazy"}
     src={src}
+    transition:name={transitionName ?? "none"}
   />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

@@ -427,3 +427,68 @@ test("RacerLab cover loads and is visible on mobile after scrolling into view", 
     expect(box?.height ?? 0, route).toBeGreaterThan(50);
   }
 });
+
+test("project cover shares a view transition name between home and case study", async ({
+  page,
+}) => {
+  const slug = "miraigo";
+  await page.goto("/en");
+  const homeName = await page
+    .locator(".work-feature.is-featured .shot-1")
+    .evaluate((el) => getComputedStyle(el).viewTransitionName);
+  expect(homeName).not.toBe("none");
+
+  await page.goto(`/en/projects/${slug}`);
+  const detailName = await page
+    .locator(".project-detail-visual img")
+    .evaluate((el) => getComputedStyle(el).viewTransitionName);
+  expect(detailName).toBe(homeName);
+
+  const galleryNames = await page
+    .locator(".project-gallery img")
+    .evaluateAll((els) =>
+      els.map((el) => getComputedStyle(el).viewTransitionName),
+    );
+  expect(galleryNames.length).toBeGreaterThan(0);
+  for (const name of galleryNames) expect(name).toBe("none");
+});
+
+test("reduced motion shows the hero and collage in their final state", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/en");
+  const title = page.locator(".display-title");
+  await expect(title).toHaveCSS("animation-name", "none");
+  await expect(title).toHaveCSS("opacity", "1");
+
+  const featured = page.locator(".work-feature.is-featured");
+  await featured.scrollIntoViewIfNeeded();
+  const shot = featured.locator(".shot-2");
+  await expect(shot).toHaveCSS("transform", "none");
+  await expect(shot).toHaveCSS("opacity", "1");
+});
+
+test("featured collage is visible without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/en");
+  for (const shot of ["shot-1", "shot-2", "shot-3"]) {
+    await expect(
+      page.locator(`.work-feature.is-featured .${shot}`),
+    ).toBeVisible();
+  }
+  await context.close();
+});
+
+test("featured collage settles into its grid when scrolled into view", async ({
+  page,
+}) => {
+  await page.goto("/en");
+  const featured = page.locator(".work-feature.is-featured");
+  await featured.scrollIntoViewIfNeeded();
+  await expect(featured).toHaveAttribute("data-visible", "true");
+  await expect(featured.locator(".shot-2")).toHaveCSS("transform", "none", {
+    timeout: 2000,
+  });
+});

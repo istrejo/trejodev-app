@@ -42,6 +42,7 @@ const projects = contentFor(locale).projects;
                 alt={project.cover.alt}
                 caption={project.cover.caption}
                 src={project.cover.src}
+                transitionName={`project-cover-${project.slug}`}
               />
               <div class="project-card-copy">
                 <>

@@ -17,7 +17,7 @@ const projects: ProjectContent[] = content.projects.projects;
 
 <LocaleLayout locale={locale} route="home" heading={home.title} description={home.description}>
   <section class="page-hero home-hero">
-    <div class="container hero-copy" data-reveal>
+    <div class="container hero-copy">
       <p class="hero-status"><span aria-hidden="true" class="status-dot"></span>{home.heroStatus}</p>
       <h1 class="display-title">{home.title}</h1>
       <p class="hero-promise">{home.heroPromise}</p>
@@ -30,8 +30,8 @@ const projects: ProjectContent[] = content.projects.projects;
   </section>
 
   <section aria-label={home.metricsLabel} class="home-metrics">
-    <div class="container" data-reveal>
-      <ul class="metrics">
+    <div class="container">
+      <ul class="metrics" data-reveal="list">
         {home.metrics.map(({ value, label }) => (
           <li class="metric">
             <p class="metric-value">{value}</p>
@@ -43,7 +43,7 @@ const projects: ProjectContent[] = content.projects.projects;
   </section>
 
   <section aria-labelledby="work-title" class="home-work" id="work">
-    <div class="container" data-reveal>
+    <div class="container">
       <h2 class="home-heading" id="work-title">{home.workHeading}</h2>
       <div class="work-features">
         {projects.map((project, index) => {
@@ -51,7 +51,7 @@ const projects: ProjectContent[] = content.projects.projects;
           const shots = index === 0 && project.screenshots.length >= 3 ? project.screenshots.slice(0, 3) : [];
           const stack = project.stack ?? [];
           return (
-            <article class:list={["work-feature", { "is-featured": index === 0 }]}>
+            <article class:list={["work-feature", { "is-featured": index === 0 }]} data-reveal={index === 0 ? "deal" : ""}>
               <div class:list={["work-media", { "is-collage": shots.length > 0 }]}>
                 {shots.length > 0 ? (
                   shots.map((shot, shotIndex) => (
@@ -62,6 +62,7 @@ const projects: ProjectContent[] = content.projects.projects;
                       height={shot.height ?? 900}
                       loading="lazy"
                       src={shot.src}
+                      transition:name={shotIndex === 0 ? `project-cover-${project.slug}` : "none"}
                       width={shot.width ?? 1440}
                     />
                   ))
@@ -73,6 +74,7 @@ const projects: ProjectContent[] = content.projects.projects;
                     height={project.cover.height ?? 1280}
                     loading="lazy"
                     src={project.cover.src}
+                    transition:name={`project-cover-${project.slug}`}
                     width={project.cover.width ?? 1600}
                   />
                 )}
@@ -115,12 +117,12 @@ const projects: ProjectContent[] = content.projects.projects;
   </section>
 
   <section aria-labelledby="experience-title" class="home-experience" id="experience">
-    <div class="container" data-reveal>
+    <div class="container">
       <div class="experience-header">
         <h2 class="home-heading" id="experience-title">{home.timelineTitle}</h2>
         <a class="button" href={pathFor(locale, "work")}>{home.viewAllWork}</a>
       </div>
-      <ol class="experience-list">
+      <ol class="experience-list" data-reveal="list">
         {home.timelineEntries.map(([, company, role, description, dates, emphasized]) => (
           <li>
             <div class="experience-when">
