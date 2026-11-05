@@ -606,6 +606,9 @@ test.describe("pointer follower", () => {
     await expect(el).toHaveAttribute("data-active", "");
     await expect(el).toHaveAttribute("data-state", "dot");
     await expect(el).toHaveCSS("opacity", "1", { timeout: 2500 });
+    await expect
+      .poll(() => el.evaluate((node) => (node as HTMLElement).style.transform))
+      .toBe("translate3d(420px, 320px, 0px)");
   });
 
   test("turns into a ring over buttons", async ({ page }) => {
@@ -654,15 +657,29 @@ test.describe("pointer follower", () => {
         }
       ).__kept = true;
     });
+    await page.mouse.move(400, 300);
     await page.locator(".desktop-nav a", { hasText: "Work" }).click();
     await expect(page).toHaveURL(/\/en\/work\/?$/);
     const el = page.locator(follower);
+    // The pointer still rests on the nav link, so the state is re-resolved there.
+    await expect(el).toHaveAttribute("data-state", "ring");
+    await page.mouse.move(5, 600);
     await expect(el).toHaveAttribute("data-state", "dot");
     expect(
       await el.evaluate(
         (node) => (node as HTMLElement & { __kept?: boolean }).__kept,
       ),
     ).toBe(true);
+  });
+
+  test("relabels the pill after switching locale", async ({ page }) => {
+    await page.goto("/en");
+    await page.locator(".locale-button").click();
+    await expect(page).toHaveURL(/\/es\/?$/);
+    const media = page.locator(".work-feature.is-featured .work-media");
+    await media.scrollIntoViewIfNeeded();
+    await media.hover();
+    await expect(page.locator(follower)).toContainText("Caso de estudio");
   });
 
   test("stays inactive under reduced motion", async ({ page }) => {
@@ -678,8 +695,9 @@ test.describe("pointer follower", () => {
 
 test("pointer follower is inactive on touch devices", async ({
   page,
-}, testInfo) => {
-  test.skip(testInfo.project.name === "chromium", "touch project only");
+  hasTouch,
+}) => {
+  test.skip(!hasTouch, "touch devices only");
   await page.goto("/en");
   const el = page.locator("[data-pointer-follower]");
   await expect(el).toHaveCount(1);

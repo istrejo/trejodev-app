@@ -35,6 +35,7 @@ const label = {
   let target = { x: 0, y: 0 };
   let current = { x: 0, y: 0 };
   let placed = false;
+  let lastTarget: EventTarget | null = null;
 
   const ensure = () => {
     follower ??= document.querySelector<HTMLElement>("[data-pointer-follower]");
@@ -49,13 +50,18 @@ const label = {
   };
 
   const setShown = (shown: boolean) => {
-    if (!ensure()) return;
+    if (!ensure() || ("shown" in follower!.dataset) === shown) return;
     if (shown) follower!.dataset.shown = "true";
     else delete follower!.dataset.shown;
   };
 
   const setState = (state: string) => {
     if (ensure() && follower!.dataset.state !== state) follower!.dataset.state = state;
+  };
+
+  const resolveAt = (node: EventTarget | null) => {
+    lastTarget = node;
+    setState(node instanceof Element ? resolvePointerState(node) : "dot");
   };
 
   const paint = () => {
@@ -100,8 +106,9 @@ const label = {
         placed = true;
         paint();
       }
-      setShown(document.visibilityState !== "hidden");
-      setState(event.target instanceof Element ? resolvePointerState(event.target) : "dot");
+      setShown(true);
+      // Resolving walks up the DOM, so only do it when the hovered node changes.
+      if (event.target !== lastTarget) resolveAt(event.target);
       if (!frame) frame = requestAnimationFrame(tick);
     },
     { passive: true },
@@ -123,8 +130,17 @@ const label = {
   document.addEventListener("astro:after-swap", () => {
     follower = null;
     label = null;
-    setState("dot");
+    resolveAt(null);
     refresh();
+  });
+
+  // Once the transition settles (its overlay hides the page from hit testing),
+  // re-resolve from whatever sits under the resting pointer.
+  document.addEventListener("astro:before-swap", (event) => {
+    const settle = () => {
+      if (active && placed) resolveAt(document.elementFromPoint(target.x, target.y));
+    };
+    event.viewTransition.finished.then(settle, settle);
   });
 
   refresh();
