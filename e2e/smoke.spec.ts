@@ -784,3 +784,14 @@ test.describe("polish", () => {
     ).toHaveCSS("object-position", "50% 0%");
   });
 });
+
+test("root redirects to the default locale without a language picker", async ({
+  page,
+  request,
+}) => {
+  const root = await request.get("/", { maxRedirects: 0 });
+  expect(await root.text()).not.toContain("Choose your language");
+
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/en$/);
+});
