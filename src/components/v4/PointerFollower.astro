@@ -23,8 +23,6 @@ const label = {
 <script>
   import { resolvePointerState } from "./pointer";
 
-  const LERP = 0.22;
-  const SNAP = 0.1;
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -33,7 +31,6 @@ const label = {
   let active = false;
   let frame = 0;
   let target = { x: 0, y: 0 };
-  let current = { x: 0, y: 0 };
   let placed = false;
   let lastTarget: EventTarget | null = null;
 
@@ -64,21 +61,11 @@ const label = {
     setState(node instanceof Element ? resolvePointerState(node) : "dot");
   };
 
+  // The follower replaces the native cursor, so it sits exactly on the pointer;
+  // rAF only batches several moves into one paint per frame.
   const paint = () => {
-    if (follower) follower.style.transform = `translate3d(${current.x}px, ${current.y}px, 0)`;
-  };
-
-  const tick = () => {
     frame = 0;
-    current.x += (target.x - current.x) * LERP;
-    current.y += (target.y - current.y) * LERP;
-    if (Math.abs(target.x - current.x) < SNAP && Math.abs(target.y - current.y) < SNAP) {
-      current = { ...target };
-      paint();
-      return;
-    }
-    paint();
-    frame = requestAnimationFrame(tick);
+    if (follower) follower.style.transform = `translate3d(${target.x}px, ${target.y}px, 0)`;
   };
 
   const refresh = () => {
@@ -101,15 +88,11 @@ const label = {
     (event) => {
       if (!active || (event.pointerType !== "mouse" && event.pointerType !== "pen")) return;
       target = { x: event.clientX, y: event.clientY };
-      if (!placed) {
-        current = { ...target };
-        placed = true;
-        paint();
-      }
+      placed = true;
       setShown(true);
       // Resolving walks up the DOM, so only do it when the hovered node changes.
       if (event.target !== lastTarget) resolveAt(event.target);
-      if (!frame) frame = requestAnimationFrame(tick);
+      if (!frame) frame = requestAnimationFrame(paint);
     },
     { passive: true },
   );

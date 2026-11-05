@@ -55,7 +55,7 @@ Extension (user request 2026-11-02: "extendelo al resto de las páginas"). Ratio
 
 Pointer follower (user picked "Recomendada" from canvas artboard `Cursors.dc.html`, 2026-11-02). One follower, three states: accent dot everywhere, ring over interactive controls, "Case study ↗" pill over project media (media becomes a link to the case study). Native cursor stays. Active only with `(hover: hover) and (pointer: fine)` and no reduced motion. Route: one delegated writer (writer trigger: layout/chrome script + pointer module + home/projects markup + CSS + tests).
 
-- [x] T5 — Unit RED/GREEN for state resolution (`dot`/`ring`/`pill`) + e2e RED/GREEN (activation, ring on buttons, pill on media, inactive on touch and reduced motion, media link navigates). Implement follower (persisted across ClientRouter navigations, rAF lerp only while moving, hidden when pointer leaves the window).
+- [x] T5 — Unit RED/GREEN for state resolution (`dot`/`ring`/`pill`) + e2e RED/GREEN (activation, ring on buttons, pill on media, inactive on touch and reduced motion, media link navigates). Implement follower (persisted across ClientRouter navigations, rAF lerp only while moving (later removed: exact tracking once the native cursor is hidden), hidden when pointer leaves the window).
 - [x] T6 — Verification + visual check (desktop light/dark).
 
 ## Progress / evidence
@@ -69,7 +69,7 @@ Pointer follower (user picked "Recomendada" from canvas artboard `Cursors.dc.htm
 
 ## Next step
 
-Merged into `main` and pushed at user request (2026-11-05). Then (user request 2026-11-05: "no quiero que se vea mi mouse"): native cursor hidden via `html:has(.pointer-follower[data-active])` only while the follower is active; touch, reduced motion and no-JS keep the native cursor. RED: body cursor was `auto`. Optional follow-up: `/impeccable polish`.
+Merged into `main` and pushed at user request (2026-11-05). Then (user request 2026-11-05: "no quiero que se vea mi mouse"): native cursor hidden via `html:has(.pointer-follower[data-active])` only while the follower is active; touch, reduced motion and no-JS keep the native cursor. RED: body cursor was `auto`. Follow-up: lerp removed so the follower sits exactly on the pointer (rAF batches paints only); RED received `translate3d(755.641px, 442.257px, 0px)` vs 900/500. e2e 85 passed / 13 skipped, vitest 23, typecheck 0 errors, lint clean. Both commits fast-forwarded to `main`. Optional follow-up: `/impeccable polish`.
 - T3 RED: 10 failed / 64 passed (inner hero `hero-in`, list attributes). GREEN: typecheck 0 errors, lint clean, vitest 18, build 20 pages, e2e 74 passed. Commit `60b0943`. Deviations: list reveal uses CSS animation with backwards fill (keeps `.card`/`.contact-link` hover transforms); split-grid reveal moved to heading column (no nested reveals); about/contact hero asides keep plain reveal; 404 untouched (no `.js` layout).
 - T4 visual (1440 + 390): about, work, skills, project detail hero/list/gallery frames checked; no horizontal overflow.
 - Review: assess medium, `slice_budget_reached` (499 lines) → consent granted → reliability lens approved; acknowledged, authority burned (lineage `review-654606100ee663a5`). Advisory follow-ups fixed in a separate commit: vacuous no-JS loops now assert a first match; non-featured `data-reveal` value `""` → `"true"`. e2e 74 passed after fix.

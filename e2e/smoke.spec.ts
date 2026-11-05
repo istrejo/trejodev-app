@@ -624,6 +624,23 @@ test.describe("pointer follower", () => {
     );
   });
 
+  test("tracks the pointer exactly, without lag", async ({ page }) => {
+    await page.goto("/en");
+    await page.mouse.move(400, 300);
+    await page.mouse.move(900, 500);
+    const transform = await page.locator(follower).evaluate(
+      (node) =>
+        new Promise<string>((resolve) =>
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() =>
+              resolve((node as HTMLElement).style.transform),
+            ),
+          ),
+        ),
+    );
+    expect(transform).toBe("translate3d(900px, 500px, 0px)");
+  });
+
   test("turns into a ring over buttons", async ({ page }) => {
     await page.goto("/en");
     await page.locator(".home-hero .button.primary").hover();
