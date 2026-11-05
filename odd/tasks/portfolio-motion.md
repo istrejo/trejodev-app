@@ -69,7 +69,7 @@ Pointer follower (user picked "Recomendada" from canvas artboard `Cursors.dc.htm
 
 ## Next step
 
-Merged into `main` and pushed at user request (2026-11-05). Optional follow-up: `/impeccable polish`.
+Merged into `main` and pushed at user request (2026-11-05). Then (user request 2026-11-05: "no quiero que se vea mi mouse"): native cursor hidden via `html:has(.pointer-follower[data-active])` only while the follower is active; touch, reduced motion and no-JS keep the native cursor. RED: body cursor was `auto`. Optional follow-up: `/impeccable polish`.
 - T3 RED: 10 failed / 64 passed (inner hero `hero-in`, list attributes). GREEN: typecheck 0 errors, lint clean, vitest 18, build 20 pages, e2e 74 passed. Commit `60b0943`. Deviations: list reveal uses CSS animation with backwards fill (keeps `.card`/`.contact-link` hover transforms); split-grid reveal moved to heading column (no nested reveals); about/contact hero asides keep plain reveal; 404 untouched (no `.js` layout).
 - T4 visual (1440 + 390): about, work, skills, project detail hero/list/gallery frames checked; no horizontal overflow.
 - Review: assess medium, `slice_budget_reached` (499 lines) → consent granted → reliability lens approved; acknowledged, authority burned (lineage `review-654606100ee663a5`). Advisory follow-ups fixed in a separate commit: vacuous no-JS loops now assert a first match; non-featured `data-reveal` value `""` → `"true"`. e2e 74 passed after fix.

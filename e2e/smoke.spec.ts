@@ -611,6 +611,19 @@ test.describe("pointer follower", () => {
       .toBe("translate3d(420px, 320px, 0px)");
   });
 
+  test("hides the native cursor while the follower is active", async ({
+    page,
+  }) => {
+    await page.goto("/en");
+    await page.mouse.move(400, 300);
+    await expect(page.locator(follower)).toHaveAttribute("data-active", "");
+    await expect(page.locator("body")).toHaveCSS("cursor", "none");
+    await expect(page.locator(".home-hero .button.primary")).toHaveCSS(
+      "cursor",
+      "none",
+    );
+  });
+
   test("turns into a ring over buttons", async ({ page }) => {
     await page.goto("/en");
     await page.locator(".home-hero .button.primary").hover();
@@ -690,6 +703,7 @@ test.describe("pointer follower", () => {
     const el = page.locator(follower);
     await expect(el).not.toHaveAttribute("data-active", /.*/);
     await expect(el).toBeHidden();
+    await expect(page.locator("body")).not.toHaveCSS("cursor", "none");
   });
 });
 
@@ -703,4 +717,5 @@ test("pointer follower is inactive on touch devices", async ({
   await expect(el).toHaveCount(1);
   await expect(el).not.toHaveAttribute("data-active", /.*/);
   await expect(el).toBeHidden();
+  await expect(page.locator("body")).not.toHaveCSS("cursor", "none");
 });

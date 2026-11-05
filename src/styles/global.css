@@ -1839,7 +1839,14 @@ h3 {
   }
 }
 
-/* ---------- Pointer follower (fine pointers only; the native cursor stays) ---------- */
+/* ---------- Pointer follower (fine pointers only; it replaces the native cursor) ---------- */
+
+/* Hide the native cursor only while the follower is active, so touch, reduced
+   motion and no-JS visitors keep their normal cursor. */
+html:has(.pointer-follower[data-active]),
+html:has(.pointer-follower[data-active]) * {
+  cursor: none !important;
+}
 
 .pointer-follower {
   display: none;
