@@ -736,3 +736,51 @@ test("pointer follower is inactive on touch devices", async ({
   await expect(el).toBeHidden();
   await expect(page.locator("body")).not.toHaveCSS("cursor", "none");
 });
+
+test.describe("polish", () => {
+  for (const path of ["/en", "/en/work", "/en/projects/racerlab", "/en/about"]) {
+    test(`no visible text below 11px on ${path}`, async ({ page }) => {
+      await page.goto(path);
+      const small = await page.evaluate(() =>
+        [...document.querySelectorAll<HTMLElement>("body *")]
+          .filter((el) => {
+            const own = [...el.childNodes].some(
+              (node) => node.nodeType === 3 && node.textContent!.trim(),
+            );
+            if (!own || !el.checkVisibility()) return false;
+            if (el.closest(".sr-only, [data-pointer-follower]")) return false;
+            return parseFloat(getComputedStyle(el).fontSize) < 11;
+          })
+          .map((el) => `${el.className}: ${el.textContent!.trim().slice(0, 30)}`),
+      );
+      expect(small).toEqual([]);
+    });
+  }
+
+  test("project sections do not repeat their heading as a label", async ({
+    page,
+  }) => {
+    await page.goto("/en/projects/racerlab");
+    const repeats = await page.evaluate(() =>
+      [...document.querySelectorAll(".eyebrow")]
+        .filter((label) => {
+          const heading = label.nextElementSibling;
+          return (
+            heading?.matches("h1, h2, h3") &&
+            heading.textContent!.trim() === label.textContent!.trim()
+          );
+        })
+        .map((label) => label.textContent!.trim()),
+    );
+    expect(repeats).toEqual([]);
+  });
+
+  test("gallery screenshots are anchored to the top of the page", async ({
+    page,
+  }) => {
+    await page.goto("/en/projects/miraigo");
+    await expect(
+      page.locator(".project-gallery .project-image").first(),
+    ).toHaveCSS("object-position", "50% 0%");
+  });
+});

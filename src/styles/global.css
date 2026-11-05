@@ -224,7 +224,7 @@ button {
 }
 
 .locale-button {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 750;
 }
 
@@ -299,7 +299,7 @@ button {
 .eyebrow {
   margin: 0 0 1.25rem;
   color: var(--accent);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -565,7 +565,7 @@ h3 {
 .work-kicker {
   margin: 0;
   color: var(--accent);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.14em;
   line-height: 1.2;
@@ -702,7 +702,7 @@ h3 {
   border-radius: 999px;
   background: var(--surface);
   color: var(--soft);
-  font-size: 0.56rem;
+  font-size: 0.6875rem;
   font-weight: 740;
   letter-spacing: 0.03em;
 }
@@ -725,7 +725,7 @@ h3 {
   border-radius: 999px;
   background: var(--surface-raised);
   color: var(--soft);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-style: normal;
   line-height: 1.2;
 }
@@ -824,7 +824,7 @@ h3 {
 
 .work-evidence-list h3 {
   color: var(--accent);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.1em;
 }
@@ -925,6 +925,11 @@ h3 {
   object-fit: contain;
 }
 
+/* Screenshots are long pages: keep their top (nav and hero) in frame. */
+.project-gallery .project-image {
+  object-position: top center;
+}
+
 .project-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -952,7 +957,7 @@ h3 {
 
 .project-meta dt {
   color: var(--soft);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1150,7 +1155,7 @@ h3 {
     grid-column: 1;
     width: 1.8rem;
     height: 1.8rem;
-    font-size: 0.48rem;
+    font-size: 0.6875rem;
   }
 
   .work-entry-date {
